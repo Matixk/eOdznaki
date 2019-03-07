@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace eOdznaki.Models.Locations
+﻿namespace eOdznaki.Models.Locations
 {
     public class Location
     {
+        public int Id { get; private set; }
     }
 }

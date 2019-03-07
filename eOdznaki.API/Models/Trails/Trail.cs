@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace eOdznaki.Models.Trails
+﻿namespace eOdznaki.Models.Trails
 {
     public class Trail
     {
+        public int Id { get; private set; }
     }
 }
