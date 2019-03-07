@@ -4,16 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace eOdznaki.Models.Badges
 {
-    public class BadgeTrails
+    public class BadgeTrails : Badge
     {
         [Required]
-        public int BadgeLevel { get; set; }
+        public BadgeLevel BadgeLevel { get; set; }
         [Required]
         public int PointsAquired { get; set; }
-        [Required]
-        public IDictionary<int, int> LevelRequirements { get; private set; }
-        [Required]
-        public IEnumerable<int> Requirements { get; private set; }
         [Required]
         public IEnumerable<Trail> Trails { get; private set; }
     }
