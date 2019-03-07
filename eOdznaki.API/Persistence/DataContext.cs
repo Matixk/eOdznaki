@@ -13,6 +13,7 @@ namespace eOdznaki.Persistence
         }
 
         public DbSet<Thread> Threads { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
