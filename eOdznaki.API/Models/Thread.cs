@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace eOdznaki.Models
@@ -15,6 +16,6 @@ namespace eOdznaki.Models
 
         [Required]
         public User Author { get; set; }
-
+        public IEnumerable<Post> Posts { get; set; }
     }
 }
