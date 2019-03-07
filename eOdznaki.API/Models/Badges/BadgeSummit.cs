@@ -7,6 +7,6 @@ namespace eOdznaki.Models.Badges
     public class BadgeSummit : Badge
     {
         [Required]
-        public IEnumerable<Location> SummitLocations { get; private set; };
+        public IEnumerable<Location> SummitLocations { get; private set; }
     }
 }
