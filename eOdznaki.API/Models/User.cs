@@ -12,5 +12,7 @@ namespace eOdznaki.Models
         public string AvatarUrl { get; set; }
 //      public IEnumerable<Badge> Badges { get; set; }
         public IEnumerable<UserRole> UserRoles { get; set; }
+        public IEnumerable<Thread> UserThreads { get; set; }
+        public IEnumerable<Post> UsePosts { get; set; }
     }
 }
