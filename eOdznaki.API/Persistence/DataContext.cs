@@ -33,6 +33,10 @@ namespace eOdznaki.Persistence
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+
+            builder.Entity<BadgeDrops>();
+            builder.Entity<BadgeSummit>();
+            builder.Entity<BadgeTrails>();
         }
     }
 }
