@@ -12,8 +12,8 @@ namespace eOdznaki.Persistence
         {
         }
 
-        public DbSet<Thread> Threads { get; set; }
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<ForumThread> ForumThreads { get; set; }
+        public DbSet<ForumPost> ForumPosts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,6 +32,31 @@ namespace eOdznaki.Persistence
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
+            });
+
+            builder.Entity<ForumPost>(post =>
+            {
+                post.HasKey(p => new {p.AuthorId, ThreadId = p.ForumThreadId});
+
+                post.HasOne(p => p.Author)
+                    .WithMany(u => u.UserForumPosts)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                post.HasOne(p => p.ForumThread)
+                    .WithMany(t => t.ForumPosts)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<ForumThread>(post =>
+            {
+                post.HasKey(p => new { p.AuthorId });
+
+                post.HasOne(p => p.Author)
+                    .WithMany(u => u.UserForumThreads)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

@@ -18,7 +18,6 @@ namespace eOdznaki.Persistence.Repositories
 
         public async Task<User> GetUsers()
         {
-            var users = context.Users.Include(u => u.UserThreads).AsQueryable();
             throw new NotImplementedException();
         }
 

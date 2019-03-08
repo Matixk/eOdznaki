@@ -14,7 +14,7 @@ namespace eOdznaki.Dtos
         public string Street { get; set; }
         public string AvatarUrl { get; set; }
 //      public IEnumerable<Badge> Badges { get; set; }
-        public IEnumerable<Thread> UserThreads { get; set; }
-        public IEnumerable<Post> UserPosts { get; set; }
+        public IEnumerable<ForumThread> UserThreads { get; set; }
+        public IEnumerable<ForumPost> UserPosts { get; set; }
     }
 }

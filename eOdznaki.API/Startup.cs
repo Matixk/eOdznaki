@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
+using eOdznaki.Repositories;
 using eOdznaki.Persistence.Interfaces;
 using eOdznaki.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -77,6 +79,7 @@ namespace eOdznaki
             services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
             services.AddCors();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IForumThreadsRepository, ForumThreadsRepository>();
             services.AddAutoMapper();
         }
 
