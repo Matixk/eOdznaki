@@ -21,10 +21,11 @@ namespace eOdznaki.Repositories
             this.logger = logger;
         }
 
-        public async Task AddBadge(Badge newBadge)
+        public async Task<Badge> AddBadge(Badge newBadge)
         {
             await context.AddAsync(newBadge);
             await SaveAll();
+            return newBadge;
         }
 
         public async Task<IEnumerable<Badge>> GetAllBadges()
@@ -79,6 +80,37 @@ namespace eOdznaki.Repositories
         {
             logger.LogInformation("SaveDatabaseInformation was called");
             await context.SaveChangesAsync();
+        }
+
+        public Task<Badge> UpdateBadgeData(Badge updatedBadge)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Badge> UpdateBadgeLevelAsync(int badgeId, int newBadgeLevel, BadgeTypeEnum type)
+        {
+            if (type == BadgeTypeEnum.BadgeDrop)
+            {
+                var badge = (BadgeDrops) await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+                badge.BadgeLevel = newBadgeLevel;
+                await SaveAll();
+                return badge;
+            }
+            else
+            {
+                var badge = (BadgeTrails) await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+                badge.BadgeLevel = newBadgeLevel;
+                await SaveAll();
+                return badge;
+            }
+        }
+
+        public async Task<Badge> UpdateBadgeStatus(int badgeId, string newBadgeStatus)
+        {
+            var badge = await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+            badge.BadgeStatus = newBadgeStatus;
+            await SaveAll();
+            return badge;
         }
     }
 }
