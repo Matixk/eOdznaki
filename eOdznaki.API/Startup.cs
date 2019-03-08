@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
+using eOdznaki.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -76,8 +78,7 @@ namespace eOdznaki
             services.AddCors();
             services.AddAutoMapper();
 
-
-
+            services.AddScoped<IForumThreadsRepository, ForumThreadsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
