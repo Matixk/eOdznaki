@@ -33,6 +33,31 @@ namespace eOdznaki.Persistence
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+
+            builder.Entity<Post>(post =>
+            {
+                post.HasKey(p => new {p.AuthorId, p.ThreadId});
+
+                post.HasOne(p => p.Author)
+                    .WithMany(u => u.UserPosts)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                post.HasOne(p => p.Thread)
+                    .WithMany(t => t.Posts)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<Thread>(post =>
+            {
+                post.HasKey(p => new { p.AuthorId });
+
+                post.HasOne(p => p.Author)
+                    .WithMany(u => u.UserThreads)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
         }
     }
 }
