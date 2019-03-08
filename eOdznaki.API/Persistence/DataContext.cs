@@ -13,7 +13,7 @@ namespace eOdznaki.Persistence
         }
 
         public DbSet<ForumThread> ForumThreads { get; set; }
-        public DbSet<ForumPost> Posts { get; set; }
+        public DbSet<ForumPost> ForumPosts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
