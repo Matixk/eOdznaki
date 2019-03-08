@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using eOdznaki.Dtos.ForumPosts;
@@ -17,27 +16,6 @@ namespace eOdznaki.Repositories
         public ForumPostsRepository(DataContext context)
         {
             this.context = context;
-        }
-
-        public async Task<IEnumerable<ForumPost>> GetAllForumPosts()
-        {
-            return await context
-                .ForumPosts
-                .ToListAsync();
-        }
-
-        public async Task<ForumPost> GetForumPosts(int forumPostsId)
-        {
-            var forumPost = await context
-                .ForumPosts
-                .FirstOrDefaultAsync(f => f.Id == forumPostsId);
-
-            if (forumPost == null)
-            {
-                throw new ArgumentNullException(nameof(forumPostsId));
-            }
-
-            return forumPost;
         }
 
         public async Task<ForumPost> Insert(ForumPostForCreateDto forumPost)
