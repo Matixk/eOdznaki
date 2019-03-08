@@ -12,6 +12,11 @@ namespace eOdznaki.Helpers
                 .ForMember(e => e.AuthorName,
                     dto => dto.MapFrom(e=> e.Author.Id))
                 .ReverseMap();
+
+            CreateMap<ForumPost, ForumThreadPreviewDto>()
+                .ForMember(e => e.AuthorName,
+                    dto => dto.MapFrom(e => e.Author.UserName))
+                .ReverseMap();
         }
     }
 }
