@@ -37,7 +37,7 @@ namespace eOdznaki.Controllers
 
         // GET: api/ForumThreads/5
         [HttpGet("{forumThreadId}")]
-        public async Task<ActionResult<ForumThread>> GetForumThread(int forumThreadId)
+        public async Task<ActionResult<ForumThreadPreviewDto>> GetForumThread(int forumThreadId)
         {
             try
             {

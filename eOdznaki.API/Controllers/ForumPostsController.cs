@@ -25,7 +25,7 @@ namespace eOdznaki.Controllers
             this.userManager = userManager;
         }
 
-        // GET: api/ForumThreads/text
+        // GET: api/ForumPosts/text
         [HttpPost("{text}")]
         public async Task<ActionResult<ForumPostPreviewDto>> FindForumPosts(string text)
         {

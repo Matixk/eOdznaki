@@ -40,12 +40,12 @@ namespace eOdznaki.Repositories
             }
 
             var forumThread = await context
-                .ForumPosts
+                .ForumThreads
                 .FirstOrDefaultAsync(f => f.Id == forumPost.ForumThreadId);
 
             if (forumThread == null)
             {
-                throw new ArgumentNullException(nameof(forumPost.AuthorId));
+                throw new ArgumentNullException(nameof(forumPost.ForumThreadId));
             }
 
             var forumPostToCreate = new ForumPost(forumPost.AuthorId, forumPost.ForumThreadId, forumPost.Content, user, forumThread);
