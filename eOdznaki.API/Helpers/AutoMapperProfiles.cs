@@ -1,4 +1,6 @@
 using AutoMapper;
+using eOdznaki.Dtos;
+using eOdznaki.Models;
 
 namespace eOdznaki.Helpers
 {
@@ -6,7 +8,8 @@ namespace eOdznaki.Helpers
     {
         public AutoMapperProfiles()
         {
-            
+            CreateMap<UserForRegisterDto, User>();
+            CreateMap<User, UserForViewDto>();
         }
     }
 }
