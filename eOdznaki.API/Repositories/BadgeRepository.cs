@@ -82,7 +82,7 @@ namespace eOdznaki.Repositories
             await context.SaveChangesAsync();
         }
 
-        public Task<Badge> UpdateBadgeData(Badge updatedBadge)
+        public Task<Badge> UpdateBadgeData(Badge updatedBadge, BadgeTypeEnum type)
         {
             throw new NotImplementedException();
         }

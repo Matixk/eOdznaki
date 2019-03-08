@@ -53,5 +53,11 @@ namespace eOdznaki.Controllers
                 return BadRequest("Failed to get badges of type {type}");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody]Badge badge, BadgeTypeEnum type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
