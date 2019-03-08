@@ -78,7 +78,7 @@ namespace eOdznaki
             services.AddCors();
             services.AddAutoMapper();
 
-            services.AddScoped<IThreadsRepository, ThreadsRepository>();
+            services.AddScoped<IForumThreadsRepository, ForumThreadsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

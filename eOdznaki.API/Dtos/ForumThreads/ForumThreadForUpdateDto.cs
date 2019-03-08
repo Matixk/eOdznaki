@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace eOdznaki.Dtos.Threads
+namespace eOdznaki.Dtos.ForumThreads
 {
-    public class ThreadForCreateDto
+    public class ForumThreadForUpdateDto
     {
-        [Required]
-        public int AuthorId { get; set; }
         [Required]
         [MaxLength(50)]
         public string Title { get; set; }

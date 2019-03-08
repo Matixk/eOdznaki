@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using AutoMapper;
-using eOdznaki.Dtos.Threads;
+using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using eOdznaki.Models;
@@ -12,35 +12,35 @@ namespace eOdznaki.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ThreadsController : ControllerBase
+    public class ForumThreadsController : ControllerBase
     {
-        private readonly IThreadsRepository context;
+        private readonly IForumThreadsRepository context;
         private readonly IMapper mapper;
 
-        public ThreadsController(IThreadsRepository context, IMapper mapper)
+        public ForumThreadsController(IForumThreadsRepository context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
         }
 
-        // GET: api/Threads
+        // GET: api/ForumThreads
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ThreadPreviewDto>>> GetThreads()
+        public async Task<ActionResult<IEnumerable<ForumThreadPreviewDto>>> GetForumThreads()
         {
-            var threads = await context.GetAllThreads();
+            var forumThreads = await context.GetAllForumThreads();
 
-            return Ok(mapper.Map<IEnumerable<ThreadPreviewDto>>(threads));
+            return Ok(mapper.Map<IEnumerable<ForumThreadPreviewDto>>(forumThreads));
         }
 
-        // GET: api/Threads/5
-        [HttpGet("{threadId}")]
-        public async Task<ActionResult<Thread>> GetThread(int threadId)
+        // GET: api/ForumThreads/5
+        [HttpGet("{forumThreadId}")]
+        public async Task<ActionResult<ForumThread>> GetForumThread(int forumThreadId)
         {
             try
             {
-                var thread = await context.GetThread(threadId);
+                var forumThread = await context.GetForumThread(forumThreadId);
 
-                return Ok(thread);
+                return Ok(mapper.Map<ForumThreadPreviewDto>(forumThread));
             }
             catch (ArgumentNullException e)
             {
@@ -54,15 +54,15 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // PUT: api/Threads/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutThread(int userId, int id, ThreadForUpdateDto thread)
+        // PUT: api/ForumThreads/5
+        [HttpPut("{forumThreadId}")]
+        public async Task<IActionResult> PutForumThread(int userId, int forumThreadId, ForumThreadForUpdateDto forumThread)
         {
             try
             {
-                await context.Update(userId, id, thread);
+                var forumThreadUpdated = await context.Update(userId, forumThreadId, forumThread);
 
-                return Ok();
+                return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreadUpdated));
             }
             catch (ArgumentNullException e)
             {
@@ -81,15 +81,15 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // POST: api/Threads
+        // POST: api/ForumThreads
         [HttpPost]
-        public async Task<ActionResult<ThreadPreviewDto>> PostThread(ThreadForCreateDto thread)
+        public async Task<ActionResult<ForumThreadPreviewDto>> PostForumThread(ForumThreadForCreateDto forumThread)
         {
             try
             {
-                var threadCreated = await context.Insert(thread);
+                var forumThreadCreated = await context.Insert(forumThread);
 
-                return CreatedAtRoute("GetThread", new { id = threadCreated.Id }, threadCreated);
+                return CreatedAtRoute("GetForumThread", new { id = forumThreadCreated.Id }, forumThreadCreated);
             }
             catch (ArgumentNullException e)
             {
@@ -104,13 +104,13 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // DELETE: api/Threads/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Thread>> DeleteThread(int userId, int id)
+        // DELETE: api/ForumThreads/5
+        [HttpDelete("{forumThreadId}")]
+        public async Task<ActionResult<ForumThread>> DeleteForumThread(int userId, int forumThreadId)
         {
             try
             {
-                return Ok(await context.Delete(userId, id));
+                return Ok(await context.Delete(userId, forumThreadId));
             }
             catch (ArgumentNullException e)
             {

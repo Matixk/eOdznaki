@@ -12,7 +12,7 @@ namespace eOdznaki.Persistence
         {
         }
 
-        public DbSet<Thread> Threads { get; set; }
+        public DbSet<ForumThread> ForumThreads { get; set; }
         public DbSet<Post> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -36,25 +36,25 @@ namespace eOdznaki.Persistence
 
             builder.Entity<Post>(post =>
             {
-                post.HasKey(p => new {p.AuthorId, p.ThreadId});
+                post.HasKey(p => new {p.AuthorId, ThreadId = p.ForumThreadId});
 
                 post.HasOne(p => p.Author)
                     .WithMany(u => u.UserPosts)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Restrict);
 
-                post.HasOne(p => p.Thread)
+                post.HasOne(p => p.ForumThread)
                     .WithMany(t => t.Posts)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
-            builder.Entity<Thread>(post =>
+            builder.Entity<ForumThread>(post =>
             {
                 post.HasKey(p => new { p.AuthorId });
 
                 post.HasOne(p => p.Author)
-                    .WithMany(u => u.UserThreads)
+                    .WithMany(u => u.UserForumThreads)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Restrict);
             });

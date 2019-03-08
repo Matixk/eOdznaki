@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace eOdznaki.Models
 {
-    public class Thread
+    public class ForumThread
     {
         public int Id { get; private set; }
         [Required]
@@ -18,9 +18,9 @@ namespace eOdznaki.Models
         public User Author { get; set; }
         public IEnumerable<Post> Posts { get; set; }
 
-        public Thread() { }
+        public ForumThread() { }
 
-        public Thread(int authorId, string title, User author)
+        public ForumThread(int authorId, string title, User author)
         {
             AuthorId = authorId;
             Title = title;

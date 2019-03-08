@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace eOdznaki.Dtos.Threads
+namespace eOdznaki.Dtos.ForumThreads
 {
-    public class ThreadPreviewDto
+    public class ForumThreadPreviewDto
     {
         public int Id { get; private set; }
         public int AuthorId { get; set; }
