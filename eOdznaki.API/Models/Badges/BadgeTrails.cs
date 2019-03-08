@@ -7,7 +7,7 @@ namespace eOdznaki.Models.Badges
     public class BadgeTrails : Badge
     {
         [Required]
-        public BadgeLevel BadgeLevel { get; set; }
+        public int BadgeLevel { get; set; }
         [Required]
         public int MaxLevel { get; private set; }
         [Required]
