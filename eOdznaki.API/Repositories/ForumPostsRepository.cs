@@ -24,7 +24,7 @@ namespace eOdznaki.Repositories
         {
             return await context
                 .ForumPosts
-                .Where(f => f.Content.Contains(regex))
+                .Where(f => f.Content.ToLower().Contains(regex))
                 .ToListAsync();
         }
 

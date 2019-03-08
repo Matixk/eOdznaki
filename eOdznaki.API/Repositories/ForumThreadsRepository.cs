@@ -46,7 +46,7 @@ namespace eOdznaki.Repositories
         {
             return await context
                 .ForumThreads
-                .Where(t => t.Title.Contains(regex))
+                .Where(t => t.Title.ToLower().Contains(regex))
                 .ToListAsync();
         }
 
