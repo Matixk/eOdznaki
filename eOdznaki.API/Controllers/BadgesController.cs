@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eOdznaki.Models.Badges;
 using eOdznaki.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,6 +24,34 @@ namespace eOdznaki.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
+        {
+            try
+            {
+                var badges = await repository.GetAllBadges();
+                return Ok(badges);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Failed to get all badges: {ex}");
+                return BadRequest("Failed to get all badges");
+            }
+        }
 
+        [HttpGet("type:BadgeTypeEnum")]
+        public async Task<IActionResult> GetAsync(BadgeTypeEnum type)
+        {
+            try
+            {
+                var badges = await repository.GetBadgesByType(type);
+                return Ok(badges);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Failed to get badges of type {type}: {ex}");
+                return BadRequest("Failed to get badges of type {type}");
+            }
+        }
     }
 }
