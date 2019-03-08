@@ -9,6 +9,8 @@ namespace eOdznaki.Models.Badges
         [Required]
         public BadgeLevel BadgeLevel { get; set; }
         [Required]
+        public int MaxLevel { get; private set; }
+        [Required]
         public int PointsAquired { get; set; }
         [Required]
         public IEnumerable<Trail> Trails { get; private set; }

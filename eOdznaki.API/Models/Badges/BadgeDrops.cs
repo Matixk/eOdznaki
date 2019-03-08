@@ -7,5 +7,7 @@ namespace eOdznaki.Models.Badges
     {
         [Required]
         public BadgeLevel BadgeLevel { get; set; }
+        [Required]
+        public int MaxLevel { get; private set; }
     }
 }
