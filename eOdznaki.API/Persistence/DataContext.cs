@@ -13,7 +13,7 @@ namespace eOdznaki.Persistence
         }
 
         public DbSet<ForumThread> ForumThreads { get; set; }
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<ForumPost> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,17 +34,17 @@ namespace eOdznaki.Persistence
                     .IsRequired();
             });
 
-            builder.Entity<Post>(post =>
+            builder.Entity<ForumPost>(post =>
             {
                 post.HasKey(p => new {p.AuthorId, ThreadId = p.ForumThreadId});
 
                 post.HasOne(p => p.Author)
-                    .WithMany(u => u.UserPosts)
+                    .WithMany(u => u.UserForumPosts)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Restrict);
 
                 post.HasOne(p => p.ForumThread)
-                    .WithMany(t => t.Posts)
+                    .WithMany(t => t.ForumPosts)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Restrict);
             });

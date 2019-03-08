@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace eOdznaki.Models
 {
-    public class Post
+    public class ForumPost
     {
         public int Id { get; private set; }
         [Required]
         public int AuthorId { get; set; }
         [Required]
-        public int ThreadId { get; set; }
+        public int ForumThreadId { get; set; }
         [Required]
         [MaxLength(2000)]
         public string Content { get; set; }
@@ -18,6 +18,6 @@ namespace eOdznaki.Models
         [Required]
         public User Author { get; set; }
         [Required]
-        public Thread Thread { get; set; }
+        public ForumThread ForumThread { get; set; }
     }
 }

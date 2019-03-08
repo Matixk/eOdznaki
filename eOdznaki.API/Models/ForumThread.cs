@@ -16,7 +16,7 @@ namespace eOdznaki.Models
 
         [Required]
         public User Author { get; set; }
-        public IEnumerable<Post> Posts { get; set; }
+        public IEnumerable<ForumPost> ForumPosts { get; set; }
 
         public ForumThread() { }
 
@@ -26,7 +26,7 @@ namespace eOdznaki.Models
             Title = title;
             Created = DateTime.Now;
             Author = author;
-            Posts = new List<Post>();
+            ForumPosts = new List<ForumPost>();
         }
     }
 }
