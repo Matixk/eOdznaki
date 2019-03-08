@@ -13,6 +13,6 @@ namespace eOdznaki.Models
 //      public IEnumerable<Badge> Badges { get; set; }
         public IEnumerable<UserRole> UserRoles { get; set; }
         public IEnumerable<Thread> UserThreads { get; set; }
-        public IEnumerable<Post> UsePosts { get; set; }
+        public IEnumerable<Post> UserPosts { get; set; }
     }
 }
