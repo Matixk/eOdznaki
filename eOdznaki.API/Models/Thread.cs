@@ -17,5 +17,16 @@ namespace eOdznaki.Models
         [Required]
         public User Author { get; set; }
         public IEnumerable<Post> Posts { get; set; }
+
+        public Thread() { }
+
+        public Thread(int authorId, string title, User author)
+        {
+            AuthorId = authorId;
+            Title = title;
+            Created = DateTime.Now;
+            Author = author;
+            Posts = new List<Post>();
+        }
     }
 }
