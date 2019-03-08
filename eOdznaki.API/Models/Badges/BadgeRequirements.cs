@@ -6,6 +6,8 @@ namespace eOdznaki.Models.Badges
     {
         public int Id { get; private set; }
         [Required]
+        public string BadgeName { get; private set; }
+        [Required]
         public int Requirement { get; private set; }
     }
 }
