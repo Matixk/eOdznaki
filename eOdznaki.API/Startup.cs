@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
+using eOdznaki.Persistence.Interfaces;
+using eOdznaki.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -74,10 +76,8 @@ namespace eOdznaki
             
             services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
             services.AddCors();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddAutoMapper();
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
