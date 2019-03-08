@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using eOdznaki.Dtos.ForumPosts;
@@ -18,6 +20,14 @@ namespace eOdznaki.Repositories
             this.context = context;
         }
 
+        public async Task<IEnumerable<ForumPost>> FindForumPosts(string regex)
+        {
+            return await context
+                .ForumPosts
+                .Where(f => f.Content.Contains(regex))
+                .ToListAsync();
+        }
+
         public async Task<ForumPost> Insert(ForumPostForCreateDto forumPost)
         {
             var user = await context
@@ -30,7 +40,7 @@ namespace eOdznaki.Repositories
             }
 
             var forumThread = await context
-                .ForumThreads
+                .ForumPosts
                 .FirstOrDefaultAsync(f => f.Id == forumPost.ForumThreadId);
 
             if (forumThread == null)
