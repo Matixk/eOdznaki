@@ -7,6 +7,7 @@ using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using eOdznaki.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace eOdznaki.Controllers
 {
@@ -16,11 +17,13 @@ namespace eOdznaki.Controllers
     {
         private readonly IForumThreadsRepository context;
         private readonly IMapper mapper;
+        private readonly UserManager<User> userManager;
 
-        public ForumThreadsController(IForumThreadsRepository context, IMapper mapper)
+        public ForumThreadsController(IForumThreadsRepository context, IMapper mapper, UserManager<User> userManager)
         {
             this.context = context;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         // GET: api/ForumThreads
@@ -56,12 +59,13 @@ namespace eOdznaki.Controllers
 
         // PUT: api/ForumThreads/5
         [HttpPut("{forumThreadId}")]
-        public async Task<IActionResult> PutForumThread(int userId, int forumThreadId, ForumThreadForUpdateDto forumThread)
+        public async Task<ActionResult<ForumThreadPreviewDto>> PutForumThread(int forumThreadId, ForumThreadForUpdateDto forumThread)
         {
             try
             {
-                var forumThreadUpdated = await context.Update(userId, forumThreadId, forumThread);
+                var user = await GetUser();
 
+                var forumThreadUpdated = await context.Update(user.Id, forumThreadId, forumThread);
                 return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreadUpdated));
             }
             catch (ArgumentNullException e)
@@ -106,11 +110,14 @@ namespace eOdznaki.Controllers
 
         // DELETE: api/ForumThreads/5
         [HttpDelete("{forumThreadId}")]
-        public async Task<ActionResult<ForumThread>> DeleteForumThread(int userId, int forumThreadId)
+        public async Task<ActionResult<ForumThreadPreviewDto>> DeleteForumThread(int forumThreadId)
         {
             try
             {
-                return Ok(await context.Delete(userId, forumThreadId));
+                var user = await GetUser();
+                var forumThreadDeleted = await context.Delete(user.Id, forumThreadId);
+
+                return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreadDeleted));
             }
             catch (ArgumentNullException e)
             {
@@ -123,6 +130,11 @@ namespace eOdznaki.Controllers
 
                 throw;
             }
+        }
+
+        private async Task<User> GetUser()
+        {
+            return await userManager.GetUserAsync(HttpContext.User);
         }
 
     }
