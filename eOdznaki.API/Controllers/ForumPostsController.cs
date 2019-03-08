@@ -25,6 +25,15 @@ namespace eOdznaki.Controllers
             this.userManager = userManager;
         }
 
+        // GET: api/ForumThreads/text
+        [HttpPost("{text}")]
+        public async Task<ActionResult<ForumPostPreviewDto>> FindForumPosts(string text)
+        {
+            var forumPosts = await context.FindForumPosts(text);
+
+            return Ok(mapper.Map<ForumPostPreviewDto>(forumPosts));
+        }
+
         // PUT: api/ForumPosts/5
         [HttpPut("{forumPostId}")]
         public async Task<ActionResult<ForumPostPreviewDto>> PutForumPost(int forumPostId, ForumPostForUpdateDto forumPost)

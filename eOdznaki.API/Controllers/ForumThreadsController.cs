@@ -57,6 +57,15 @@ namespace eOdznaki.Controllers
             }
         }
 
+        // GET: api/ForumThreads/text
+        [HttpPost("{text}")]
+        public async Task<ActionResult<ForumThreadPreviewDto>> FindForumThreads(string text)
+        {
+            var forumThreads = await context.FindForumThreads(text);
+
+            return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreads));
+        }
+
         // PUT: api/ForumThreads/5
         [HttpPut("{forumThreadId}")]
         public async Task<ActionResult<ForumThreadPreviewDto>> PutForumThread(int forumThreadId, ForumThreadForUpdateDto forumThread)
