@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using eOdznaki.Helpers;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
 using eOdznaki.Repositories;
-using eOdznaki.Persistence.Interfaces;
-using eOdznaki.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -78,19 +77,22 @@ namespace eOdznaki
             
             services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
             services.AddCors();
+            services.AddTransient<Seeder>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IForumThreadsRepository, ForumThreadsRepository>();
             services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            seeder.SeedRoles();
+            seeder.SeedAdmin();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseDefaultFiles();
