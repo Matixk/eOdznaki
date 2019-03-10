@@ -3,7 +3,7 @@ using eOdznaki.Models;
 
 namespace eOdznaki.Dtos
 {
-    public class UserForViewDto
+    public class UserForPreviewDto
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -13,8 +13,6 @@ namespace eOdznaki.Dtos
         public string City { get; set; }
         public string Street { get; set; }
         public string AvatarUrl { get; set; }
-//      public IEnumerable<Badge> Badges { get; set; }
-        public IEnumerable<ForumThread> UserThreads { get; set; }
-        public IEnumerable<ForumPost> UserPosts { get; set; }
+        public string Email { get; set; }
     }
 }
