@@ -11,7 +11,9 @@ namespace eOdznaki.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<UserForRegisterDto, User>();
+            CreateMap<UserForUpdateDto, User>();
             CreateMap<User, UserForViewDto>();
+            CreateMap<User, UserForPreviewDto>();
             CreateMap<ForumThread, ForumThreadPreviewDto>()
                 .ForMember(e => e.AuthorName,
                     dto => dto.MapFrom(e=> e.Author.Id))
