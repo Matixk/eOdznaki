@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using eOdznaki.Dtos.ForumThreads;
@@ -39,6 +40,14 @@ namespace eOdznaki.Repositories
             }
 
             return forumThread;
+        }
+
+        public async Task<IEnumerable<ForumThread>> FindForumThreads(string regex)
+        {
+            return await context
+                .ForumThreads
+                .Where(t => t.Title.ToLower().Contains(regex))
+                .ToListAsync();
         }
 
         public async Task<ForumThread> Insert(ForumThreadForCreateDto forumThread)
