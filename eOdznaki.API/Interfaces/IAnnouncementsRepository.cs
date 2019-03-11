@@ -7,7 +7,7 @@ using eOdznaki.Models;
 
 namespace eOdznaki.Interfaces
 {
-    interface IAnnouncementsRepository
+    public interface IAnnouncementsRepository
     {
         Task<PagedList<Announcement>> GetCurrentAnnouncements(AnnouncementsParams announcementsParams);
         Task<Announcement> Insert(AnnouncementForCreateDto announcement);
