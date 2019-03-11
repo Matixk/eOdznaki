@@ -11,6 +11,8 @@ using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Controllers
 {
+    [Route("api/[Controller]")]
+    [ApiController]
     public class BadgesController : ControllerBase
     {
         private readonly IBadgeRepository repository;
