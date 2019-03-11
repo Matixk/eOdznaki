@@ -21,9 +21,9 @@ namespace eOdznaki.Controllers
             this.mapper = mapper;
         }
 
-        // GET: api/ForumThreads/text
+        // GET: api/Search/text
         [HttpPost("{text}")]
-        public async Task<ActionResult<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>> FindForumThreads(string text)
+        public async Task<ActionResult<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>> SearchForum(string text)
         {
             var found = await context.SearchForum(text);
 
