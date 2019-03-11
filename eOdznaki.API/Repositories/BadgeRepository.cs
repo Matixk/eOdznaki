@@ -41,46 +41,43 @@ namespace eOdznaki.Repositories
             return await context.Badges.ToListAsync();
         }
 
-        public async Task<Badge> GetBadgeByType(BadgeTypeEnum type, int badgeId)
+        private IQueryable<Badge> GetBadgeQuery(BadgeTypeEnum type)
         {
-            logger.LogInformation($"GetBadgeByType was called with parameter {type}");
-
             switch (type)
             {
                 case BadgeTypeEnum.BadgeDrop:
-                    return await context.Badges.OfType<BadgeDrops>().FirstOrDefaultAsync(b => b.Id == badgeId);
-
-                case BadgeTypeEnum.BadgeSummit:
-                    return await context.Badges.OfType<BadgeSummit>().FirstOrDefaultAsync(b => b.Id == badgeId);
-
+                    return context.Badges.OfType<BadgeDrops>();
                 case BadgeTypeEnum.BadgeTrail:
-                    return await context.Badges.OfType<BadgeTrails>().FirstOrDefaultAsync(b => b.Id == badgeId);
-
+                    return context.Badges.OfType<BadgeTrails>();
+                case BadgeTypeEnum.BadgeSummit:
+                    return context.Badges.OfType<BadgeSummit>();
                 default:
-                    logger.LogWarning($"Couldn't find appropriate type for {type}");
-                    return new Badge();
+                    return null;
             }
+        }
+
+        public async Task<Badge> GetBadgeByType(BadgeTypeEnum type, int badgeId)
+        {
+            logger.LogInformation($"GetBadgeByType was called with parameter {type}");
+            var badge = GetBadgeQuery(type);
+            if (badge == null)
+            {
+                logger.LogError($"Badge type was not found: {type}");
+                return null;
+            }
+            return await badge.FirstOrDefaultAsync(b => b.Id == badgeId);
         }
 
         public async Task<IEnumerable<Badge>> GetBadgesByType(BadgeTypeEnum type)
         {
             logger.LogInformation($"GetBadgesByType was called with parameter {type}");
-
-            switch (type)
+            var badge = GetBadgeQuery(type);
+            if (badge == null)
             {
-                case BadgeTypeEnum.BadgeDrop:
-                    return await context.Badges.OfType<BadgeDrops>().ToListAsync();
-
-                case BadgeTypeEnum.BadgeSummit:
-                    return await context.Badges.OfType<BadgeSummit>().ToListAsync();
-
-                case BadgeTypeEnum.BadgeTrail:
-                    return await context.Badges.OfType<BadgeTrails>().ToListAsync();
-
-                default:
-                    logger.LogWarning($"Couldn't find appropriate type for {type}");
-                    return null;
+                logger.LogError($"Badge type was not found: {type}");
+                return null;
             }
+            return await badge.ToListAsync();
         }
 
         public async Task<bool> SaveAll()
