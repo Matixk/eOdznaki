@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using eOdznaki.Dtos;
 using eOdznaki.Models.Badges;
 using eOdznaki.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -55,9 +56,98 @@ namespace eOdznaki.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]Badge badge, BadgeTypeEnum type)
+        public async Task<IActionResult> PostAsync([FromBody]BadgeTrailsForCreationDto badge)
         {
-            throw new NotImplementedException();
+            logger.LogInformation("Adding new trail badge was called");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var newBadge = mapper.Map<BadgeTrailsForCreationDto, BadgeTrails>(badge);
+
+                    newBadge.BadgeLevel = 0;
+                    newBadge.PointsAquired = 0;
+                    newBadge.BadgeStatus = "Inactive";
+
+                    await repository.AddBadge(newBadge);
+
+                    if (await repository.SaveAll())
+                    {
+                        return Created($"api/badges", mapper.Map<BadgeTrails, BadgeTrailsForCreationDto>(newBadge));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Failed to add new trails badge: {ex}");
+            }
+            return BadRequest("Failed to add new trails badge");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody]BadgeDropsForCreationDto badge)
+        {
+            logger.LogInformation("Adding new drops badge was called");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var newBadge = mapper.Map<BadgeDropsForCreationDto, BadgeDrops>(badge);
+
+                    newBadge.BadgeLevel = 0;
+                    newBadge.ReachedHeight = 0;
+                    newBadge.BadgeStatus = "Inactive";
+
+                    await repository.AddBadge(newBadge);
+
+                    if (await repository.SaveAll())
+                    {
+                        return Created($"api/badges", mapper.Map<BadgeDrops, BadgeDropsForCreationDto>(newBadge));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Failed to add new drops badge: {ex}");
+            }
+            return BadRequest("Failed to add new drops badge");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody]BadgeSummit badge)
+        {
+            logger.LogInformation("Adding new summit badge was called");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    badge.BadgeStatus = "Inactive";
+
+                    await repository.AddBadge(badge);
+
+                    if (await repository.SaveAll())
+                    {
+                        return Created($"api/badges", badge);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Failed to add new summit badge: {ex}");
+            }
+            return BadRequest("Failed to add new summit badge");
+        }
+
+        [HttpDelete("id:int")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            logger.LogInformation("Delete badge was called");
+            if (await repository.DeleteBadgeById(id))
+            {
+                Ok($"api/badges");
+            }
+            logger.LogError($"Failed to delete badge with an id: {id}");
+            return BadRequest($"Failed to delete badge with an id: {id}");
         }
     }
 }
