@@ -1,4 +1,5 @@
 using eOdznaki.Models;
+using eOdznaki.Models.Badges;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace eOdznaki.Persistence
         {
         }
 
+        public DbSet<Badge> Badges { get; set; }
         public DbSet<ForumThread> ForumThreads { get; set; }
         public DbSet<ForumPost> ForumPosts { get; set; }
 
@@ -33,6 +35,10 @@ namespace eOdznaki.Persistence
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+
+            builder.Entity<BadgeDrops>();
+            builder.Entity<BadgeSummit>();
+            builder.Entity<BadgeTrails>();
 
             builder.Entity<ForumPost>(post =>
             {
