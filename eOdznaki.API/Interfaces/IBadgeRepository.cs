@@ -1,8 +1,8 @@
-﻿using eOdznaki.Models.Badges;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using eOdznaki.Helpers;
+﻿using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
+using eOdznaki.Models.Badges;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eOdznaki.Persistence.Repositories
 {
@@ -10,7 +10,8 @@ namespace eOdznaki.Persistence.Repositories
     {
         Task<PagedList<Badge>> GetAllBadges(BadgeParams badgeParams);
         Task<PagedList<Badge>> GetBadgesByType(BadgeParams badgeParams, BadgeTypeEnum type);
-        Task<Badge> GetBadgeByType(BadgeTypeEnum type, int badgeId);
+        IQueryable<Badge> GetBadgeQuery(BadgeTypeEnum type);
+        Task<Badge> GetBadgeById(int badgeId);
 
         Task<Badge> AddBadge(Badge newBadge);
         Task<Badge> UpdateBadgeLevel(int badgeId, int newBadgeLevel, BadgeTypeEnum type);

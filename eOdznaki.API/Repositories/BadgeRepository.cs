@@ -1,14 +1,13 @@
-﻿using eOdznaki.Models.Badges;
+﻿using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
+using eOdznaki.Models.Badges;
 using eOdznaki.Persistence;
 using eOdznaki.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using eOdznaki.Helpers;
-using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Repositories
 {
@@ -47,51 +46,36 @@ namespace eOdznaki.Repositories
             return await PagedList<Badge>.CreateAsync(badges, badgeParams.PageNumber, badgeParams.PageSize);
         }
 
-        public async Task<Badge> GetBadgeByType(BadgeTypeEnum type, int badgeId)
+        public IQueryable<Badge> GetBadgeQuery(BadgeTypeEnum type)
         {
-            logger.LogInformation($"GetBadgeByType was called with parameter {type}");
-
             switch (type)
             {
                 case BadgeTypeEnum.BadgeDrop:
-                    return await context.Badges.OfType<BadgeDrops>().FirstOrDefaultAsync(b => b.Id == badgeId);
-
-                case BadgeTypeEnum.BadgeSummit:
-                    return await context.Badges.OfType<BadgeSummit>().FirstOrDefaultAsync(b => b.Id == badgeId);
-
+                    return context.Badges.OfType<BadgeDrops>();
                 case BadgeTypeEnum.BadgeTrail:
-                    return await context.Badges.OfType<BadgeTrails>().FirstOrDefaultAsync(b => b.Id == badgeId);
-
+                    return context.Badges.OfType<BadgeTrails>();
+                case BadgeTypeEnum.BadgeSummit:
+                    return context.Badges.OfType<BadgeSummit>();
                 default:
-                    logger.LogWarning($"Couldn't find appropriate type for {type}");
-                    return new Badge();
+                    return null;
             }
         }
 
+        public async Task<Badge> GetBadgeById(int badgeId)
+        {
+            return await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+        }
+        
         public async Task<PagedList<Badge>> GetBadgesByType(BadgeParams badgeParams, BadgeTypeEnum type)
         {
             logger.LogInformation($"GetBadgesByType was called with parameter {type}");
-
-            switch (type)
+            var badge = GetBadgeQuery(type);
+            if (badge == null)
             {
-                case BadgeTypeEnum.BadgeDrop:
-                    var badgeDrops = context.Badges.OfType<BadgeDrops>().AsQueryable();
-                    return await PagedList<Badge>.CreateAsync(badgeDrops, badgeParams.PageNumber, badgeParams.PageSize);
-
-
-                case BadgeTypeEnum.BadgeSummit:
-                    var badgeSummits = context.Badges.OfType<BadgeSummit>().AsQueryable();
-                    return await PagedList<Badge>.CreateAsync(badgeSummits, badgeParams.PageNumber, badgeParams.PageSize);
-
-
-                case BadgeTypeEnum.BadgeTrail:
-                    var badgeTrails = context.Badges.OfType<BadgeTrails>().AsQueryable();
-                    return await PagedList<Badge>.CreateAsync(badgeTrails, badgeParams.PageNumber, badgeParams.PageSize);
-
-                default:
-                    logger.LogWarning($"Couldn't find appropriate type for {type}");
-                    return null;
+                logger.LogError($"Badge type was not found: {type}");
+                return null;
             }
+            return await PagedList<Badge>.CreateAsync(badge, badgeParams.PageNumber, badgeParams.PageSize);
         }
 
         public async Task<bool> SaveAll()
