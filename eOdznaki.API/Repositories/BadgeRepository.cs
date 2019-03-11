@@ -28,6 +28,13 @@ namespace eOdznaki.Repositories
             return newBadge;
         }
 
+        public async Task<bool> DeleteBadgeById(int id)
+        {
+            var badge = await context.Badges.FirstOrDefaultAsync(b => b.Id == id);
+            context.Remove(badge);
+            return await SaveAll();            
+        }
+
         public async Task<IEnumerable<Badge>> GetAllBadges()
         {
             logger.LogInformation("GetAllBadges was called");
@@ -76,18 +83,18 @@ namespace eOdznaki.Repositories
             }
         }
 
-        public async Task SaveAll()
+        public async Task<bool> SaveAll()
         {
             logger.LogInformation("SaveDatabaseInformation was called");
-            await context.SaveChangesAsync();
+            return await context.SaveChangesAsync() > 0;
         }
 
-        public Task<Badge> UpdateBadgeData(Badge updatedBadge, BadgeTypeEnum type)
+        public Task<Badge> UpdateBadgeData(Badge updatedBadge)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Badge> UpdateBadgeLevelAsync(int badgeId, int newBadgeLevel, BadgeTypeEnum type)
+        public async Task<Badge> UpdateBadgeLevel(int badgeId, int newBadgeLevel, BadgeTypeEnum type)
         {
             if (type == BadgeTypeEnum.BadgeDrop)
             {
