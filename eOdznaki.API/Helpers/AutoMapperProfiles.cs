@@ -1,6 +1,5 @@
 using AutoMapper;
 using eOdznaki.Dtos;
-using eOdznaki.Models;
 using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Models;
 
