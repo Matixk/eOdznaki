@@ -1,15 +1,16 @@
-﻿using eOdznaki.Models.Badges;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using eOdznaki.Helpers;
+﻿using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
+using eOdznaki.Models.Badges;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eOdznaki.Persistence.Repositories
 {
     public interface IBadgeRepository
     {
-        Task<IEnumerable<Badge>> GetAllBadges();
-        Task<IEnumerable<Badge>> GetBadgesByType(BadgeTypeEnum type);
+        Task<PagedList<Badge>> GetAllBadges(BadgeParams badgeParams);
+        Task<PagedList<Badge>> GetBadgesByType(BadgeParams badgeParams, BadgeTypeEnum type);
+        IQueryable<Badge> GetBadgeQuery(BadgeTypeEnum type);
         Task<Badge> GetBadgeById(int badgeId);
 
         Task<Badge> AddBadge(Badge newBadge);

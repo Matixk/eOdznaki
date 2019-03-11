@@ -1,14 +1,13 @@
-﻿using eOdznaki.Models.Badges;
+﻿using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
+using eOdznaki.Models.Badges;
 using eOdznaki.Persistence;
 using eOdznaki.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using eOdznaki.Helpers;
-using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Repositories
 {
@@ -47,7 +46,7 @@ namespace eOdznaki.Repositories
             return await PagedList<Badge>.CreateAsync(badges, badgeParams.PageNumber, badgeParams.PageSize);
         }
 
-        private IQueryable<Badge> GetBadgeQuery(BadgeTypeEnum type)
+        public IQueryable<Badge> GetBadgeQuery(BadgeTypeEnum type)
         {
             switch (type)
             {
