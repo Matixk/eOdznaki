@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using eOdznaki.Dtos.ForumThreads;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
@@ -20,11 +22,13 @@ namespace eOdznaki.Repositories
             this.context = context;
         }
 
-        public async Task<IEnumerable<ForumThread>> GetAllForumThreads()
+        public async Task<PagedList<ForumThread>> GetAllForumThreads(ForumThreadsParams forumThreadsParams)
         {
-            return await context
+            var forumThreads = context
                 .ForumThreads
-                .ToListAsync();
+                .AsQueryable();
+            
+            return await PagedList<ForumThread>.CreateAsync(forumThreads, forumThreadsParams.PageNumber, forumThreadsParams.PageSize);
         }
 
         public async Task<ForumThread> GetForumThread(int forumThreadId)
@@ -42,12 +46,14 @@ namespace eOdznaki.Repositories
             return forumThread;
         }
 
-        public async Task<IEnumerable<ForumThread>> FindForumThreads(string regex)
+        public async Task<PagedList<ForumThread>> FindForumThreads(ForumThreadsParams forumThreadsParams)
         {
-            return await context
+            var forumThreads = context
                 .ForumThreads
-                .Where(t => t.Title.ToLower().Contains(regex))
-                .ToListAsync();
+                .Where(t => t.Title.ToLower().Contains(forumThreadsParams.Regex))
+                .AsQueryable();
+            
+            return await PagedList<ForumThread>.CreateAsync(forumThreads, forumThreadsParams.PageNumber, forumThreadsParams.PageSize);
         }
 
         public async Task<ForumThread> Insert(ForumThreadForCreateDto forumThread)

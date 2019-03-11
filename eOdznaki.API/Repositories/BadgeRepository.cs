@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Repositories
 {
@@ -35,10 +37,14 @@ namespace eOdznaki.Repositories
             return await SaveAll();            
         }
 
-        public async Task<IEnumerable<Badge>> GetAllBadges()
+        public async Task<PagedList<Badge>> GetAllBadges(BadgeParams badgeParams)
         {
             logger.LogInformation("GetAllBadges was called");
-            return await context.Badges.ToListAsync();
+            
+            
+            var badges = context.Badges.AsQueryable();
+            
+            return await PagedList<Badge>.CreateAsync(badges, badgeParams.PageNumber, badgeParams.PageSize);
         }
 
         public async Task<Badge> GetBadgeByType(BadgeTypeEnum type, int badgeId)
@@ -62,20 +68,25 @@ namespace eOdznaki.Repositories
             }
         }
 
-        public async Task<IEnumerable<Badge>> GetBadgesByType(BadgeTypeEnum type)
+        public async Task<PagedList<Badge>> GetBadgesByType(BadgeParams badgeParams, BadgeTypeEnum type)
         {
             logger.LogInformation($"GetBadgesByType was called with parameter {type}");
 
             switch (type)
             {
                 case BadgeTypeEnum.BadgeDrop:
-                    return await context.Badges.OfType<BadgeDrops>().ToListAsync();
+                    var badgeDrops = context.Badges.OfType<BadgeDrops>().AsQueryable();
+                    return await PagedList<Badge>.CreateAsync(badgeDrops, badgeParams.PageNumber, badgeParams.PageSize);
+
 
                 case BadgeTypeEnum.BadgeSummit:
-                    return await context.Badges.OfType<BadgeSummit>().ToListAsync();
+                    var badgeSummits = context.Badges.OfType<BadgeSummit>().AsQueryable();
+                    return await PagedList<Badge>.CreateAsync(badgeSummits, badgeParams.PageNumber, badgeParams.PageSize);
+
 
                 case BadgeTypeEnum.BadgeTrail:
-                    return await context.Badges.OfType<BadgeTrails>().ToListAsync();
+                    var badgeTrails = context.Badges.OfType<BadgeTrails>().AsQueryable();
+                    return await PagedList<Badge>.CreateAsync(badgeTrails, badgeParams.PageNumber, badgeParams.PageSize);
 
                 default:
                     logger.LogWarning($"Couldn't find appropriate type for {type}");

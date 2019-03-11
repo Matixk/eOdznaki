@@ -3,6 +3,8 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using AutoMapper;
 using eOdznaki.Dtos.ForumPosts;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using eOdznaki.Models;
@@ -27,9 +29,11 @@ namespace eOdznaki.Controllers
 
         // GET: api/ForumPosts/text
         [HttpPost("{text}")]
-        public async Task<ActionResult<ForumPostPreviewDto>> FindForumPosts(string text)
+        public async Task<ActionResult<ForumPostPreviewDto>> FindForumPosts([FromQuery] ForumPostsParams forumPostsParams)
         {
-            var forumPosts = await context.FindForumPosts(text);
+            var forumPosts = await context.FindForumPosts(forumPostsParams);
+            
+            Response.AddPagination(forumPosts.CurrentPage, forumPosts.PageSize, forumPosts.TotalCount, forumPosts.TotalPages);
 
             return Ok(mapper.Map<ForumPostPreviewDto>(forumPosts));
         }

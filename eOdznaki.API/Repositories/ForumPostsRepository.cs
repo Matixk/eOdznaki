@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using eOdznaki.Dtos.ForumPosts;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
@@ -20,12 +22,14 @@ namespace eOdznaki.Repositories
             this.context = context;
         }
 
-        public async Task<IEnumerable<ForumPost>> FindForumPosts(string regex)
+        public async Task<PagedList<ForumPost>> FindForumPosts(ForumPostsParams forumPostsParams)
         {
-            return await context
+            var forumPosts = context
                 .ForumPosts
-                .Where(f => f.Content.ToLower().Contains(regex))
-                .ToListAsync();
+                .Where(f => f.Content.ToLower().Contains(forumPostsParams.Regex))
+                .AsQueryable();
+            
+            return await PagedList<ForumPost>.CreateAsync(forumPosts, forumPostsParams.PageNumber, forumPostsParams.PageSize);
         }
 
         public async Task<ForumPost> Insert(ForumPostForCreateDto forumPost)
