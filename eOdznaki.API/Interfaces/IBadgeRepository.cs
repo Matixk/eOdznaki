@@ -8,7 +8,7 @@ namespace eOdznaki.Persistence.Repositories
     {
         Task<IEnumerable<Badge>> GetAllBadges();
         Task<IEnumerable<Badge>> GetBadgesByType(BadgeTypeEnum type);
-        Task<Badge> GetBadgeByType(BadgeTypeEnum type, int badgeId);
+        Task<Badge> GetBadgeById(int badgeId);
 
         Task<Badge> AddBadge(Badge newBadge);
         Task<Badge> UpdateBadgeLevel(int badgeId, int newBadgeLevel, BadgeTypeEnum type);

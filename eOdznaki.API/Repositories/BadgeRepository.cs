@@ -56,16 +56,9 @@ namespace eOdznaki.Repositories
             }
         }
 
-        public async Task<Badge> GetBadgeByType(BadgeTypeEnum type, int badgeId)
+        public async Task<Badge> GetBadgeById(int badgeId)
         {
-            logger.LogInformation($"GetBadgeByType was called with parameter {type}");
-            var badge = GetBadgeQuery(type);
-            if (badge == null)
-            {
-                logger.LogError($"Badge type was not found: {type}");
-                return null;
-            }
-            return await badge.FirstOrDefaultAsync(b => b.Id == badgeId);
+            return await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
         }
 
         public async Task<IEnumerable<Badge>> GetBadgesByType(BadgeTypeEnum type)
