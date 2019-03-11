@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using eOdznaki.Helpers;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
 using eOdznaki.Repositories;
+using eOdznaki.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Text;
 
 namespace eOdznaki
 {
@@ -40,7 +37,7 @@ namespace eOdznaki
             services.AddDbContext<DataContext>(x =>
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                     .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.IncludeIgnoredWarning)));
-            
+
             var builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequireDigit = true;
@@ -84,9 +81,15 @@ namespace eOdznaki
             services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
             services.AddCors();
             services.AddTransient<Seeder>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IForumThreadsRepository, ForumThreadsRepository>();
             services.AddAutoMapper();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("eOdznaki", new Info { Title = "eOdznakiPrototype", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +106,16 @@ namespace eOdznaki
             app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/eOdznaki/swagger.json", "eOdznaki");
+            });
             app.UseMvc();
         }
     }
