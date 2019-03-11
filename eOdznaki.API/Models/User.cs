@@ -16,5 +16,6 @@ namespace eOdznaki.Models
         public IEnumerable<UserRole> UserRoles { get; set; }
         public IEnumerable<ForumThread> UserForumThreads { get; set; }
         public IEnumerable<ForumPost> UserForumPosts { get; set; }
+        public IEnumerable<Announcement> UserAnnouncements { get; set; }
     }
 }
