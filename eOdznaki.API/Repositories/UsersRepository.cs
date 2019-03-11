@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
@@ -18,11 +20,11 @@ namespace eOdznaki.Repositories
             this.context = context;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var query = context.Users.Include("UserForumThreads").Include("UserForumPosts").AsQueryable();
-
-            return await query.ToListAsync();
+            var users = context.Users.Include("UserForumThreads").Include("UserForumPosts").AsQueryable();
+            
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<User> GetUser(int id)
