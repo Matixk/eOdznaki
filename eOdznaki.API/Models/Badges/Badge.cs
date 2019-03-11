@@ -8,7 +8,6 @@ namespace eOdznaki.Models.Badges
         public int Id { get; private set; }
         [Required]
         public string Name { get; private set; }
-        [Required]
         public DateTime Acquired { get; set; }
         [Required]
         public string BadgeStatus { get; set; }
