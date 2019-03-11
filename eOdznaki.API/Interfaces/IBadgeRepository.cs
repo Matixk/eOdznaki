@@ -1,6 +1,8 @@
 ﻿using eOdznaki.Models.Badges;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Persistence.Repositories
 {

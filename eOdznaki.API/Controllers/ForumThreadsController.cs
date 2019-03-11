@@ -4,6 +4,8 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using AutoMapper;
 using eOdznaki.Dtos.ForumThreads;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using eOdznaki.Models;
@@ -28,9 +30,11 @@ namespace eOdznaki.Controllers
 
         // GET: api/ForumThreads
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ForumThreadPreviewDto>>> GetForumThreads()
+        public async Task<ActionResult<IEnumerable<ForumThreadPreviewDto>>> GetForumThreads([FromQuery] ForumThreadsParams forumThreadsParams)
         {
-            var forumThreads = await context.GetAllForumThreads();
+            var forumThreads = await context.GetAllForumThreads(forumThreadsParams);
+            
+            Response.AddPagination(forumThreads.CurrentPage, forumThreads.PageSize, forumThreads.TotalCount, forumThreads.TotalPages);
 
             return Ok(mapper.Map<IEnumerable<ForumThreadPreviewDto>>(forumThreads));
         }
@@ -59,9 +63,11 @@ namespace eOdznaki.Controllers
 
         // GET: api/ForumThreads/text
         [HttpPost("{text}")]
-        public async Task<ActionResult<ForumThreadPreviewDto>> FindForumThreads(string text)
+        public async Task<ActionResult<ForumThreadPreviewDto>> FindForumThreads([FromQuery] ForumThreadsParams forumThreadsParams)
         {
-            var forumThreads = await context.FindForumThreads(text);
+            var forumThreads = await context.FindForumThreads(forumThreadsParams);
+            
+            Response.AddPagination(forumThreads.CurrentPage, forumThreads.PageSize, forumThreads.TotalCount, forumThreads.TotalPages);
 
             return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreads));
         }

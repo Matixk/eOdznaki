@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Controllers
 {
@@ -24,11 +26,14 @@ namespace eOdznaki.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync([FromQuery] BadgeParams badgeParams)
         {
             try
             {
-                var badges = await repository.GetAllBadges();
+                var badges = await repository.GetAllBadges(badgeParams);
+                
+                Response.AddPagination(badges.CurrentPage, badges.PageSize, badges.TotalCount, badges.TotalPages);
+                
                 return Ok(badges);
             }
             catch (Exception ex)
@@ -39,11 +44,14 @@ namespace eOdznaki.Controllers
         }
 
         [HttpGet("type:BadgeTypeEnum")]
-        public async Task<IActionResult> GetAsync(BadgeTypeEnum type)
+        public async Task<IActionResult> GetAsync([FromQuery] BadgeParams badgeParams, BadgeTypeEnum type)
         {
             try
             {
-                var badges = await repository.GetBadgesByType(type);
+                var badges = await repository.GetBadgesByType(badgeParams, type);
+                
+                Response.AddPagination(badges.CurrentPage, badges.PageSize, badges.TotalCount, badges.TotalPages);
+
                 return Ok(badges);
             }
             catch (Exception ex)

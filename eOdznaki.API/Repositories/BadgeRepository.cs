@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Repositories
 {
@@ -35,10 +37,14 @@ namespace eOdznaki.Repositories
             return await SaveAll();            
         }
 
-        public async Task<IEnumerable<Badge>> GetAllBadges()
+        public async Task<PagedList<Badge>> GetAllBadges(BadgeParams badgeParams)
         {
             logger.LogInformation("GetAllBadges was called");
-            return await context.Badges.ToListAsync();
+            
+            
+            var badges = context.Badges.AsQueryable();
+            
+            return await PagedList<Badge>.CreateAsync(badges, badgeParams.PageNumber, badgeParams.PageSize);
         }
 
         private IQueryable<Badge> GetBadgeQuery(BadgeTypeEnum type)
@@ -60,8 +66,8 @@ namespace eOdznaki.Repositories
         {
             return await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
         }
-
-        public async Task<IEnumerable<Badge>> GetBadgesByType(BadgeTypeEnum type)
+        
+        public async Task<PagedList<Badge>> GetBadgesByType(BadgeParams badgeParams, BadgeTypeEnum type)
         {
             logger.LogInformation($"GetBadgesByType was called with parameter {type}");
             var badge = GetBadgeQuery(type);
@@ -70,7 +76,7 @@ namespace eOdznaki.Repositories
                 logger.LogError($"Badge type was not found: {type}");
                 return null;
             }
-            return await badge.ToListAsync();
+            return await PagedList<Badge>.CreateAsync(badge, badgeParams.PageNumber, badgeParams.PageSize);
         }
 
         public async Task<bool> SaveAll()

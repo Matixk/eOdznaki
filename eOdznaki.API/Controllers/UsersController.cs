@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CloudinaryDotNet.Actions;
 using eOdznaki.Dtos;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -31,11 +33,13 @@ namespace eOdznaki.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
-            var users = await usersRepository.GetUsers();
+            var users = await usersRepository.GetUsers(userParams);
 
             var usersToReturn = mapper.Map<IEnumerable<UserForPreviewDto>>(users);
+            
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(usersToReturn);
         }
