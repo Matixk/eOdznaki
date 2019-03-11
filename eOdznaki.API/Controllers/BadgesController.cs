@@ -45,7 +45,7 @@ namespace eOdznaki.Controllers
             }
         }
 
-        [HttpGet("type:BadgeTypeEnum")]
+        [HttpGet("{type:BadgeTypeEnum}")]
         public async Task<IActionResult> GetAsync([FromQuery] BadgeParams badgeParams, BadgeTypeEnum type)
         {
             try
@@ -63,7 +63,7 @@ namespace eOdznaki.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/newBadgeTrails")]
         public async Task<IActionResult> PostAsync([FromBody]BadgeTrailsForCreationDto badge)
         {
             logger.LogInformation("Adding new trail badge was called");
@@ -92,7 +92,7 @@ namespace eOdznaki.Controllers
             return BadRequest("Failed to add new trails badge");
         }
 
-        [HttpPost]
+        [HttpPost("/newBadgeDrops")]
         public async Task<IActionResult> PostAsync([FromBody]BadgeDropsForCreationDto badge)
         {
             logger.LogInformation("Adding new drops badge was called");
@@ -121,7 +121,7 @@ namespace eOdznaki.Controllers
             return BadRequest("Failed to add new drops badge");
         }
 
-        [HttpPost]
+        [HttpPost("/newBadgeSummit")]
         public async Task<IActionResult> PostAsync([FromBody]BadgeSummit badge)
         {
             logger.LogInformation("Adding new summit badge was called");
@@ -146,7 +146,7 @@ namespace eOdznaki.Controllers
             return BadRequest("Failed to add new summit badge");
         }
 
-        [HttpDelete("id:int")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             logger.LogInformation("Delete badge was called");

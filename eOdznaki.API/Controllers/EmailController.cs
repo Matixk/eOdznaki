@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace eOdznaki.Controllers
 {
+    [Route("api/[Controller]")]
+    [ApiController]
     public class EmailController : ControllerBase
     {
         private readonly IEmailSender emailSender;
