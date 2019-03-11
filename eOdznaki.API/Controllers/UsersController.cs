@@ -75,7 +75,7 @@ namespace eOdznaki.Controllers
 
             if (await usersRepository.SaveAll()) return NoContent();
 
-            return BadRequest("Error deleting the message.");
+            return BadRequest("Error deleting the user.");
         }
 
     }
