@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using eOdznaki.Dtos.Announcements;
 using eOdznaki.Helpers;
@@ -25,7 +26,7 @@ namespace eOdznaki.Controllers
 
         // GET: api/Announcements
         [HttpGet]
-        public async Task<ActionResult<PagedList<AnnouncementPreviewDto>>> GetAnnouncements(
+        public async Task<IActionResult> GetAnnouncements(
             [FromQuery] AnnouncementsParams forumPostsParams)
         {
             var announcements = await context.GetCurrentAnnouncements(forumPostsParams);
@@ -33,7 +34,7 @@ namespace eOdznaki.Controllers
             Response.AddPagination(announcements.CurrentPage, announcements.PageSize, announcements.TotalCount,
                 announcements.TotalPages);
 
-            return Ok(mapper.Map<AnnouncementPreviewDto>(announcements));
+            return Ok(mapper.Map<IEnumerable<AnnouncementPreviewDto>>(announcements));
         }
 
         // PUT: api/Announcements/5
