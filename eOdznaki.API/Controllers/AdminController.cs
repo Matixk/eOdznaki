@@ -1,12 +1,11 @@
-using System.Linq;
 using System.Threading.Tasks;
 using eOdznaki.Dtos;
-using eOdznaki.Models;
-using eOdznaki.Persistence;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
+using eOdznaki.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace eOdznaki.Controllers
 {
@@ -14,57 +13,37 @@ namespace eOdznaki.Controllers
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
-        private readonly DataContext context;
-        private readonly UserManager<User> userManager;
+        private readonly AdminRepository adminRepository;
 
-        public AdminController(
-            DataContext context, UserManager<User> userManager)
+        public AdminController(AdminRepository adminRepository)
         {
-            this.context = context;
-            this.userManager = userManager;
+            this.adminRepository = adminRepository;
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("users")]
-        public async Task<IActionResult> GetUsersWithRoles()
+        public async Task<IActionResult> GetUsersWithRoles(UserRolesParams userRolesParams)
         {
-            var usersWithRoles = await (from user in context.Users
-                orderby user.UserName
-                select new
-                {
-                    user.Id,
-                    user.UserName,
-                    Roles = (from userRole in user.UserRoles
-                        join role in context.Roles
-                            on userRole.RoleId
-                            equals role.Id
-                        select role.Name).ToList()
-                }).ToListAsync();
+            var usersWithRoles = await adminRepository.GetUsersWithRoles(userRolesParams);
+
+            Response.AddPagination(usersWithRoles.CurrentPage, usersWithRoles.PageSize, usersWithRoles.TotalCount,
+                usersWithRoles.TotalPages);
 
             return Ok(usersWithRoles);
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("editRoles/{id}")]
-        public async Task<IActionResult> EditRoles(string id, RoleEditDto roleEditDto)
+        public async Task<IActionResult> EditRoles(string userId, UserRolesListDto userRolesListDto)
         {
-            var user = await userManager.FindByIdAsync(id);
-
-            var userRoles = await userManager.GetRolesAsync(user);
-
-            var selectedRoles = roleEditDto.RoleNames;
-
-            selectedRoles = selectedRoles ?? new string[] { };
-
-            var result = await userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
-
-            if (!result.Succeeded) return BadRequest("Failed to add to roles.");
-
-            result = await userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
-
-            if (!result.Succeeded) return BadRequest("Failed to remove the roles.");
-
-            return Ok(await userManager.GetRolesAsync(user));
+            try
+            {
+                return Ok(await adminRepository.EditUserRoles(userId, userRolesListDto));
+            }
+            catch (OperationException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
