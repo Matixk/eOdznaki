@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace eOdznaki.Dtos
+namespace eOdznaki.Dtos.Users
 {
     public class UserForUpdateDto
     {

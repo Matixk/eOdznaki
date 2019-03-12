@@ -1,4 +1,4 @@
-namespace eOdznaki.Dtos
+namespace eOdznaki.Dtos.Users
 {
     public class UserForPreviewDto
     {

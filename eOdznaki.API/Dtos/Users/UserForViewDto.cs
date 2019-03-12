@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using eOdznaki.Models;
 
-namespace eOdznaki.Dtos
+namespace eOdznaki.Dtos.Users
 {
     public class UserForViewDto
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace eOdznaki.Dtos
+namespace eOdznaki.Dtos.Badges
 {
     public class BadgeForCreationDto
     {

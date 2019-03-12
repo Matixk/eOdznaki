@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using eOdznaki.Models.Trails;
 
-namespace eOdznaki.Dtos
+namespace eOdznaki.Dtos.Badges
 {
     public class BadgeTrailsForCreationDto : BadgeForCreationDto
     {

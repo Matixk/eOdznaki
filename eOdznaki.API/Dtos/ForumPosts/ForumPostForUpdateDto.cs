@@ -4,6 +4,8 @@ namespace eOdznaki.Dtos.ForumPosts
 {
     public class ForumPostForUpdateDto
     {
-        [Required] [MaxLength(2000)] public string Content { get; set; }
+        [Required]
+        [StringLength(2000, ErrorMessage = "Content cannot exceed 2000 characters.")]
+        public string Content { get; set; }
     }
 }
