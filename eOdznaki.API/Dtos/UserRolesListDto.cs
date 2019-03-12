@@ -1,6 +1,6 @@
 namespace eOdznaki.Dtos
 {
-    public class RoleEditDto
+    public class UserRolesListDto
     {
         public string[] RoleNames { get; set; }
     }

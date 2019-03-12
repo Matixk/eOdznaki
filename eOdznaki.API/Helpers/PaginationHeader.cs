@@ -9,7 +9,7 @@ namespace eOdznaki.Helpers
             TotalItems = totalItems;
             TotalPages = totalPages;
         }
-
+        
         public int CurrentPage { get; set; }
         public int ItemsPerPage { get; set; }
         public int TotalItems { get; set; }

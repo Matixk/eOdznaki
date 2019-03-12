@@ -5,7 +5,7 @@ namespace eOdznaki.Dtos.ForumThreads
     public class ForumThreadForUpdateDto
     {
         [Required]
-        [MaxLength(50)]
+        [StringLength(50, ErrorMessage = "Title cannot exceed 50 characters.")]
         public string Title { get; set; }
     }
 }

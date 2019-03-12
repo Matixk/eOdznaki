@@ -1,13 +1,13 @@
-﻿using eOdznaki.Helpers;
-using eOdznaki.Helpers.Params;
-using eOdznaki.Models.Badges;
-using eOdznaki.Persistence;
-using eOdznaki.Persistence.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
+using eOdznaki.Interfaces;
+using eOdznaki.Models.Badges;
+using eOdznaki.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace eOdznaki.Repositories
 {
@@ -33,16 +33,16 @@ namespace eOdznaki.Repositories
         {
             var badge = await context.Badges.FirstOrDefaultAsync(b => b.Id == id);
             context.Remove(badge);
-            return await SaveAll();            
+            return await SaveAll();
         }
 
         public async Task<PagedList<Badge>> GetAllBadges(BadgeParams badgeParams)
         {
             logger.LogInformation("GetAllBadges was called");
-            
-            
+
+
             var badges = context.Badges.AsQueryable();
-            
+
             return await PagedList<Badge>.CreateAsync(badges, badgeParams.PageNumber, badgeParams.PageSize);
         }
 
@@ -65,7 +65,7 @@ namespace eOdznaki.Repositories
         {
             return await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
         }
-        
+
         public async Task<PagedList<Badge>> GetBadgesByType(BadgeParams badgeParams, BadgeTypeEnum type)
         {
             logger.LogInformation($"GetBadgesByType was called with parameter {type}");
@@ -75,6 +75,7 @@ namespace eOdznaki.Repositories
                 logger.LogError($"Badge type was not found: {type}");
                 return null;
             }
+
             return await PagedList<Badge>.CreateAsync(badge, badgeParams.PageNumber, badgeParams.PageSize);
         }
 

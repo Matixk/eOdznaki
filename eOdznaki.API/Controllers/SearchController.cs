@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eOdznaki.Dtos.ForumPosts;
 using eOdznaki.Dtos.ForumThreads;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,14 +23,14 @@ namespace eOdznaki.Controllers
             this.mapper = mapper;
         }
 
-        // GET: api/Search/text
-        [HttpPost("{text}")]
-        public async Task<ActionResult<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>> SearchForum(string text)
+        [HttpPost]
+        public async Task<IActionResult> SearchForum(SearchParams searchParams)
         {
-            var found = await context.SearchForum(text);
+            var foundItems = await context.SearchForum(searchParams.Regex);
 
-            return Ok(mapper.Map<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>(found));
+            var foundItemsToReturn = mapper.Map<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>(foundItems);
+
+            return Ok(foundItemsToReturn);
         }
-
     }
 }

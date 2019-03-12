@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
@@ -27,8 +26,9 @@ namespace eOdznaki.Repositories
             var forumThreads = context
                 .ForumThreads
                 .AsQueryable();
-            
-            return await PagedList<ForumThread>.CreateAsync(forumThreads, forumThreadsParams.PageNumber, forumThreadsParams.PageSize);
+
+            return await PagedList<ForumThread>.CreateAsync(forumThreads, forumThreadsParams.PageNumber,
+                forumThreadsParams.PageSize);
         }
 
         public async Task<ForumThread> GetForumThread(int forumThreadId)
@@ -37,23 +37,10 @@ namespace eOdznaki.Repositories
                 .ForumThreads
                 .Include("Posts")
                 .FirstOrDefaultAsync(t => t.Id == forumThreadId);
-            
-            if (forumThread == null)
-            {
-                throw new ArgumentNullException(nameof(forumThreadId));
-            }
+
+            if (forumThread == null) throw new ArgumentNullException(nameof(forumThreadId));
 
             return forumThread;
-        }
-
-        public async Task<PagedList<ForumThread>> FindForumThreads(ForumThreadsParams forumThreadsParams)
-        {
-            var forumThreads = context
-                .ForumThreads
-                .Where(t => t.Title.ToLower().Contains(forumThreadsParams.Regex))
-                .AsQueryable();
-            
-            return await PagedList<ForumThread>.CreateAsync(forumThreads, forumThreadsParams.PageNumber, forumThreadsParams.PageSize);
         }
 
         public async Task<ForumThread> Insert(ForumThreadForCreateDto forumThread)
@@ -62,10 +49,7 @@ namespace eOdznaki.Repositories
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == forumThread.AuthorId);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(forumThread.AuthorId));
-            }
+            if (user == null) throw new ArgumentNullException(nameof(forumThread.AuthorId));
 
             var forumThreadToCreate = new ForumThread(forumThread.AuthorId, forumThread.Title, user);
 
@@ -81,25 +65,16 @@ namespace eOdznaki.Repositories
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
+            if (user == null) throw new ArgumentNullException(nameof(userId));
 
             var forumThreadEntity = await context
                 .ForumThreads
                 .FirstOrDefaultAsync(t => t.Id == forumThreadId);
 
-            if (forumThreadEntity == null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
+            if (forumThreadEntity == null) throw new ArgumentNullException(nameof(userId));
 
             // TODO permission for admin/moderator
-            if (user.Id != forumThreadEntity.AuthorId)
-            {
-                throw new AuthenticationException();
-            }
+            if (user.Id != forumThreadEntity.AuthorId) throw new AuthenticationException();
 
             forumThreadEntity.Title = forumThread.Title;
 
@@ -115,31 +90,21 @@ namespace eOdznaki.Repositories
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
+            if (user == null) throw new ArgumentNullException(nameof(userId));
 
             var forumThreadEntity = await context
                 .ForumThreads
                 .FirstOrDefaultAsync(t => t.Id == forumThreadId);
 
-            if (forumThreadEntity == null)
-            {
-                throw new ArgumentNullException(nameof(forumThreadId));
-            }
+            if (forumThreadEntity == null) throw new ArgumentNullException(nameof(forumThreadId));
 
             // TODO permission for admin/moderator
-            if (user.Id != forumThreadEntity.AuthorId)
-            {
-                throw new AuthenticationException();
-            }
+            if (user.Id != forumThreadEntity.AuthorId) throw new AuthenticationException();
 
             context.Remove(forumThreadEntity);
             await context.SaveChangesAsync();
 
             return forumThreadEntity;
         }
-
     }
 }

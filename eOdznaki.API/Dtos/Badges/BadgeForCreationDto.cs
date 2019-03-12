@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace eOdznaki.Dtos
+namespace eOdznaki.Dtos.Badges
 {
     public class BadgeForCreationDto
     {
-        [Required]
-        public string Name { get; private set; }
+        [Required] public string Name { get; private set; }
     }
 }

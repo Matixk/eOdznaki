@@ -1,11 +1,13 @@
 namespace eOdznaki.Helpers.Params
 {
-    public class ForumPostsParams : Params
+    public class SearchParams : Params
     {
-        public ForumPostsParams()
+        public SearchParams()
         {
             MaxPageSize = 50;
             PageSize = 10;
         }
+
+        public string Regex { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 namespace eOdznaki.Helpers.Params
 {
-    public class ForumPostsParams : Params
+    public class UserRolesParams : Params
     {
-        public ForumPostsParams()
+        public UserRolesParams()
         {
             MaxPageSize = 50;
             PageSize = 10;

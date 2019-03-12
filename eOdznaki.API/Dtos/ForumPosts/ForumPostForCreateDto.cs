@@ -1,16 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace eOdznaki.Dtos.ForumPosts
 {
     public class ForumPostForCreateDto
     {
+        [Required] public int AuthorId { get; set; }
+
+        [Required] public int ForumThreadId { get; set; }
+
         [Required]
-        public int AuthorId { get; set; }
-        [Required]
-        public int ForumThreadId { get; set; }
-        [Required]
-        [MaxLength(2000)]
+        [StringLength(2000, ErrorMessage = "Content cannot exceed 2000 characters.")]
         public string Content { get; set; }
     }
 }

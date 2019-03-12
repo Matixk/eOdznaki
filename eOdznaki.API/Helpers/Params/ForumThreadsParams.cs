@@ -1,19 +1,11 @@
-using System;
-
 namespace eOdznaki.Helpers.Params
 {
-    public class ForumThreadsParams
+    public class ForumThreadsParams : Params
     {
-        private const int MaxPageSize = 50;
-        private int pageSize = 10;
-        public int PageNumber { get; set; } = 1;
-
-        public int PageSize
+        public ForumThreadsParams()
         {
-            get => pageSize;
-            set => pageSize = Math.Min(MaxPageSize, value);
+            MaxPageSize = 50;
+            PageSize = 10;
         }
-
-        public string Regex { get; set; }
     }
 }

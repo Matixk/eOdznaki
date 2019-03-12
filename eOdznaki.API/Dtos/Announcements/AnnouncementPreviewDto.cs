@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using eOdznaki.Models;
 
 namespace eOdznaki.Dtos.Announcements
 {

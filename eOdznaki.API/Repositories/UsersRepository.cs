@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eOdznaki.Helpers;
@@ -23,7 +21,7 @@ namespace eOdznaki.Repositories
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
             var users = context.Users.Include("UserForumThreads").Include("UserForumPosts").AsQueryable();
-            
+
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 
@@ -33,7 +31,7 @@ namespace eOdznaki.Repositories
 
             return await query.FirstOrDefaultAsync(u => u.Id == id);
         }
-        
+
         public void Delete(User user)
         {
             context.Remove(user);

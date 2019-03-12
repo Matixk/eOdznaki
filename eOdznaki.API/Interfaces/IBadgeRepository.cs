@@ -1,10 +1,10 @@
-﻿using eOdznaki.Helpers;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Models.Badges;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace eOdznaki.Persistence.Repositories
+namespace eOdznaki.Interfaces
 {
     public interface IBadgeRepository
     {

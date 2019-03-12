@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace eOdznaki.Dtos
+namespace eOdznaki.Dtos.Users
 {
     public class UserForRegisterDto
     {
@@ -12,8 +12,8 @@ namespace eOdznaki.Dtos
 
         [Required] public string UserName { get; set; }
 
-        [StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters.")]
         [Required]
+        [StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be between 8 and 20 characters.")]
         public string Password { get; set; }
 
         [Required] public string FirstName { get; set; }
