@@ -3,7 +3,6 @@ using eOdznaki.Dtos;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
-using eOdznaki.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Design;

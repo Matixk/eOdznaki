@@ -10,7 +10,17 @@
     <PackageReference Include="CloudinaryDotNet" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\eOdznaki.Dtos\eOdznaki.Dtos.csproj" />
+    <ProjectReference Include="..\eOdznaki.Models\eOdznaki.Models.csproj" />
   </ItemGroup>
 
 </Project>

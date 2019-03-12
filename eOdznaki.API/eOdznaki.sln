@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eOdznaki", "eOdznaki.csproj", "{AC9409A5-65B6-4BCD-953C-97037AB8B094}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Models", "..\eOdznaki.Models\eOdznaki.Models.csproj", "{DAE26ADA-1D4F-4797-A967-A1B69182CEA0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC9409A5-65B6-4BCD-953C-97037AB8B094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC9409A5-65B6-4BCD-953C-97037AB8B094}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC9409A5-65B6-4BCD-953C-97037AB8B094}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC9409A5-65B6-4BCD-953C-97037AB8B094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAE26ADA-1D4F-4797-A967-A1B69182CEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAE26ADA-1D4F-4797-A967-A1B69182CEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAE26ADA-1D4F-4797-A967-A1B69182CEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAE26ADA-1D4F-4797-A967-A1B69182CEA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A42E38B1-871E-49B8-94C4-AC65A74957D1}
+	EndGlobalSection
+EndGlobal
