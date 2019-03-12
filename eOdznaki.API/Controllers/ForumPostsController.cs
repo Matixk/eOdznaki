@@ -7,6 +7,7 @@ using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,22 +28,9 @@ namespace eOdznaki.Controllers
             this.userManager = userManager;
         }
 
-        // GET: api/ForumPosts/text
-        [HttpPost("{text}")]
-        public async Task<ActionResult<ForumPostPreviewDto>> FindForumPosts(
-            [FromQuery] ForumPostsParams forumPostsParams)
-        {
-            var forumPosts = await context.FindForumPosts(forumPostsParams);
-
-            Response.AddPagination(forumPosts.CurrentPage, forumPosts.PageSize, forumPosts.TotalCount,
-                forumPosts.TotalPages);
-
-            return Ok(mapper.Map<ForumPostPreviewDto>(forumPosts));
-        }
-
-        // PUT: api/ForumPosts/5
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpPut("{forumPostId}")]
-        public async Task<ActionResult<ForumPostPreviewDto>> PutForumPost(int forumPostId,
+        public async Task<IActionResult> PutForumPost(int forumPostId,
             ForumPostForUpdateDto forumPost)
         {
             try
@@ -66,9 +54,9 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // POST: api/ForumPosts
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpPost]
-        public async Task<ActionResult<ForumPostPreviewDto>> PostForumPost(ForumPostForCreateDto forumPost)
+        public async Task<IActionResult> PostForumPost(ForumPostForCreateDto forumPost)
         {
             try
             {
@@ -86,9 +74,9 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // DELETE: api/ForumPost/5
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpDelete("{forumPostId}")]
-        public async Task<ActionResult<ForumPostPreviewDto>> DeleteForumPost(int forumPostId)
+        public async Task<IActionResult> DeleteForumPost(int forumPostId)
         {
             try
             {

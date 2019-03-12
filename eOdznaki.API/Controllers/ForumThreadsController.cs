@@ -8,6 +8,7 @@ using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,10 +29,8 @@ namespace eOdznaki.Controllers
             this.userManager = userManager;
         }
 
-        // GET: api/ForumThreads
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ForumThreadPreviewDto>>> GetForumThreads(
-            [FromQuery] ForumThreadsParams forumThreadsParams)
+        public async Task<IActionResult> GetForumThreads([FromQuery] ForumThreadsParams forumThreadsParams)
         {
             var forumThreads = await context.GetAllForumThreads(forumThreadsParams);
 
@@ -41,9 +40,8 @@ namespace eOdznaki.Controllers
             return Ok(mapper.Map<IEnumerable<ForumThreadPreviewDto>>(forumThreads));
         }
 
-        // GET: api/ForumThreads/5
         [HttpGet("{forumThreadId}")]
-        public async Task<ActionResult<ForumThreadPreviewDto>> GetForumThread(int forumThreadId)
+        public async Task<IActionResult> GetForumThread(int forumThreadId)
         {
             try
             {
@@ -60,23 +58,9 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // GET: api/ForumThreads/text
-        [HttpPost("{text}")]
-        public async Task<ActionResult<ForumThreadPreviewDto>> FindForumThreads(
-            [FromQuery] ForumThreadsParams forumThreadsParams)
-        {
-            var forumThreads = await context.FindForumThreads(forumThreadsParams);
-
-            Response.AddPagination(forumThreads.CurrentPage, forumThreads.PageSize, forumThreads.TotalCount,
-                forumThreads.TotalPages);
-
-            return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreads));
-        }
-
-        // PUT: api/ForumThreads/5
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpPut("{forumThreadId}")]
-        public async Task<ActionResult<ForumThreadPreviewDto>> PutForumThread(int forumThreadId,
-            ForumThreadForUpdateDto forumThread)
+        public async Task<IActionResult> PutForumThread(int forumThreadId, ForumThreadForUpdateDto forumThread)
         {
             try
             {
@@ -99,9 +83,9 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // POST: api/ForumThreads
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpPost]
-        public async Task<ActionResult<ForumThreadPreviewDto>> PostForumThread(ForumThreadForCreateDto forumThread)
+        public async Task<IActionResult> PostForumThread(ForumThreadForCreateDto forumThread)
         {
             try
             {
@@ -119,9 +103,9 @@ namespace eOdznaki.Controllers
             }
         }
 
-        // DELETE: api/ForumThreads/5
+        [Authorize(Policy = "RequireMemberRole")]
         [HttpDelete("{forumThreadId}")]
-        public async Task<ActionResult<ForumThreadPreviewDto>> DeleteForumThread(int forumThreadId)
+        public async Task<IActionResult> DeleteForumThread(int forumThreadId)
         {
             try
             {

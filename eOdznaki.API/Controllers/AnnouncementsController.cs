@@ -24,7 +24,6 @@ namespace eOdznaki.Controllers
             this.mapper = mapper;
         }
 
-        // GET: api/Announcements
         [HttpGet]
         public async Task<IActionResult> GetAnnouncements(
             [FromQuery] AnnouncementsParams forumPostsParams)
@@ -37,7 +36,6 @@ namespace eOdznaki.Controllers
             return Ok(mapper.Map<IEnumerable<AnnouncementPreviewDto>>(announcements));
         }
 
-        // PUT: api/Announcements/5
         [HttpPut("{id}")]
         [Authorize(Policy = "RequireModeratorRole")]
         public async Task<IActionResult> PutAnnouncement(int announcementId, AnnouncementForUpdateDto announcement)
@@ -47,20 +45,18 @@ namespace eOdznaki.Controllers
             return Ok(mapper.Map<AnnouncementPreviewDto>(announcementUpdated));
         }
 
-        // POST: api/Announcements
         [HttpPost]
         [Authorize(Policy = "RequireModeratorRole")]
-        public async Task<ActionResult<Announcement>> PostAnnouncement(AnnouncementForCreateDto announcement)
+        public async Task<IActionResult> PostAnnouncement(AnnouncementForCreateDto announcement)
         {
             var announcementCreated = await context.Insert(announcement);
 
             return Ok(mapper.Map<AnnouncementPreviewDto>(announcementCreated));
         }
 
-        // DELETE: api/Announcements/5
         [HttpDelete("{id}")]
         [Authorize(Policy = "RequireModeratorRole")]
-        public async Task<ActionResult<Announcement>> DeleteAnnouncement(int id)
+        public async Task<IActionResult> DeleteAnnouncement(int id)
         {
             var announcementDeleted = await context.Delete(id);
 
