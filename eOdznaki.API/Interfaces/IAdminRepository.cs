@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using eOdznaki.Dtos;
+using eOdznaki.Dtos.Users;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 

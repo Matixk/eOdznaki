@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eOdznaki.Dtos;
+using eOdznaki.Dtos.Users;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace eOdznaki.Repositories

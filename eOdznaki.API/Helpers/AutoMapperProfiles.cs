@@ -1,7 +1,7 @@
 using AutoMapper;
-using eOdznaki.Dtos;
 using eOdznaki.Dtos.Announcements;
 using eOdznaki.Dtos.ForumThreads;
+using eOdznaki.Dtos.Users;
 using eOdznaki.Models;
 
 namespace eOdznaki.Helpers

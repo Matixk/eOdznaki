@@ -1,17 +1,11 @@
-using System;
-
 namespace eOdznaki.Helpers.Params
 {
-    public class SearchParams
+    public class SearchParams : Params
     {
-        private const int MaxPageSize = 50;
-        private int pageSize = 10;
-        public int PageNumber { get; set; } = 1;
-
-        public int PageSize
+        public SearchParams()
         {
-            get => pageSize;
-            set => pageSize = Math.Min(MaxPageSize, value);
+            MaxPageSize = 50;
+            PageSize = 10;
         }
 
         public string Regex { get; set; }
