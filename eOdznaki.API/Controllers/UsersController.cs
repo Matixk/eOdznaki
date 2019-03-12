@@ -57,8 +57,8 @@ namespace eOdznaki.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
-
+            if (IsNotAuthorized(id)) return Unauthorized();
+            
             var userFromRepo = await usersRepository.GetUser(id);
 
             mapper.Map(userForUpdateDto, userFromRepo);
@@ -72,7 +72,7 @@ namespace eOdznaki.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) return Unauthorized();
+            if (IsNotAuthorized(id)) return Unauthorized();
 
             var userFromRepo = await usersRepository.GetUser(id);
 
@@ -81,6 +81,11 @@ namespace eOdznaki.Controllers
             if (await usersRepository.SaveAll()) return NoContent();
 
             return BadRequest("Error deleting the user.");
+        }
+
+        private bool IsNotAuthorized(int id)
+        {
+            return id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) && !User.IsInRole("Admin");
         }
     }
 }
