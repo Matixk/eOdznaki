@@ -4,4 +4,9 @@
         <TargetFramework>netcoreapp2.2</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\eOdznaki.Dtos\eOdznaki.Dtos.csproj" />
+      <ProjectReference Include="..\eOdznaki.Helpers\eOdznaki.Helpers.csproj" />
+    </ItemGroup>
+
 </Project>

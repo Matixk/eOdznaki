@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using eOdznaki.Configuration;
 using eOdznaki.Dtos.Announcements;
-using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Authorization;

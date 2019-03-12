@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using eOdznaki.Services;
+using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

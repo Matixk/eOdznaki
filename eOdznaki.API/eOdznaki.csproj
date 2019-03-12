@@ -15,12 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\eOdznaki.Dtos\eOdznaki.Dtos.csproj" />
+    <ProjectReference Include="..\eOdznaki.Helpers\eOdznaki.Helpers.csproj" />
+    <ProjectReference Include="..\eOdznaki.Interfaces\eOdznaki.Interfaces.csproj" />
     <ProjectReference Include="..\eOdznaki.Models\eOdznaki.Models.csproj" />
+    <ProjectReference Include="..\eOdznaki.Persistence\eOdznaki.Persistence.csproj" />
+    <ProjectReference Include="..\eOdznaki.Repositories\eOdznaki.Repositories.csproj" />
+    <ProjectReference Include="..\eOdznaki.Services\eOdznaki.Services.csproj" />
   </ItemGroup>
 
 </Project>
