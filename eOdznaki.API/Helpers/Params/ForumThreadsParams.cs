@@ -13,7 +13,5 @@ namespace eOdznaki.Helpers.Params
             get => pageSize;
             set => pageSize = Math.Min(MaxPageSize, value);
         }
-
-        public string Regex { get; set; }
     }
 }
