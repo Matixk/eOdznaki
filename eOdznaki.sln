@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Repositories", "eO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Services", "eOdznaki.Services\eOdznaki.Services.csproj", "{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Helpers", "eOdznaki.Helpers\eOdznaki.Helpers.csproj", "{0AE5316D-0FE9-4A20-8FF8-E5BA31CBBAC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE5316D-0FE9-4A20-8FF8-E5BA31CBBAC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE5316D-0FE9-4A20-8FF8-E5BA31CBBAC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE5316D-0FE9-4A20-8FF8-E5BA31CBBAC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE5316D-0FE9-4A20-8FF8-E5BA31CBBAC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
