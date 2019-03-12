@@ -21,17 +21,6 @@ namespace eOdznaki.Repositories
             this.context = context;
         }
 
-        public async Task<PagedList<ForumPost>> FindForumPosts(ForumPostsParams forumPostsParams)
-        {
-            var forumPosts = context
-                .ForumPosts
-                .Where(f => f.Content.ToLower().Contains(forumPostsParams.Regex))
-                .AsQueryable();
-
-            return await PagedList<ForumPost>.CreateAsync(forumPosts, forumPostsParams.PageNumber,
-                forumPostsParams.PageSize);
-        }
-
         public async Task<ForumPost> Insert(ForumPostForCreateDto forumPost)
         {
             var user = await context

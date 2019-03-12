@@ -8,7 +8,6 @@ namespace eOdznaki.Interfaces
 {
     public interface IForumPostsRepository
     {
-        Task<PagedList<ForumPost>> FindForumPosts(ForumPostsParams forumPostsParams);
         Task<ForumPost> Insert(ForumPostForCreateDto forumPost);
         Task<ForumPost> Update(int userId, int forumPostId, ForumPostForUpdateDto forumPost);
         Task<ForumPost> Delete(int userId, int forumPostId);

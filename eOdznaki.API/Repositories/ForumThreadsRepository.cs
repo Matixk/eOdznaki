@@ -43,17 +43,6 @@ namespace eOdznaki.Repositories
             return forumThread;
         }
 
-        public async Task<PagedList<ForumThread>> FindForumThreads(ForumThreadsParams forumThreadsParams)
-        {
-            var forumThreads = context
-                .ForumThreads
-                .Where(t => t.Title.ToLower().Contains(forumThreadsParams.Regex))
-                .AsQueryable();
-
-            return await PagedList<ForumThread>.CreateAsync(forumThreads, forumThreadsParams.PageNumber,
-                forumThreadsParams.PageSize);
-        }
-
         public async Task<ForumThread> Insert(ForumThreadForCreateDto forumThread)
         {
             var user = await context
