@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Interfaces", "eOdz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Repositories", "eOdznaki.Repositories\eOdznaki.Repositories.csproj", "{47A82327-DBB4-4F46-BF80-8A0B1B146037}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Services", "eOdznaki.Services\eOdznaki.Services.csproj", "{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{47A82327-DBB4-4F46-BF80-8A0B1B146037}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47A82327-DBB4-4F46-BF80-8A0B1B146037}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47A82327-DBB4-4F46-BF80-8A0B1B146037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{041CDFB8-DFF3-476A-96DE-4B3C34DBA3B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
