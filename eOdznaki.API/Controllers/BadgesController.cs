@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using eOdznaki.Dtos;
+using eOdznaki.Dtos.Badges;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Models.Badges;

@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using eOdznaki.Dtos;
+using eOdznaki.Dtos.Users;
 using eOdznaki.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
