@@ -16,6 +16,7 @@ namespace eOdznaki.Persistence
         public DbSet<Badge> Badges { get; set; }
         public DbSet<ForumThread> ForumThreads { get; set; }
         public DbSet<ForumPost> ForumPosts { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
