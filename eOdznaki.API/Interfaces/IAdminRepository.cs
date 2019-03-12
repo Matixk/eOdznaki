@@ -9,6 +9,6 @@ namespace eOdznaki.Interfaces
     public interface IAdminRepository
     {
         Task<PagedList<UserWithRolesDto>> GetUsersWithRoles(UserRolesParams userRolesParams);
-        Task<IEnumerable<string>> EditUserRoles(string userId, UserRolesListDto userRolesListDto);
+        Task<IEnumerable<string>> EditUserRoles(int userId, UserRolesListDto userRolesListDto);
     }
 }

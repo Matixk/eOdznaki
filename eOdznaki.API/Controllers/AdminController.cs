@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using eOdznaki.Dtos;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
+using eOdznaki.Interfaces;
 using eOdznaki.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,9 @@ namespace eOdznaki.Controllers
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
-        private readonly AdminRepository adminRepository;
+        private readonly IAdminRepository adminRepository;
 
-        public AdminController(AdminRepository adminRepository)
+        public AdminController(IAdminRepository adminRepository)
         {
             this.adminRepository = adminRepository;
         }
@@ -33,8 +34,8 @@ namespace eOdznaki.Controllers
         }
 
         [Authorize(Policy = "RequireAdminRole")]
-        [HttpPost("editRoles/{id}")]
-        public async Task<IActionResult> EditRoles(string userId, UserRolesListDto userRolesListDto)
+        [HttpPost("editRoles/{userId}")]
+        public async Task<IActionResult> EditRoles(int userId, UserRolesListDto userRolesListDto)
         {
             try
             {

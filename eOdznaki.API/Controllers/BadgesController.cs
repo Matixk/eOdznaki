@@ -45,23 +45,24 @@ namespace eOdznaki.Controllers
             }
         }
 
-        [HttpGet("{type:BadgeTypeEnum}")]
-        public async Task<IActionResult> GetAsync([FromQuery] BadgeParams badgeParams, BadgeTypeEnum type)
-        {
-            try
-            {
-                var badges = await repository.GetBadgesByType(badgeParams, type);
-
-                Response.AddPagination(badges.CurrentPage, badges.PageSize, badges.TotalCount, badges.TotalPages);
-
-                return Ok(badges);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError($"Failed to get badges of type {type}: {ex}");
-                return BadRequest("Failed to get badges of type {type}");
-            }
-        }
+//        TODO Fix InvalidOperationException: The constraint reference 'BadgeTypeEnum' could not be resolved to a type.
+//        [HttpGet("{type:BadgeTypeEnum}")]
+//        public async Task<IActionResult> GetAsync([FromQuery] BadgeParams badgeParams, BadgeTypeEnum type)
+//        {
+//            try
+//            {
+//                var badges = await repository.GetBadgesByType(badgeParams, type);
+//
+//                Response.AddPagination(badges.CurrentPage, badges.PageSize, badges.TotalCount, badges.TotalPages);
+//
+//                return Ok(badges);
+//            }
+//            catch (Exception ex)
+//            {
+//                logger.LogError($"Failed to get badges of type {type}: {ex}");
+//                return BadRequest("Failed to get badges of type {type}");
+//            }
+//        }
 
         [HttpPost("/newBadgeTrails")]
         public async Task<IActionResult> PostAsync([FromBody] BadgeTrailsForCreationDto badge)

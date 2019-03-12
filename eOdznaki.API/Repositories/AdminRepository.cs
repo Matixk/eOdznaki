@@ -43,9 +43,9 @@ namespace eOdznaki.Repositories
                 userRolesParams.PageSize);
         }
 
-        public async Task<IEnumerable<string>> EditUserRoles(string userId, UserRolesListDto userRolesListDto)
+        public async Task<IEnumerable<string>> EditUserRoles(int userId, UserRolesListDto userRolesListDto)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId.ToString());
 
             var userRoles = await userManager.GetRolesAsync(user);
 

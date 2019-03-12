@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using eOdznaki.Models.Badges;
 using Microsoft.AspNetCore.Identity;
 
 namespace eOdznaki.Models
@@ -14,7 +15,7 @@ namespace eOdznaki.Models
 
         public string AvatarUrl { get; set; }
 
-//      public IEnumerable<Badge> Badges { get; set; }
+        public IEnumerable<Badge> Badges { get; set; }
         public IEnumerable<UserRole> UserRoles { get; set; }
         public IEnumerable<ForumThread> UserForumThreads { get; set; }
         public IEnumerable<ForumPost> UserForumPosts { get; set; }
