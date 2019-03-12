@@ -2,7 +2,7 @@ using eOdznaki.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace eOdznaki.Persistence.Configurations
+namespace eOdznaki.Persistence.Configuration
 {
     public class ForumThreadConfiguration : IEntityTypeConfiguration<ForumThread>
     {
