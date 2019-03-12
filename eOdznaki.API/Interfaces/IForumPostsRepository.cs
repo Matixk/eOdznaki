@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using eOdznaki.Dtos.ForumPosts;
-using eOdznaki.Helpers;
-using eOdznaki.Helpers.Params;
 using eOdznaki.Models;
 
 namespace eOdznaki.Interfaces

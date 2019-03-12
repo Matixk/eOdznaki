@@ -4,8 +4,8 @@ using AutoMapper;
 using eOdznaki.Dtos.Badges;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
+using eOdznaki.Interfaces;
 using eOdznaki.Models.Badges;
-using eOdznaki.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

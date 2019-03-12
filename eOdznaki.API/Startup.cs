@@ -4,7 +4,6 @@ using eOdznaki.Helpers;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
-using eOdznaki.Persistence.Repositories;
 using eOdznaki.Repositories;
 using eOdznaki.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

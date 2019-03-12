@@ -4,7 +4,7 @@ using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Models.Badges;
 
-namespace eOdznaki.Persistence.Repositories
+namespace eOdznaki.Interfaces
 {
     public interface IBadgeRepository
     {

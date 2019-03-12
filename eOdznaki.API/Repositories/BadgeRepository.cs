@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
+using eOdznaki.Interfaces;
 using eOdznaki.Models.Badges;
 using eOdznaki.Persistence;
-using eOdznaki.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
