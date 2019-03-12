@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Dtos", "eOdznaki.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Persistence", "eOdznaki.Persistence\eOdznaki.Persistence.csproj", "{50BB49BA-A38A-49AC-8F52-6AF0F170E86F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eOdznaki.Interfaces", "eOdznaki.Interfaces\eOdznaki.Interfaces.csproj", "{7BCC4521-6D0F-4A50-8D4F-F16C7E36FB04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{50BB49BA-A38A-49AC-8F52-6AF0F170E86F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50BB49BA-A38A-49AC-8F52-6AF0F170E86F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50BB49BA-A38A-49AC-8F52-6AF0F170E86F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BCC4521-6D0F-4A50-8D4F-F16C7E36FB04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BCC4521-6D0F-4A50-8D4F-F16C7E36FB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BCC4521-6D0F-4A50-8D4F-F16C7E36FB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BCC4521-6D0F-4A50-8D4F-F16C7E36FB04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
