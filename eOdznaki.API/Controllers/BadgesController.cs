@@ -1,13 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using eOdznaki.Dtos;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Models.Badges;
 using eOdznaki.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-using eOdznaki.Helpers;
-using eOdznaki.Helpers.Params;
 
 namespace eOdznaki.Controllers
 {
@@ -15,9 +15,9 @@ namespace eOdznaki.Controllers
     [ApiController]
     public class BadgesController : ControllerBase
     {
-        private readonly IBadgeRepository repository;
         private readonly ILogger<BadgesController> logger;
         private readonly IMapper mapper;
+        private readonly IBadgeRepository repository;
 
         public BadgesController(IBadgeRepository repository,
             ILogger<BadgesController> logger, IMapper mapper)
@@ -33,9 +33,9 @@ namespace eOdznaki.Controllers
             try
             {
                 var badges = await repository.GetAllBadges(badgeParams);
-                
+
                 Response.AddPagination(badges.CurrentPage, badges.PageSize, badges.TotalCount, badges.TotalPages);
-                
+
                 return Ok(badges);
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace eOdznaki.Controllers
             try
             {
                 var badges = await repository.GetBadgesByType(badgeParams, type);
-                
+
                 Response.AddPagination(badges.CurrentPage, badges.PageSize, badges.TotalCount, badges.TotalPages);
 
                 return Ok(badges);
@@ -64,7 +64,7 @@ namespace eOdznaki.Controllers
         }
 
         [HttpPost("/newBadgeTrails")]
-        public async Task<IActionResult> PostAsync([FromBody]BadgeTrailsForCreationDto badge)
+        public async Task<IActionResult> PostAsync([FromBody] BadgeTrailsForCreationDto badge)
         {
             logger.LogInformation("Adding new trail badge was called");
             try
@@ -80,20 +80,19 @@ namespace eOdznaki.Controllers
                     await repository.AddBadge(newBadge);
 
                     if (await repository.SaveAll())
-                    {
-                        return Created($"api/badges", mapper.Map<BadgeTrails, BadgeTrailsForCreationDto>(newBadge));
-                    }
+                        return Created("api/badges", mapper.Map<BadgeTrails, BadgeTrailsForCreationDto>(newBadge));
                 }
             }
             catch (Exception ex)
             {
                 logger.LogError($"Failed to add new trails badge: {ex}");
             }
+
             return BadRequest("Failed to add new trails badge");
         }
 
         [HttpPost("/newBadgeDrops")]
-        public async Task<IActionResult> PostAsync([FromBody]BadgeDropsForCreationDto badge)
+        public async Task<IActionResult> PostAsync([FromBody] BadgeDropsForCreationDto badge)
         {
             logger.LogInformation("Adding new drops badge was called");
             try
@@ -109,20 +108,19 @@ namespace eOdznaki.Controllers
                     await repository.AddBadge(newBadge);
 
                     if (await repository.SaveAll())
-                    {
-                        return Created($"api/badges", mapper.Map<BadgeDrops, BadgeDropsForCreationDto>(newBadge));
-                    }
+                        return Created("api/badges", mapper.Map<BadgeDrops, BadgeDropsForCreationDto>(newBadge));
                 }
             }
             catch (Exception ex)
             {
                 logger.LogError($"Failed to add new drops badge: {ex}");
             }
+
             return BadRequest("Failed to add new drops badge");
         }
 
         [HttpPost("/newBadgeSummit")]
-        public async Task<IActionResult> PostAsync([FromBody]BadgeSummit badge)
+        public async Task<IActionResult> PostAsync([FromBody] BadgeSummit badge)
         {
             logger.LogInformation("Adding new summit badge was called");
             try
@@ -133,16 +131,14 @@ namespace eOdznaki.Controllers
 
                     await repository.AddBadge(badge);
 
-                    if (await repository.SaveAll())
-                    {
-                        return Created($"api/badges", badge);
-                    }
+                    if (await repository.SaveAll()) return Created("api/badges", badge);
                 }
             }
             catch (Exception ex)
             {
                 logger.LogError($"Failed to add new summit badge: {ex}");
             }
+
             return BadRequest("Failed to add new summit badge");
         }
 
@@ -150,10 +146,7 @@ namespace eOdznaki.Controllers
         public async Task<IActionResult> DeleteAsync(int id)
         {
             logger.LogInformation("Delete badge was called");
-            if (await repository.DeleteBadgeById(id))
-            {
-                Ok($"api/badges");
-            }
+            if (await repository.DeleteBadgeById(id)) Ok("api/badges");
             logger.LogError($"Failed to delete badge with an id: {id}");
             return BadRequest($"Failed to delete badge with an id: {id}");
         }

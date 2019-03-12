@@ -1,5 +1,4 @@
 using System;
-using eOdznaki.Models.Badges;
 
 namespace eOdznaki.Helpers.Params
 {

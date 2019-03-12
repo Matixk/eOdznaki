@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using eOdznaki.Helpers;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
@@ -17,7 +18,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Text;
 
 namespace eOdznaki
 {
@@ -27,9 +27,9 @@ namespace eOdznaki
         {
             Configuration = configuration;
         }
-        
+
         public IConfiguration Configuration { get; }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -45,13 +45,13 @@ namespace eOdznaki
                 opt.Password.RequireNonAlphanumeric = true;
                 opt.Password.RequireUppercase = true;
             });
-            
+
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();
             builder.AddRoleValidator<RoleValidator<Role>>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -70,14 +70,14 @@ namespace eOdznaki
                 options.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Admin", "Moderator"));
                 options.AddPolicy("RequireMemberRole", policy => policy.RequireRole("Admin", "Member"));
             });
-            
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(opt =>
                 {
                     opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
-            
+
             services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
             services.AddCors();
             services.AddTransient<Seeder>();
@@ -88,17 +88,14 @@ namespace eOdznaki
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("eOdznaki", new Info { Title = "eOdznakiPrototype", Version = "v1" });
+                c.SwaggerDoc("eOdznaki", new Info {Title = "eOdznakiPrototype", Version = "v1"});
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             seeder.SeedRoles();
             seeder.SeedAdmin();
@@ -112,10 +109,7 @@ namespace eOdznaki
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/eOdznaki/swagger.json", "eOdznaki");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/eOdznaki/swagger.json", "eOdznaki"); });
             app.UseMvc();
         }
     }

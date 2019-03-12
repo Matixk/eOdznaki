@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;

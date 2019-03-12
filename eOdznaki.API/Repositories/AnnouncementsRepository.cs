@@ -27,7 +27,8 @@ namespace eOdznaki.Repositories
                 .Where(e => e.Expiration >= DateTime.Now)
                 .AsQueryable();
 
-            return await PagedList<Announcement>.CreateAsync(currentAnnouncements, announcementsParams.PageNumber, announcementsParams.PageSize);
+            return await PagedList<Announcement>.CreateAsync(currentAnnouncements, announcementsParams.PageNumber,
+                announcementsParams.PageSize);
         }
 
         public async Task<Announcement> Insert(AnnouncementForCreateDto announcement)
@@ -36,10 +37,7 @@ namespace eOdznaki.Repositories
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == announcement.AuthorId);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(announcement.AuthorId));
-            }
+            if (user == null) throw new ArgumentNullException(nameof(announcement.AuthorId));
 
             var announcementToCreate =
                 new Announcement(
@@ -48,7 +46,7 @@ namespace eOdznaki.Repositories
                     announcement.AuthorId,
                     announcement.Expiration,
                     user
-                    );
+                );
 
             context.Announcements.Add(announcementToCreate);
             await context.SaveChangesAsync();
@@ -62,10 +60,7 @@ namespace eOdznaki.Repositories
                 .Announcements
                 .FirstOrDefaultAsync(e => e.Id == announcementId);
 
-            if (announcement == null)
-            {
-                throw new ArgumentNullException(nameof(announcementId));
-            }
+            if (announcement == null) throw new ArgumentNullException(nameof(announcementId));
 
             announcementEntity.Title = announcement.Title;
             announcementEntity.Content = announcement.Content;
@@ -83,10 +78,7 @@ namespace eOdznaki.Repositories
                 .Announcements
                 .FirstOrDefaultAsync(e => e.Id == announcementId);
 
-            if (announcement == null)
-            {
-                throw new ArgumentNullException(nameof(announcementId));
-            }
+            if (announcement == null) throw new ArgumentNullException(nameof(announcementId));
 
             context.Remove(announcement);
             await context.SaveChangesAsync();

@@ -4,8 +4,6 @@ namespace eOdznaki.Dtos.ForumThreads
 {
     public class ForumThreadForUpdateDto
     {
-        [Required]
-        [MaxLength(50)]
-        public string Title { get; set; }
+        [Required] [MaxLength(50)] public string Title { get; set; }
     }
 }

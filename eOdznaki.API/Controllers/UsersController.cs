@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using CloudinaryDotNet.Actions;
 using eOdznaki.Dtos;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
@@ -19,8 +18,8 @@ namespace eOdznaki.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IUsersRepository usersRepository;
         private readonly UserManager<User> userManager;
+        private readonly IUsersRepository usersRepository;
 
         public UsersController(
             UserManager<User> userManager,
@@ -31,19 +30,19 @@ namespace eOdznaki.Controllers
             this.usersRepository = usersRepository;
             this.mapper = mapper;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
             var users = await usersRepository.GetUsers(userParams);
 
             var usersToReturn = mapper.Map<IEnumerable<UserForPreviewDto>>(users);
-            
+
             Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             return Ok(usersToReturn);
         }
-        
+
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -53,7 +52,7 @@ namespace eOdznaki.Controllers
 
             return Ok(userToReturn);
         }
-        
+
         [Authorize(Policy = "RequireMemberRole")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
@@ -64,7 +63,9 @@ namespace eOdznaki.Controllers
 
             mapper.Map(userForUpdateDto, userFromRepo);
 
-            return await usersRepository.SaveAll() ? (IActionResult) NoContent() : BadRequest("No changes were detected.");
+            return await usersRepository.SaveAll()
+                ? (IActionResult) NoContent()
+                : BadRequest("No changes were detected.");
         }
 
         [Authorize(Policy = "RequireMemberRole")]
@@ -81,6 +82,5 @@ namespace eOdznaki.Controllers
 
             return BadRequest("Error deleting the user.");
         }
-
     }
 }

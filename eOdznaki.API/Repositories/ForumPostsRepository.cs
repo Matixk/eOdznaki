@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
@@ -28,8 +27,9 @@ namespace eOdznaki.Repositories
                 .ForumPosts
                 .Where(f => f.Content.ToLower().Contains(forumPostsParams.Regex))
                 .AsQueryable();
-            
-            return await PagedList<ForumPost>.CreateAsync(forumPosts, forumPostsParams.PageNumber, forumPostsParams.PageSize);
+
+            return await PagedList<ForumPost>.CreateAsync(forumPosts, forumPostsParams.PageNumber,
+                forumPostsParams.PageSize);
         }
 
         public async Task<ForumPost> Insert(ForumPostForCreateDto forumPost)
@@ -38,21 +38,16 @@ namespace eOdznaki.Repositories
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == forumPost.AuthorId);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(forumPost.AuthorId));
-            }
+            if (user == null) throw new ArgumentNullException(nameof(forumPost.AuthorId));
 
             var forumThread = await context
                 .ForumThreads
                 .FirstOrDefaultAsync(f => f.Id == forumPost.ForumThreadId);
 
-            if (forumThread == null)
-            {
-                throw new ArgumentNullException(nameof(forumPost.ForumThreadId));
-            }
+            if (forumThread == null) throw new ArgumentNullException(nameof(forumPost.ForumThreadId));
 
-            var forumPostToCreate = new ForumPost(forumPost.AuthorId, forumPost.ForumThreadId, forumPost.Content, user, forumThread);
+            var forumPostToCreate = new ForumPost(forumPost.AuthorId, forumPost.ForumThreadId, forumPost.Content, user,
+                forumThread);
 
             context.ForumPosts.Add(forumPostToCreate);
             await context.SaveChangesAsync();
@@ -66,25 +61,16 @@ namespace eOdznaki.Repositories
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
+            if (user == null) throw new ArgumentNullException(nameof(userId));
 
             var forumPostEntity = await context
                 .ForumPosts
                 .FirstOrDefaultAsync(f => f.Id == forumPostId);
 
-            if (forumPostEntity == null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
+            if (forumPostEntity == null) throw new ArgumentNullException(nameof(userId));
 
             // TODO permission for admin/moderator
-            if (user.Id != forumPostEntity.AuthorId)
-            {
-                throw new AuthenticationException();
-            }
+            if (user.Id != forumPostEntity.AuthorId) throw new AuthenticationException();
 
             forumPostEntity.Content = forumPost.Content;
 
@@ -100,25 +86,16 @@ namespace eOdznaki.Repositories
                 .Users
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
+            if (user == null) throw new ArgumentNullException(nameof(userId));
 
             var forumPostEntity = await context
                 .ForumPosts
                 .FirstOrDefaultAsync(f => f.Id == forumPostId);
 
-            if (forumPostEntity == null)
-            {
-                throw new ArgumentNullException(nameof(forumPostId));
-            }
+            if (forumPostEntity == null) throw new ArgumentNullException(nameof(forumPostId));
 
             // TODO permission for admin/moderator
-            if (user.Id != forumPostEntity.AuthorId)
-            {
-                throw new AuthenticationException();
-            }
+            if (user.Id != forumPostEntity.AuthorId) throw new AuthenticationException();
 
             context.Remove(forumPostEntity);
             await context.SaveChangesAsync();

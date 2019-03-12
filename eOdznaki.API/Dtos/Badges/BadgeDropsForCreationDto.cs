@@ -4,7 +4,6 @@ namespace eOdznaki.Dtos
 {
     public class BadgeDropsForCreationDto : BadgeForCreationDto
     {
-        [Required]
-        public int MaxLevel { get; private set; }
+        [Required] public int MaxLevel { get; private set; }
     }
 }

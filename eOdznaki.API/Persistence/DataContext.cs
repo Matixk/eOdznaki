@@ -58,7 +58,7 @@ namespace eOdznaki.Persistence
 
             builder.Entity<ForumThread>(post =>
             {
-                post.HasKey(p => new { p.AuthorId });
+                post.HasKey(p => new {p.AuthorId});
 
                 post.HasOne(p => p.Author)
                     .WithMany(u => u.UserForumThreads)

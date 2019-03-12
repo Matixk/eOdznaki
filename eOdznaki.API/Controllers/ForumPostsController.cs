@@ -6,9 +6,9 @@ using eOdznaki.Dtos.ForumPosts;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using eOdznaki.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eOdznaki.Controllers
 {
@@ -29,18 +29,21 @@ namespace eOdznaki.Controllers
 
         // GET: api/ForumPosts/text
         [HttpPost("{text}")]
-        public async Task<ActionResult<ForumPostPreviewDto>> FindForumPosts([FromQuery] ForumPostsParams forumPostsParams)
+        public async Task<ActionResult<ForumPostPreviewDto>> FindForumPosts(
+            [FromQuery] ForumPostsParams forumPostsParams)
         {
             var forumPosts = await context.FindForumPosts(forumPostsParams);
-            
-            Response.AddPagination(forumPosts.CurrentPage, forumPosts.PageSize, forumPosts.TotalCount, forumPosts.TotalPages);
+
+            Response.AddPagination(forumPosts.CurrentPage, forumPosts.PageSize, forumPosts.TotalCount,
+                forumPosts.TotalPages);
 
             return Ok(mapper.Map<ForumPostPreviewDto>(forumPosts));
         }
 
         // PUT: api/ForumPosts/5
         [HttpPut("{forumPostId}")]
-        public async Task<ActionResult<ForumPostPreviewDto>> PutForumPost(int forumPostId, ForumPostForUpdateDto forumPost)
+        public async Task<ActionResult<ForumPostPreviewDto>> PutForumPost(int forumPostId,
+            ForumPostForUpdateDto forumPost)
         {
             try
             {
@@ -53,10 +56,7 @@ namespace eOdznaki.Controllers
             {
                 var paramName = e.ParamName;
 
-                if (paramName != null)
-                {
-                    return NotFound(paramName);
-                }
+                if (paramName != null) return NotFound(paramName);
 
                 throw;
             }
@@ -80,10 +80,7 @@ namespace eOdznaki.Controllers
             {
                 var paramName = e.ParamName;
 
-                if (paramName != null)
-                {
-                    return NotFound(paramName);
-                }
+                if (paramName != null) return NotFound(paramName);
 
                 throw;
             }
@@ -104,10 +101,7 @@ namespace eOdznaki.Controllers
             {
                 var paramName = e.ParamName;
 
-                if (paramName != null)
-                {
-                    return NotFound(paramName);
-                }
+                if (paramName != null) return NotFound(paramName);
 
                 throw;
             }
@@ -117,6 +111,5 @@ namespace eOdznaki.Controllers
         {
             return await userManager.GetUserAsync(HttpContext.User);
         }
-
     }
 }

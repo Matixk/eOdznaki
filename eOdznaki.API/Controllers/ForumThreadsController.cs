@@ -7,9 +7,9 @@ using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using eOdznaki.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eOdznaki.Controllers
 {
@@ -30,11 +30,13 @@ namespace eOdznaki.Controllers
 
         // GET: api/ForumThreads
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ForumThreadPreviewDto>>> GetForumThreads([FromQuery] ForumThreadsParams forumThreadsParams)
+        public async Task<ActionResult<IEnumerable<ForumThreadPreviewDto>>> GetForumThreads(
+            [FromQuery] ForumThreadsParams forumThreadsParams)
         {
             var forumThreads = await context.GetAllForumThreads(forumThreadsParams);
-            
-            Response.AddPagination(forumThreads.CurrentPage, forumThreads.PageSize, forumThreads.TotalCount, forumThreads.TotalPages);
+
+            Response.AddPagination(forumThreads.CurrentPage, forumThreads.PageSize, forumThreads.TotalCount,
+                forumThreads.TotalPages);
 
             return Ok(mapper.Map<IEnumerable<ForumThreadPreviewDto>>(forumThreads));
         }
@@ -52,10 +54,7 @@ namespace eOdznaki.Controllers
             catch (ArgumentNullException e)
             {
                 var paramName = e.ParamName;
-                if (paramName != null)
-                {
-                    return NotFound(paramName);
-                }
+                if (paramName != null) return NotFound(paramName);
 
                 throw;
             }
@@ -63,18 +62,21 @@ namespace eOdznaki.Controllers
 
         // GET: api/ForumThreads/text
         [HttpPost("{text}")]
-        public async Task<ActionResult<ForumThreadPreviewDto>> FindForumThreads([FromQuery] ForumThreadsParams forumThreadsParams)
+        public async Task<ActionResult<ForumThreadPreviewDto>> FindForumThreads(
+            [FromQuery] ForumThreadsParams forumThreadsParams)
         {
             var forumThreads = await context.FindForumThreads(forumThreadsParams);
-            
-            Response.AddPagination(forumThreads.CurrentPage, forumThreads.PageSize, forumThreads.TotalCount, forumThreads.TotalPages);
+
+            Response.AddPagination(forumThreads.CurrentPage, forumThreads.PageSize, forumThreads.TotalCount,
+                forumThreads.TotalPages);
 
             return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreads));
         }
 
         // PUT: api/ForumThreads/5
         [HttpPut("{forumThreadId}")]
-        public async Task<ActionResult<ForumThreadPreviewDto>> PutForumThread(int forumThreadId, ForumThreadForUpdateDto forumThread)
+        public async Task<ActionResult<ForumThreadPreviewDto>> PutForumThread(int forumThreadId,
+            ForumThreadForUpdateDto forumThread)
         {
             try
             {
@@ -87,10 +89,7 @@ namespace eOdznaki.Controllers
             {
                 var paramName = e.ParamName;
 
-                if (paramName != null)
-                {
-                    return NotFound(paramName);
-                }
+                if (paramName != null) return NotFound(paramName);
 
                 throw;
             }
@@ -108,16 +107,13 @@ namespace eOdznaki.Controllers
             {
                 var forumThreadCreated = await context.Insert(forumThread);
 
-                return CreatedAtRoute("GetForumThread", new { id = forumThreadCreated.Id }, forumThreadCreated);
+                return CreatedAtRoute("GetForumThread", new {id = forumThreadCreated.Id}, forumThreadCreated);
             }
             catch (ArgumentNullException e)
             {
                 var paramName = e.ParamName;
 
-                if (paramName != null)
-                {
-                    return NotFound(paramName);
-                }
+                if (paramName != null) return NotFound(paramName);
 
                 throw;
             }
@@ -138,10 +134,7 @@ namespace eOdznaki.Controllers
             {
                 var paramName = e.ParamName;
 
-                if (paramName != null)
-                {
-                    return NotFound(paramName);
-                }
+                if (paramName != null) return NotFound(paramName);
 
                 throw;
             }
@@ -151,6 +144,5 @@ namespace eOdznaki.Controllers
         {
             return await userManager.GetUserAsync(HttpContext.User);
         }
-
     }
 }

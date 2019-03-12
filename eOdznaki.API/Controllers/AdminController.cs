@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Threading.Tasks;
-using CloudinaryDotNet;
 using eOdznaki.Dtos;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace eOdznaki.Controllers
 {
@@ -45,7 +43,7 @@ namespace eOdznaki.Controllers
 
             return Ok(usersWithRoles);
         }
-        
+
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("editRoles/{id}")]
         public async Task<IActionResult> EditRoles(string id, RoleEditDto roleEditDto)

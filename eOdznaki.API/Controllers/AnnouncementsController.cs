@@ -4,9 +4,9 @@ using eOdznaki.Dtos.Announcements;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using eOdznaki.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eOdznaki.Controllers
 {
@@ -25,11 +25,13 @@ namespace eOdznaki.Controllers
 
         // GET: api/Announcements
         [HttpGet]
-        public async Task<ActionResult<PagedList<AnnouncementPreviewDto>>> GetAnnouncements([FromQuery] AnnouncementsParams forumPostsParams)
+        public async Task<ActionResult<PagedList<AnnouncementPreviewDto>>> GetAnnouncements(
+            [FromQuery] AnnouncementsParams forumPostsParams)
         {
             var announcements = await context.GetCurrentAnnouncements(forumPostsParams);
 
-            Response.AddPagination(announcements.CurrentPage, announcements.PageSize, announcements.TotalCount, announcements.TotalPages);
+            Response.AddPagination(announcements.CurrentPage, announcements.PageSize, announcements.TotalCount,
+                announcements.TotalPages);
 
             return Ok(mapper.Map<AnnouncementPreviewDto>(announcements));
         }
@@ -63,6 +65,5 @@ namespace eOdznaki.Controllers
 
             return Ok(mapper.Map<AnnouncementPreviewDto>(announcementDeleted));
         }
-
     }
 }

@@ -23,12 +23,12 @@ namespace eOdznaki.Controllers
 
         // GET: api/Search/text
         [HttpPost("{text}")]
-        public async Task<ActionResult<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>> SearchForum(string text)
+        public async Task<ActionResult<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>>
+            SearchForum(string text)
         {
             var found = await context.SearchForum(text);
 
             return Ok(mapper.Map<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>(found));
         }
-
     }
 }

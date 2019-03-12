@@ -6,12 +6,13 @@ namespace eOdznaki.Models.Badges
     public class Badge
     {
         public int Id { get; private set; }
-        [Required]
-        public string Name { get; private set; }
+
+        [Required] public string Name { get; private set; }
+
         public DateTime Acquired { get; set; }
-        [Required]
-        public string BadgeStatus { get; set; }
-        [Required]
-        public string ImageUrl { get; set; }
+
+        [Required] public string BadgeStatus { get; set; }
+
+        [Required] public string ImageUrl { get; set; }
     }
 }

@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using eOdznaki.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using System.Linq;
 
 namespace eOdznaki.Helpers
 {
@@ -37,7 +34,7 @@ namespace eOdznaki.Helpers
         {
             if (userManager.Users.Any(u => u.NormalizedUserName == "ADMIN")) return;
 
-            var user = new User() {UserName = "admin"};
+            var user = new User {UserName = "admin"};
             userManager.CreateAsync(user, "Admin123!").Wait();
             userManager.AddToRolesAsync(user, new[] {"Admin"}).Wait();
         }

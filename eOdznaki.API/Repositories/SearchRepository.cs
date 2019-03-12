@@ -37,13 +37,9 @@ namespace eOdznaki.Repositories
                 var postThread = post.ForumThread;
 
                 if (threads.ContainsKey(postThread))
-                {
                     threads[postThread].ToList().Add(post);
-                }
                 else
-                {
-                    threads.Add(postThread, new List<ForumPost>() { post });
-                }
+                    threads.Add(postThread, new List<ForumPost> {post});
             });
 
             return threads;

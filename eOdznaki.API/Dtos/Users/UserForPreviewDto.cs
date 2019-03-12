@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using eOdznaki.Models;
-
 namespace eOdznaki.Dtos
 {
     public class UserForPreviewDto
