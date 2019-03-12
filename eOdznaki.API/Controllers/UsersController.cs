@@ -6,9 +6,7 @@ using eOdznaki.Dtos;
 using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
-using eOdznaki.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eOdznaki.Controllers
@@ -18,15 +16,10 @@ namespace eOdznaki.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly UserManager<User> userManager;
         private readonly IUsersRepository usersRepository;
 
-        public UsersController(
-            UserManager<User> userManager,
-            IUsersRepository usersRepository,
-            IMapper mapper)
+        public UsersController(IUsersRepository usersRepository, IMapper mapper)
         {
-            this.userManager = userManager;
             this.usersRepository = usersRepository;
             this.mapper = mapper;
         }
