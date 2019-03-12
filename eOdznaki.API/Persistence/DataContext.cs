@@ -9,7 +9,7 @@ namespace eOdznaki.Persistence
     public class DataContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>,
         UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
-        public DataContext(DbContextOptions options) : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
 
@@ -20,6 +20,7 @@ namespace eOdznaki.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
         }
     }

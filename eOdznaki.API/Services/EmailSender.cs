@@ -18,16 +18,16 @@ namespace eOdznaki.Services
         {
             using (var client = new SmtpClient())
             {
-                var SETTINGS_STRING = "EmailSettings:";
+                const string settingsString = "EmailSettings:";
                 var credentials = new NetworkCredential
                 {
-                    UserName = configuration[$"{SETTINGS_STRING}Email"],
-                    Password = configuration[$"{SETTINGS_STRING}Password"]
+                    UserName = configuration[$"{settingsString}Email"],
+                    Password = configuration[$"{settingsString}Password"]
                 };
 
                 client.Credentials = credentials;
-                client.Host = configuration[$"{SETTINGS_STRING}Domain"];
-                client.Port = int.Parse(configuration[$"{SETTINGS_STRING}Port"]);
+                client.Host = configuration[$"{settingsString}Domain"];
+                client.Port = int.Parse(configuration[$"{settingsString}Port"]);
                 client.EnableSsl = true;
 
                 using (var emailMessage = new MailMessage())
