@@ -4,6 +4,7 @@ using eOdznaki.Helpers;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
+using eOdznaki.Persistence.Repositories;
 using eOdznaki.Repositories;
 using eOdznaki.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -84,6 +85,11 @@ namespace eOdznaki
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IForumThreadsRepository, ForumThreadsRepository>();
+            services.AddScoped<IForumPostsRepository, ForumPostsRepository>();
+            services.AddScoped<IBadgeRepository, BadgeRepository>();
+            services.AddScoped<IAnnouncementsRepository, AnnouncementsRepository>();
+            services.AddScoped<ISearchRepository, SearchRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddAutoMapper();
 
             services.AddSwaggerGen(c =>
