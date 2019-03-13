@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace eOdznaki.Services
+namespace eOdznaki.Interfaces
 {
     public interface IEmailSender
     {
