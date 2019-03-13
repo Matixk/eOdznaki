@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using eOdznaki.Models;
 using eOdznaki.Models.Badges;
 using Microsoft.AspNetCore.Identity;
