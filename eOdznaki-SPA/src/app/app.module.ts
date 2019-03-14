@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { JwtModule } from '@auth0/angular-jwt';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 
 import { AppComponent } from './app.component';
@@ -20,17 +23,23 @@ export function tokenGetter() {
   ],
   imports: [
     HttpClientModule,
+    CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      progressBar: true,
+   }),
     JwtModule.forRoot({
       config: {
          tokenGetter: tokenGetter,
-         whitelistedDomains: ['localhost:5000', 'da-app-106.azurewebsites.net'],
-         blacklistedRoutes: ['localhost:5000/api/auth', 'da-app-106.azurewebsites.net/api/auth']
+         whitelistedDomains: ['localhost:5000'],
+         blacklistedRoutes: ['localhost:5000/api/auth']
       }
-   })
+   }),
   ],
   providers: [],
   bootstrap: [AppComponent]
