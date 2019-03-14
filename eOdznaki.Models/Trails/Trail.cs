@@ -16,6 +16,6 @@ namespace eOdznaki.Models.Trails
 
         public IEnumerable<Location> Checkpoints { get; private set; }
 
-        [Required] public int GOTPoints { get; private set; }
+        public int GOTPoints { get; private set; }
     }
 }
