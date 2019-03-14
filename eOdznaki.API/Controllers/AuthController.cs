@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using eOdznaki.Dtos;
+using eOdznaki.Dtos.Users;
 using eOdznaki.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +26,7 @@ namespace eOdznaki.Controllers
         private readonly IMapper mapper;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
-        
+
         public AuthController(
             IConfiguration config,
             IMapper mapper,
@@ -38,16 +38,16 @@ namespace eOdznaki.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-        
+
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
-        {            
+        {
             var userToCreate = mapper.Map<User>(userForRegisterDto);
 
             var result = await userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
 
             var userToReturn = mapper.Map<UserForViewDto>(userToCreate);
-            
+
             userManager.AddToRolesAsync(userToCreate, new[] {"Member"}).Wait();
 
             if (result.Succeeded)
@@ -56,7 +56,7 @@ namespace eOdznaki.Controllers
 
             return BadRequest(result.ToString());
         }
-        
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
@@ -79,7 +79,7 @@ namespace eOdznaki.Controllers
                 user = userToReturn
             });
         }
-        
+
         private async Task<string> GenerateJwtToken(User user)
         {
             var claims = new List<Claim>
