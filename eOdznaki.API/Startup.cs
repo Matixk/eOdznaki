@@ -26,7 +26,7 @@ namespace eOdznaki
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                     .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.IncludeIgnoredWarning)));
             services.AddCustomIdentity();
-            services.AddCustomAuthentication(Configuration.GetSection("AppSettings:Token").Value);
+            services.AddCustomAuthentication(Configuration);
             services.AddCustomAuthorization();
             services.AddCustomMvc();
             services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
@@ -52,6 +52,7 @@ namespace eOdznaki
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/eOdznaki/swagger.json", "eOdznaki"); });
             app.UseMvc();
+            app.UseHttpsRedirection();
         }
     }
 }
