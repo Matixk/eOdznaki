@@ -1,0 +1,33 @@
+<div class="container login-page" *ngIf="!loggedIn()">
+  <div class="row h-100">
+    <div class="col-12 p-0 align-self-center">
+      <app-login *ngIf="!registerMode" (register)="registerToggle($event)"></app-login>
+      <app-register *ngIf="registerMode" (cancelRegister)="registerToggle($event)"></app-register>
+    </div>
+  </div>
+</div>
+
+<div class="container dashboard" *ngIf="loggedIn()">
+  <div class="row h-100">
+    <div class="col-12 p-0 align-self-center">
+      <div class="card card-image"
+           style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+        <div class="text-white text-center py-5 px-4 my-5">
+          <div>
+            <h2 class="card-title h1-responsive pt-3 mb-5 font-bold"><strong>Dashboard Placeholder</strong></h2>
+            <p class="mx-5 mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat fugiat, laboriosam,
+              voluptatem,
+              optio vero odio nam sit officia accusamus minus error nisi architecto nulla ipsum dignissimos. Odit sed
+              qui,
+              dolorum!
+            </p>
+            <a mdbBtn color="white" outline="true" class="waves-light" mdbWavesEffect>
+              <mdb-icon fas icon="clone" class="left"></mdb-icon>
+              View project
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
