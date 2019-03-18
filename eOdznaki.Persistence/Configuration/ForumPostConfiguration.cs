@@ -8,15 +8,15 @@ namespace eOdznaki.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<ForumPost> builder)
         {
-            builder.HasKey(p => new {p.AuthorId, ThreadId = p.ForumThreadId});
-
             builder.HasOne(p => p.Author)
                 .WithMany(u => u.UserForumPosts)
+                .HasForeignKey(p => p.AuthorId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(p => p.ForumThread)
                 .WithMany(t => t.ForumPosts)
+                .HasForeignKey(p => p.ForumThreadId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
         }

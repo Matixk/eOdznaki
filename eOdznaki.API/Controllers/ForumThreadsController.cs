@@ -91,7 +91,7 @@ namespace eOdznaki.Controllers
             {
                 var forumThreadCreated = await context.Insert(forumThread);
 
-                return CreatedAtRoute("GetForumThread", new {id = forumThreadCreated.Id}, forumThreadCreated);
+                return CreatedAtAction("GetForumThread", new {forumThreadId = forumThreadCreated.Id}, forumThreadCreated);
             }
             catch (ArgumentNullException e)
             {
