@@ -1,0 +1,48 @@
+<mdb-card class="mt-4 mb-4">
+
+  <mdb-card-header class="info-color white-text text-center pt-4 pb-3">
+    <h5>
+      <strong>Sign in</strong>
+    </h5>
+  </mdb-card-header>
+
+  <mdb-card-body class="px-lg-5 pt-0">
+
+    <form #loginForm="ngForm" class="text-center" (ngSubmit)="login()" style="color: #757575;">
+
+      <div class="md-form">
+        <input type="text" name="username" id="materialLoginFormUsername" class="form-control" mdbInput
+               [(ngModel)]="model.username" required>
+        <label for="materialLoginFormUsername">Username</label>
+      </div>
+
+      <div class="md-form">
+        <input type="password" name="password" id="materialLoginFormPassword" class="form-control" mdbInput
+               [(ngModel)]="model.password" required>
+        <label for="materialLoginFormPassword">Password</label>
+      </div>
+
+      <div class="btn-group w-100 pt-0">
+        <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0"
+                mdbWavesEffect [disabled]="!loginForm.valid"
+                type="submit">Sign in
+        </button>
+      </div>
+
+      <p>Not a member?
+        <a href="#register" (click)="registerButton()">Register</a>
+      </p>
+
+      <p>or sign in with:</p>
+      <a type="button" class="btn-floating btn-fb btn-sm light-blue-text">
+        <mdb-icon fab icon="facebook"></mdb-icon>
+      </a>
+      <a type="button" class="btn-floating btn-go btn-sm light-blue-text">
+        <mdb-icon fab icon="google"></mdb-icon>
+      </a>
+
+    </form>
+
+  </mdb-card-body>
+
+</mdb-card>

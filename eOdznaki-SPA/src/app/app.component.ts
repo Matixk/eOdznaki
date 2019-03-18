@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import {Component} from '@angular/core';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {AuthService} from './_services/auth.service';
+import {User} from './models/user';
 
 @Component({
   selector: 'app-root',
@@ -7,18 +9,24 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'eOdznaki';
 
+  jwtHelper = new JwtHelperService();
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private authService: AuthService) {
+  }
 
   ngOnInit() {
-    this.test();
+    const token = localStorage.getItem('token');
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    if (token) {
+      this.authService.decodedToken = this.jwtHelper.decodeToken(token);
+    }
+    if (user) {
+      this.authService.currentUser = user;
+    }
   }
 
-  test() {
-    this.toastr.info('Test message');
-  }
 }
 
 
