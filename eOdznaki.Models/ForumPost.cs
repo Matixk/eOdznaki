@@ -27,7 +27,7 @@ namespace eOdznaki.Models
 
         [Required] [MaxLength(2000)] public string Content { get; set; }
 
-        public DateTime Created { get; }
+        public DateTime Created { get; private set; }
 
         [Required] public User Author { get; set; }
 
