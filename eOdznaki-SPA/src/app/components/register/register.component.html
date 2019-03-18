@@ -8,7 +8,9 @@
 
   <mdb-card-body class="px-lg-5 pt-0">
 
-    <form [formGroup]="registerForm" (ngSubmit)="register()" class="text-center" style="color: #757575;">
+    <form [formGroup]="registerForm"
+          (keydown.enter)="registerForm.invalid ? $event.preventDefault() : setFocus('submit')" (ngSubmit)="register()"
+          class="text-center" style="color: #757575;">
 
       <div class="md-form">
         <input type="text" formControlName="username" id="materialRegisterFormUsername" class="form-control" mdbInput
@@ -44,13 +46,12 @@
 
       <div class="btn-group w-100 pt-0">
         <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0"
-                mdbWavesEffect
-                type="submit" (click)="cancelRegisterButton()">Cancel
+                mdbWavesEffect (click)="cancelRegisterButton()">Cancel
         </button>
-
-        <button mdbBtn color="info" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0"
+        <button #submit mdbBtn color="info" outline="true" rounded="true" block="true"
+                class="my-4 waves-effect z-depth-0"
                 mdbWavesEffect
-                type="submit" [disabled]="!registerForm.valid">Sign up
+                type="submit" [disabled]="registerForm.invalid">Sign up
         </button>
       </div>
 

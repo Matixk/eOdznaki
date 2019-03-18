@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Inject, OnInit, Output, PLATFORM_ID, ViewChild} from '@angular/core';
 import {AuthService} from '../../_services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {User} from '../../models/user';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -12,11 +13,12 @@ import {User} from '../../models/user';
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
+  @ViewChild('submit') myInput: ElementRef;
   registerForm: FormGroup;
   user: User;
 
   constructor(private authService: AuthService, private toastr: ToastrService,
-              private formBuilder: FormBuilder, private router: Router) {
+              private formBuilder: FormBuilder, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
   }
 
   ngOnInit() {
@@ -62,6 +64,12 @@ export class RegisterComponent implements OnInit {
 
   cancelRegisterButton() {
     this.cancelRegister.emit(false);
+  }
+
+  setFocus() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.myInput.nativeElement.focus();
+    }
   }
 
   get username() {
