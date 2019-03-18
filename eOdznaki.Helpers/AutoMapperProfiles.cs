@@ -1,5 +1,6 @@
 using AutoMapper;
 using eOdznaki.Dtos.Announcements;
+using eOdznaki.Dtos.ForumPosts;
 using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Dtos.Users;
 using eOdznaki.Models;
@@ -16,10 +17,10 @@ namespace eOdznaki.Helpers
             CreateMap<User, UserForPreviewDto>();
             CreateMap<ForumThread, ForumThreadPreviewDto>()
                 .ForMember(e => e.AuthorName,
-                    dto => dto.MapFrom(e => e.Author.Id))
+                    dto => dto.MapFrom(e => e.Author.UserName))
                 .ReverseMap();
 
-            CreateMap<ForumPost, ForumThreadPreviewDto>()
+            CreateMap<ForumPost, ForumPostPreviewDto>()
                 .ForMember(e => e.AuthorName,
                     dto => dto.MapFrom(e => e.Author.UserName))
                 .ReverseMap();

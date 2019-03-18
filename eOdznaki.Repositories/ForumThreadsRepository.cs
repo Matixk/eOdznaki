@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
@@ -31,16 +32,16 @@ namespace eOdznaki.Repositories
                 forumThreadsParams.PageSize);
         }
 
-        public async Task<ForumThread> GetForumThread(int forumThreadId)
+        public async Task<IEnumerable<ForumPost>> GetForumThread(int forumThreadId)
         {
             var forumThread = await context
                 .ForumThreads
-                .Include("Posts")
+                .Include("ForumPosts")
                 .FirstOrDefaultAsync(t => t.Id == forumThreadId);
 
             if (forumThread == null) throw new ArgumentNullException(nameof(forumThreadId));
 
-            return forumThread;
+            return forumThread.ForumPosts;
         }
 
         public async Task<ForumThread> Insert(ForumThreadForCreateDto forumThread)
