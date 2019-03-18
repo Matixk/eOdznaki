@@ -1,0 +1,17 @@
+<div class="threads">
+  <ul>
+    <li *ngFor="let thread of threads">
+      AuthorId: {{ thread.authorId }}<br>
+      AuthorName: {{ thread.authorName }}<br>
+      Created: {{ thread.created }}<br>
+      Id: {{ thread.id }}<br>
+      Title: {{ thread.title }}<br>
+    </li>
+  </ul>
+</div>
+<nav>
+  currentPage: {{ pagination.currentPage }}<br>
+  itemsPerPage: {{ pagination.itemsPerPage }}<br>
+  totalItems: {{ pagination.totalItems }}<br>
+  totalPages: {{ pagination.totalPages }}<br>
+</nav>
