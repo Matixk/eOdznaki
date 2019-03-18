@@ -10,12 +10,11 @@ namespace eOdznaki.Models
         {
         }
 
-        public ForumThread(int authorId, string title, User author)
+        public ForumThread(int authorId, string title)
         {
             AuthorId = authorId;
             Title = title;
             Created = DateTime.Now;
-            Author = author;
             ForumPosts = new List<ForumPost>();
         }
 
@@ -25,7 +24,7 @@ namespace eOdznaki.Models
 
         [Required] [MaxLength(50)] public string Title { get; set; }
 
-        public DateTime Created { get; }
+        public DateTime Created { get; private set; }
 
         [Required] public User Author { get; set; }
 
