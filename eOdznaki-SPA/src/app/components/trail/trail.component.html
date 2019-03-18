@@ -1,0 +1,38 @@
+<agm-map [latitude]="lat" [longitude]="lng" (mapClick)='addMarker($event.coords.lat, $event.coords.lng)'>
+  <agm-direction [origin]="origin" [destination]="destination" [waypoints]="waypoints"
+                 [renderOptions]="renderOptions"
+                 (onChange)="change($event)">
+  </agm-direction>
+  <agm-marker
+    *ngFor='let marker of markers'
+    [latitude]='marker.lat'
+    [longitude]='marker.lng'
+    [opacity]='marker.alpha'
+    [markerDraggable]='true'
+    (markerClick)='selectMarker($event)'
+    [shAttachMenu]="menu"
+    [shMenuData]="marker"
+  >
+  </agm-marker>
+</agm-map>
+<p *ngIf='selectedMarker'>Lat: {{ selectedMarker.lat }} Lng: {{ selectedMarker.lng }}</p>
+
+<sh-context-menu #menu>
+  <ng-template shContextMenuItem let-marker (click)="addOrigin($event)">
+    <div>
+      Dodaj jako punkt startowy
+    </div>
+  </ng-template>
+  <ng-template shContextMenuItem let-data (click)="addDestination($event)">
+  <div>
+    Dodaj jako punkt końcowy
+  </div>
+  </ng-template>
+  <ng-template shContextMenuItem let-data (click)="addWaypoint($event)">
+  <div>
+    Dodaj punkt pośredni
+  </div>
+  </ng-template>
+</sh-context-menu>
+
+
