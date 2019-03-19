@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
-using eOdznaki.Dtos.ForumPosts;
-using eOdznaki.Dtos.ForumThreads;
-using eOdznaki.Helpers;
+﻿using System.Threading.Tasks;
+using eOdznaki.Configuration;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -15,22 +11,21 @@ namespace eOdznaki.Controllers
     public class SearchController : ControllerBase
     {
         private readonly ISearchRepository context;
-        private readonly IMapper mapper;
 
-        public SearchController(ISearchRepository context, IMapper mapper)
+        public SearchController(ISearchRepository context)
         {
             this.context = context;
-            this.mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SearchForum(SearchParams searchParams)
+        [HttpGet]
+        public async Task<IActionResult> SearchForum([FromQuery] SearchParams searchParams)
         {
-            var foundItems = await context.SearchForum(searchParams.Regex);
+            var foundItems = await context.SearchForum(searchParams);
 
-            var foundItemsToReturn = mapper.Map<Dictionary<ForumThreadPreviewDto, IEnumerable<ForumPostPreviewDto>>>(foundItems);
+            Response.AddPagination(foundItems.CurrentPage, foundItems.PageSize, foundItems.TotalCount,
+                foundItems.TotalPages);
 
-            return Ok(foundItemsToReturn);
+            return Ok(foundItems);
         }
     }
 }
