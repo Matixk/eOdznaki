@@ -20,6 +20,10 @@ import {LoginComponent} from './components/login/login.component';
 import {ErrorInterceptorProvider} from './_services/error.interceptor';
 import {ForumComponent} from './components/forum/forum.component';
 import {ThreadsResolver} from './resolvers/forumResolver';
+import {ProfileEditComponent} from './components/profile-edit/profile-edit.component';
+import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
+import {PreventUnsavedChanged} from './_guards/prevent-unsaved-changes.guard';
+import {AuthGuard} from './_guards/auth.guard';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -33,7 +37,8 @@ export function tokenGetter() {
     HomeComponent,
     RegisterComponent,
     LoginComponent,
-    ForumComponent
+    ForumComponent,
+    ProfileEditComponent
   ],
   imports: [
     HttpClientModule,
@@ -59,7 +64,10 @@ export function tokenGetter() {
   ],
   providers: [
     ErrorInterceptorProvider,
-    ThreadsResolver
+    ProfileEditResolver,
+    ThreadsResolver,
+    AuthGuard,
+    PreventUnsavedChanged
   ],
   bootstrap: [AppComponent]
 })
