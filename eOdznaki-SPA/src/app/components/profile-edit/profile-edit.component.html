@@ -42,7 +42,13 @@
                 {{user.street && user.street?.trim().length > 0 ? user.street : ''}}
               </p>
               <small class="text-white-50">Contact:</small>
-              <p>{{user.email}}<br>
+              <p *ngIf="!(user.email && user.email.trim() !== ''
+                     || user.phoneNumber && user.phoneNumber.trim() !== '')">
+                Not specified
+              </p>
+              <p *ngIf="(user.email && user.email.trim() !== ''
+                     || user.phoneNumber && user.phoneNumber.trim() !== '')">
+                {{user.email}}<br>
                 {{user.phoneNumber && user.phoneNumber.trim() !== '' ? user.phoneNumber : ''}}
               </p>
               <small class="text-white-50">Member since:</small>
