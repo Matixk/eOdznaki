@@ -4,7 +4,7 @@
       <div class="row mt-4 pt-4">
         <div class="col-4">
           <div class="card card-image text-white"
-               style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+               style="background-image: url(../../../assets/background-gradient.jpg);">
 
             <div class="avatar mx-auto mt-2">
               <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle mt-4"
@@ -12,20 +12,48 @@
             </div>
 
             <mdb-card-body>
-              <mdb-card-title>
-                <h4>Anna Doe</h4>
+              <mdb-card-title
+                *ngIf="(user.firstName && user.firstName.trim() !== '') || (user.lastName && user.lastName.trim() !== '')">
+                <h4 class="mb-0">{{((user.firstName && user.firstName.trim().length > 0) ? user.firstName : '') +
+                ' ' + ((user.lastName && user.lastName.trim().length > 0) ? user.lastName : '')}}</h4>
+                <small class="text-white-50">{{'@' + user.userName}}</small>
+              </mdb-card-title>
+              <mdb-card-title
+                *ngIf="!((user.firstName && user.firstName.trim().length > 0) || (user.lastName && user.lastName.trim().length > 0))">
+                <h4 class="mb-0">{{user.userName}}</h4>
               </mdb-card-title>
               <hr>
-              <p>
-                <i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos,
-                adipisci</p>
+
+              <small class="text-white-50">Address:</small>
+              <p *ngIf="!(user.country && user.country.trim() !== ''
+                     || user.city && user.city.trim() !== ''
+                     || user.street && user.street.trim() !== '')">
+                Not specified
+              </p>
+              <p *ngIf="!(user.country && user.country.trim() === ''
+                      && user.city && user.city.trim() === ''
+                      && user.street && user.street.trim() === '')">
+                {{user.country}}
+                {{user.country && user.country.trim() !== ''
+              && user.city && user.city.trim() !== '' ? '-' : ''}}
+                {{user.city}}
+                <br *ngIf="user.country && user.country.trim() !== ''
+                        || user.city && user.city.trim() !== ''">
+                {{user.street && user.street?.trim().length > 0 ? user.street : ''}}
+              </p>
+              <small class="text-white-50">Contact:</small>
+              <p>{{user.email}}<br>
+                {{user.phoneNumber && user.phoneNumber.trim() !== '' ? user.phoneNumber : ''}}
+              </p>
+              <small class="text-white-50">Member since:</small>
+              <p>{{user.created | date: 'mediumDate'}}</p>
             </mdb-card-body>
           </div>
 
         </div>
         <div class="col-8">
           <div class="card card-image"
-               style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+               style="background-image: url(../../../assets/background-gradient.jpg);">
             <div class="text-white text-center mt-4">
               <div>
                 <h4 class="card-title h1-responsive pt-3 mb-4 pb-2 font-bold"><strong>Edit Profile</strong></h4>
