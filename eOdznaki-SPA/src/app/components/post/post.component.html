@@ -1,0 +1,24 @@
+<div class="thread">
+  <h1>{{ thread.title }}</h1>
+  <p>Author name: {{ thread.authorName }}</p>
+  <p>Created: {{ thread.created }}</p>
+</div>
+
+<div class="posts">
+  <ul>
+    <li *ngFor="let post of posts">
+      AuthorId: {{ post.authorId }}<br>
+      AuthorName: {{ post.authorName }}<br>
+      Created: {{ post.created }}<br>
+      Id: {{ post.id }}<br>
+      Title: {{ post.content }}<br>
+    </li>
+  </ul>
+</div>
+
+<nav>
+  currentPage: {{ pagination.currentPage }}<br>
+  itemsPerPage: {{ pagination.itemsPerPage }}<br>
+  totalItems: {{ pagination.totalItems }}<br>
+  totalPages: {{ pagination.totalPages }}<br>
+</nav>
