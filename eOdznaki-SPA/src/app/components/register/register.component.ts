@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
         this.toastr.success('Profile registered successfully');
       }, error => {
         console.log(error.error);
-        this.toastr.error(error === 'Failed : DuplicateUserName' ? 'This Username is already taken' : error);
+        this.toastr.error(error === 'Failed : DuplicateUserName' ? 'This Username is already taken.' : error);
       }, () => {
         this.authService.login(this.user).subscribe(() => {
           this.router.navigate(['/']);
