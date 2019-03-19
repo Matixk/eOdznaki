@@ -77,8 +77,10 @@ export class ForumComponent implements OnInit {
   }
 
   searchForum() {
-    if (this.searchForm.valid) {
-      this.router.navigate(['/search'], this.searchForm.value);
+    const searchForm = this.searchForm;
+
+    if (searchForm.valid) {
+      this.router.navigate(['/search', searchForm.value]);
     }
   }
 
