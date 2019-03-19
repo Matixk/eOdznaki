@@ -22,6 +22,8 @@ import {ForumComponent} from './components/forum/forum.component';
 import {ThreadsResolver} from './resolvers/forumResolver';
 import {PostComponent} from './components/post/post.component';
 import {ThreadPostResolver} from './resolvers/threadPostResolver';
+import {SearchComponent} from './components/search/search.component';
+import {SearchResolver} from './resolvers/searchResolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -37,6 +39,7 @@ export function tokenGetter() {
     LoginComponent,
     ForumComponent,
     PostComponent,
+    SearchComponent,
   ],
   imports: [
     HttpClientModule,
@@ -64,6 +67,7 @@ export function tokenGetter() {
     ErrorInterceptorProvider,
     ThreadsResolver,
     ThreadPostResolver,
+    SearchResolver,
   ],
   bootstrap: [AppComponent]
 })
