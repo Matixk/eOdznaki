@@ -8,9 +8,9 @@ import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
 import {AuthGuard} from './_guards/auth.guard';
 
 export const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
-  { path: 'forum', component: ForumComponent, resolve: { threads: ThreadsResolver }},
+  {path: 'forum', component: ForumComponent, resolve: {threads: ThreadsResolver}},
   {
     path: '',
     runGuardsAndResolvers: 'always',
@@ -22,5 +22,5 @@ export const appRoutes: Routes = [
       },
     ]
   },
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+  {path: '**', redirectTo: '', pathMatch: 'full'},
 ];
