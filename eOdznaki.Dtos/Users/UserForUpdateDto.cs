@@ -12,12 +12,12 @@ namespace eOdznaki.Dtos.Users
 
         [RegularExpression(
             @"^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$",
-            ErrorMessage = "Invalid Phone Number.")]
+            ErrorMessage = "Invalid Phone number.")]
         public string PhoneNumber { get; set; }
 
         [Required]
         [RegularExpression(@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$", ErrorMessage =
-            "Invalid Email.")]
+            "Invalid E-mail.")]
         public string Email { get; set; }
     }
 }
