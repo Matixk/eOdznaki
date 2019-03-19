@@ -1,0 +1,122 @@
+<div class="container profile">
+  <div class="row h-100">
+    <div class="col-12 p-0 align-self-center">
+      <div class="row mt-4 pt-4">
+        <div class="col-4">
+          <div class="card card-image text-white"
+               style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+
+            <div class="avatar mx-auto mt-2">
+              <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle mt-4"
+                   width="175">
+            </div>
+
+            <mdb-card-body>
+              <mdb-card-title>
+                <h4>Anna Doe</h4>
+              </mdb-card-title>
+              <hr>
+              <p>
+                <i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos,
+                adipisci</p>
+            </mdb-card-body>
+          </div>
+
+        </div>
+        <div class="col-8">
+          <div class="card card-image"
+               style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
+            <div class="text-white text-center mt-4">
+              <div>
+                <h4 class="card-title h1-responsive pt-3 mb-4 pb-2 font-bold"><strong>Edit Profile</strong></h4>
+
+                <form #editForm="ngForm" id="editForm" class="text-center px-5 py-2 mb-0"
+                      (change)="changesNotification()" (ngSubmit)="updateUser()">
+
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="md-form">
+                        <input name="firstName" type="text" id="firstName" class="form-control" mdbInput
+                               [(ngModel)]="user.firstName">
+                        <label for="firstName">First name</label>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="md-form">
+                        <input name="lastName" type="text" id="lastName" class="form-control" mdbInput
+                               [(ngModel)]="user.lastName">
+                        <label for="lastName">Last name</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="md-form">
+                        <input name="country" type="text" id="country" class="form-control" mdbInput
+                               [(ngModel)]="user.country">
+                        <label for="country">Country</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="md-form">
+                        <input name="city" type="text" id="city" class="form-control" mdbInput [(ngModel)]="user.city">
+                        <label for="city">City</label>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="md-form">
+                        <input name="street" type="text" id="street" class="form-control" mdbInput
+                               [(ngModel)]="user.street">
+                        <label for="street">Street</label>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="md-form">
+                        <input name="email" type="text" id="email" class="form-control" mdbInput mdbValidate
+                               [(ngModel)]="user.email" #email="ngModel" required
+                               [pattern]="'^\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}$'">
+                        <label for="email">E-mail</label>
+                        <mdb-error *ngIf="email.invalid && (email.dirty || email.touched)">Invalid Email
+                        </mdb-error>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="md-form">
+                        <input name="phoneNumber" type="text" id="phoneNumber" class="form-control"
+                               mdbInput mdbValidate [(ngModel)]="user.phoneNumber" #phoneNumber="ngModel"
+                               [pattern]="'^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$'">
+                        <label for="phoneNumber">Phone number</label>
+                        <mdb-error *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)">Invalid
+                          Phone Number
+                        </mdb-error>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <button [disabled]="!editForm.dirty || editForm.invalid" form="editForm" mdbBtn color="info"
+                          outline="true" rounded="true"
+                          block="true"
+                          class="my-4 waves-effect z-depth-0" mdbWavesEffect
+                          type="submit">Save changes
+                  </button>
+
+                </form>
+                <div class="card-footer p-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
