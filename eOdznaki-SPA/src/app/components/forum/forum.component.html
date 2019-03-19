@@ -1,11 +1,17 @@
 <div style="display: flow-root">
   <button type="button" mdbBtn
-          color="default" rounded="true" style="float: right"
+          color="default" rounded="true" style="float: left"
           data-toggle="modal" data-target="#basicExample"
           (click)="frame.show()" mdbWavesEffect
           *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
     <mdb-icon fas icon="plus"></mdb-icon> Nowy temat
   </button>
+
+  <form class="form-inline md-form form-sm" style="float: right" (keyup.enter)="searchForum()">
+    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Szukaj" aria-label="Szukaj"
+           mdbInput [formControl]="searchForm">
+    <i class="fas fa-search" aria-hidden="true" (click)="searchForum()"></i>
+  </form>
 </div>
 
 <div class="threads">
