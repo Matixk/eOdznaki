@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using eOdznaki.Models;
 
@@ -6,6 +7,7 @@ namespace eOdznaki.Dtos.Users
     public class UserForViewDto
     {
         public int Id { get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
@@ -15,6 +17,7 @@ namespace eOdznaki.Dtos.Users
         public string AvatarUrl { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public DateTime Created { get; set; }
 
 //      public IEnumerable<Badge> Badges { get; set; }
         public IEnumerable<ForumThread> UserForumThreads { get; set; }
