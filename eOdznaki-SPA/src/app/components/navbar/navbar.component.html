@@ -22,7 +22,7 @@
 
     <ul class="navbar-nav ml-auto nav-flex-icons" *ngIf="loggedIn()">
       <li class="nav-item avatar pt-1">
-        <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2810%29.jpg" class="rounded-circle z-depth-0"
+        <img src="{{avatarUrl || '../../../assets/user.png'}}" class="rounded-circle z-depth-0"
              alt="avatar image" height="35">
       </li>
 
