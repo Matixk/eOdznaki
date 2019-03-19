@@ -1,6 +1,19 @@
+<div style="display: flow-root">
+  <button type="button" mdbBtn
+          color="default" rounded="true" style="float: right"
+          data-toggle="modal" data-target="#basicExample"
+          (click)="frame.show()" mdbWavesEffect
+          *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
+    <mdb-icon fas icon="plus"></mdb-icon> Nowy temat
+  </button>
+</div>
+
 <div class="threads">
   <ul>
-    <li *ngFor="let thread of threads">
+    <li
+      *ngFor="let thread of threads"
+      [routerLink]="['/forum', thread.id]"
+    >
       AuthorId: {{ thread.authorId }}<br>
       AuthorName: {{ thread.authorName }}<br>
       Created: {{ thread.created }}<br>
@@ -9,9 +22,49 @@
     </li>
   </ul>
 </div>
+
 <nav>
   currentPage: {{ pagination.currentPage }}<br>
   itemsPerPage: {{ pagination.itemsPerPage }}<br>
   totalItems: {{ pagination.totalItems }}<br>
   totalPages: {{ pagination.totalPages }}<br>
 </nav>
+
+<div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Nowy temat</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="threadForm" (ngSubmit)="addThread()">
+        <div class="modal-body mx-3">
+          <div class="md-form mb-5">
+            <input type="text" id="threadForm-title" class="form-control validate"
+                   mdbInput
+                   formControlName="title">
+            <label data-error="wrong" data-success="right" for="threadForm-title">Temat</label>
+          </div>
+
+          <div class="md-form">
+          <textarea class="md-textarea form-control validate"
+                    rows="3" id="threadForm-content" type="text" length="2000"
+                    mdbCharCounter mdbInput
+                    formControlName="content">
+          </textarea>
+            <label data-error="wrong" data-success="right" for="threadForm-content">Treść</label>
+          </div>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-center">
+          <button mdbBtn color="default" class="waves-light" mdbWavesEffect [disabled]="!threadForm.valid">Dodaj</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
