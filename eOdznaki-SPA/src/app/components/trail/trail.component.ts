@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {google} from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-trail',
@@ -10,7 +11,7 @@ export class TrailComponent implements OnInit {
   lng = 7.809007;
   origin;
   destination;
-  waypoints = [];
+  waypoints: any = [];
   selectedMarker;
   markers = [];
 
@@ -25,12 +26,33 @@ export class TrailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.getDirection();
   }
 
   addMarker(lat: number, lng: number) {
-    this.markers.push({ lat, lng, alpha: 1 });
-  }
+    const latitude = lat;
+    const longitude = lng;
+    if (this.origin == null) {
+      this.origin = {
+        lat: latitude,
+        lng: longitude
+      };
+    } else if (this.destination == null) {
+      this.destination = {
+        lat: latitude,
+        lng: longitude
+      };
+    } else {
+      let oldLat = this.destination.lat;
+      let oldLng = this.destination.lng;
+      let newLocation = new google.maps.LatLng(oldLat, oldLng);
+        this.waypoints.push({ location: newLocation, stopover: false });
+        this.destination = {
+          lat: latitude,
+          lng: longitude
+        };
+      this.markers.push({ lat: latitude, lng: longitude, alpha: 1 });
+    }
+    }
 
   max(coordType: 'lat' | 'lng'): number {
     return Math.max(...this.markers.map(marker => marker[coordType]));
@@ -46,6 +68,21 @@ export class TrailComponent implements OnInit {
       lng: event.longitude
     };
   }
+
+  // openContextMenu(event) {
+  //   let menu = new BootstrapMenu('#mapMenu', {
+  //     actions: [{
+  //       name: 'Dodaj jako punkt startowy',
+  //       onClick: this.addOrigin(event)
+  //     }, {
+  //       name: 'Dodaj jako punkt docelowy',
+  //       onClick: this.addDestination(event)
+  //     }, {
+  //       name: 'Dodaj jako punkt pośredni',
+  //       onClick: this.addWaypoint(event)
+  //     }]
+  //   });
+  // }
 
   addOrigin(event) {
     this.origin = {
@@ -66,11 +103,6 @@ export class TrailComponent implements OnInit {
   }
 
   getDirection() {
-    this.origin = { lat: 24.799448, lng: 120.979021 };
-    this.destination = { lat: 24.799524, lng: 120.975017 };
-
-    // this.origin = 'Taipei Main Station'
-    // this.destination = 'Taiwan Presidential Office'
   }
 
 }
