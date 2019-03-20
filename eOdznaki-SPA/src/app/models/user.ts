@@ -1,14 +1,14 @@
 export class User {
   id: number;
   userName: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  country: string;
   email: string;
-  phoneNumber: string;
-  city: string;
-  street: string;
-  avatarUrl: string;
+  created: Date;
+  firstName?: string;
+  lastName?: string;
+  country?: string;
+  city?: string;
+  street?: string;
+  phoneNumber?: string;
+  avatarUrl?: string;
   roles?: string[];
 }
