@@ -66,10 +66,10 @@ export class ForumComponent implements OnInit {
 
       this.threadService.addThread(threadForCreate).subscribe(next => {
         threadId = next.id;
-        this.toastr.info('Created');
+        this.toastr.success('Created');
       }, error => {
         console.log(error.stat);
-        this.toastr.error(error === 'NotFound' ? 'Invalid user' : 'Failed to create');
+        this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
       }, () => {
         this.router.navigate(['/forum', threadId]);
       });

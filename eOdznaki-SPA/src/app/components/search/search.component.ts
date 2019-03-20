@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit {
         .subscribe((res: PaginatedResult<Thread[]>) => {
           this.threads = res.result;
           this.pagination = res.pagination;
-          this.toastr.success(`Founded: ${this.pagination.totalItems} items`);
+          this.toastr.info(`Found in ${this.pagination.totalItems} threads.`);
           }, error => {
           this.toastr.error(error);
         });

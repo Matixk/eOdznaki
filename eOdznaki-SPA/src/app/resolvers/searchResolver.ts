@@ -22,7 +22,7 @@ export class SearchResolver implements Resolve<Thread[]> {
   resolve(route: ActivatedRouteSnapshot): Observable<Thread[]> {
     return this.searchService.search(route.params['regex'], this.pageNumber, this.pageSize).pipe(
       catchError(error => {
-        this.toastr.error('Could not retrieve Threads data');
+        this.toastr.error('Could not retrieve Threads data.');
         this.router.navigate(['/forum']);
         return of(null);
       })
