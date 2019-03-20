@@ -1,24 +1,64 @@
-<div class="thread" *ngIf="thread">
-  <h1>{{ thread.title }}</h1>
-  <p>Author name: {{ thread.authorName }}</p>
-  <p>Created: {{ thread.created }}</p>
-</div>
+<div class="container">
 
-<div class="posts">
-  <ul>
-    <li *ngFor="let post of posts">
-      AuthorId: {{ post.authorId }}<br>
-      AuthorName: {{ post.authorName }}<br>
-      Created: {{ post.created }}<br>
-      Id: {{ post.id }}<br>
-      Title: {{ post.content }}<br>
-    </li>
-  </ul>
-</div>
+  <div class="row">
+    <div class="col">
+      <div class="thread" *ngIf="thread">
+        <div class="row card promoting-card mt-3">
+          <h1 class="card-title font-weight-bold mb-2 d-flex justify-content-center">{{ thread.title }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<nav>
-  currentPage: {{ pagination.currentPage }}<br>
-  itemsPerPage: {{ pagination.itemsPerPage }}<br>
-  totalItems: {{ pagination.totalItems }}<br>
-  totalPages: {{ pagination.totalPages }}<br>
-</nav>
+  <div class="row posts">
+    <div class="col">
+      <div class="row card promoting-card mb-3"
+           *ngFor="let post of posts"
+           [id]="'post-' + post.id">
+
+        <!-- Card content -->
+        <div class="card-body d-flex flex-row">
+
+          <!-- Avatar -->
+          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+
+          <!-- Content -->
+          <div>
+
+            <!-- Title -->
+            <h4 class="card-title font-weight-bold mb-2">{{ post.content }}</h4>
+            <!-- Subtitle -->
+            <p class="card-text">{{ post.authorName }}</p>
+            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created | timeAgo }}</p>
+
+          </div>
+
+        </div>
+
+        <!-- Card content -->
+        <div class="card-body" *ngIf="authService.roleMatch(['Admin', 'Moderator']) || post.authorId === authService.currentUser.id">
+          <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Delete thread"></i>
+          <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edit thread"></i>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col d-flex justify-content-center pt-3 pagination">
+      <app-pagination
+        [totalItems]="pagination.totalItems"
+        [currentPage]="pagination.currentPage"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [totalPages]="pagination.totalPages"
+        [loading]="loading"
+        (goPrev)="prevPage()"
+        (goNext)="nextPage()"
+        (goPage)="goToPage($event)">
+      </app-pagination>
+    </div>
+
+  </div>
+</div>

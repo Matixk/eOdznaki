@@ -7,7 +7,7 @@ import {PaginatedResult} from '../../models/pagination/paginatedResult';
 import {PostService} from '../../_services/post.service';
 import {ThreadService} from '../../_services/thread.service';
 import {Thread} from '../../models/forum/thread';
-import {Observable} from 'rxjs';
+import {AuthService} from '../../_services/auth.service';
 
 @Component({
   selector: 'app-post',
@@ -16,6 +16,7 @@ import {Observable} from 'rxjs';
 })
 export class PostComponent implements OnInit {
 
+  loading = false;
   thread: Thread;
   posts: Post[];
   pagination: Pagination;
@@ -23,7 +24,8 @@ export class PostComponent implements OnInit {
   constructor(private postService: PostService,
               private threadService: ThreadService,
               private route: ActivatedRoute,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              public authService: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -36,11 +38,6 @@ export class PostComponent implements OnInit {
     );
   }
 
-  pageChanged(event: any): void {
-    this.pagination.currentPage = event.currentPage;
-    this.loadPosts();
-  }
-
   loadPosts() {
     this.postService.getPosts(this.route.params['id'], this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe((res: PaginatedResult<Post[]>) => {
@@ -49,6 +46,21 @@ export class PostComponent implements OnInit {
       }, error => {
         this.toastr.error(error);
       });
+  }
+
+  goToPage(n: number): void {
+    this.pagination.currentPage = n;
+    this.loadPosts();
+  }
+
+  nextPage(): void {
+    this.pagination.currentPage++;
+    this.loadPosts();
+  }
+
+  prevPage(): void {
+    this.pagination.currentPage--;
+    this.loadPosts();
   }
 
 }
