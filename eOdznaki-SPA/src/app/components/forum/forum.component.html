@@ -8,13 +8,13 @@
               (click)="frame.show()" mdbWavesEffect
               *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
         <mdb-icon fas icon="plus"></mdb-icon>
-        <span>Nowy temat</span>
+        <span>New thread</span>
       </button>
     </div>
 
     <div class="col-md-4">
       <form class="form-inline md-form form-sm" style="float: right" (keyup.enter)="searchForum()">
-        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Szukaj" aria-label="Szukaj"
+        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search"
                mdbInput [formControl]="searchForm">
         <i class="fas fa-search" aria-hidden="true" (click)="searchForum()"></i>
       </form>
@@ -49,8 +49,8 @@
 
         <!-- Card content -->
         <div class="card-body" *ngIf="authService.roleMatch(['Admin', 'Moderator']) || thread.authorId === authService.currentUser.id">
-          <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Usuń wątek"></i>
-          <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edytuj tytuł"></i>
+          <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Delete thread"></i>
+          <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edit thread"></i>
         </div>
 
       </div>
