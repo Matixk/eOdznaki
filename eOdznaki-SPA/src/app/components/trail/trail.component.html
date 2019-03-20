@@ -1,17 +1,42 @@
-<agm-map [latitude]="lat" [longitude]="lng" (mapClick)="addMarker($event.coords.lat, $event.coords.lng)">
-  <agm-direction [origin]="origin" [destination]="destination" [waypoints]="waypoints"
-                 [renderOptions]="renderOptions"
-                 [draggable]='true'
-                 (onChange)="change($event)">
-  </agm-direction>
-  <agm-marker
-    *ngFor='let marker of markers'
-    [latitude]='marker.lat'
-    [longitude]='marker.lng'
-    [opacity]='1'
-    [markerDraggable]='true'
-    (markerClick)='selectMarker($event)'
-  >
-  </agm-marker>
-</agm-map>
+<div class="container">
+  <div class="row">
+    <div id="directions" class="col-sm-3">
+      <div id="directionsPanel" class="form-group">
+        <label for="originInput">Punkt startowy</label>
+        <input #originInput class="form-control" type="text" placeholder="Wpisz lokalizację"
+               autocomplete="off" [formControl]="searchControl" [(ngModel)]="origin">
+
+        <label for="destinationInput">Punkt docelowy</label>
+        <input #destinationInput class="form-control" type="text" placeholder="Wprowadź lokalizację"
+               autocomplete="off" [formControl]="searchControl" [(ngModel)]="destination">
+      </div>
+      <div id="directionSteps">
+        <p></p>
+      </div>
+    </div>
+    <div id="map" class="col-sm-9">
+      <agm-map [latitude]="default.lat" [longitude]="default.lng"
+               [zoom]="zoom"
+               (mapClick)="addMarker($event.coords.lat, $event.coords.lng)">
+        <agm-direction *ngIf="origin && destination"
+                       [origin]="origin"
+                       [destination]="destination"
+                       [waypoints]="waypoints"
+                       [renderOptions]="renderOptions"
+                       (onChange)="change($event)"
+                       [travelMode]="travelMode">
+        </agm-direction>
+        <agm-marker
+          *ngFor='let marker of markers'
+          [latitude]='marker.lat'
+          [longitude]='marker.lng'
+          [opacity]='1'
+          [markerDraggable]='true'
+          (markerClick)='selectMarker($event)'
+        >
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>
 <p *ngIf='selectedMarker'>Lat: {{ selectedMarker.lat }} Lng: {{ selectedMarker.lng }}</p>
