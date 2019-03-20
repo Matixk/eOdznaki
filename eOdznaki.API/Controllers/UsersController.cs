@@ -32,7 +32,7 @@ namespace eOdznaki.Controllers
             this.cloudinaryConfig = cloudinaryConfig;
             this.usersRepository = usersRepository;
             this.mapper = mapper;
-            
+
             var acc = new Account(
                 cloudinaryConfig.Value.CloudName,
                 cloudinaryConfig.Value.ApiKey,
@@ -78,7 +78,7 @@ namespace eOdznaki.Controllers
                 ? (IActionResult) NoContent()
                 : BadRequest("No changes were detected.");
         }
-        
+
         [Authorize(Policy = "RequireMemberRole")]
         [HttpPost("{id}/setAvatar")]
         public async Task<IActionResult> SetUserAvatar(int id, [FromForm] PhotoForUploadDto photoForUploadDto)
@@ -86,13 +86,20 @@ namespace eOdznaki.Controllers
             if (IsNotAuthorized(id)) return Unauthorized();
 
             var userFromRepo = await usersRepository.GetUser(id);
-            
+
+            if (userFromRepo.AvatarUrl != null && userFromRepo.AvatarPublicKey != null)
+            {
+                var deleteParams = new DeletionParams(userFromRepo.AvatarPublicKey);
+
+                cloudinary.Destroy(deleteParams);
+            }
+
             var file = photoForUploadDto.File;
 
             if (file == null) return BadRequest("File not found.");
-            
+
             var uploadResult = new ImageUploadResult();
-            
+
             if (file.Length > 0)
                 using (var stream = file.OpenReadStream())
                 {
@@ -105,11 +112,9 @@ namespace eOdznaki.Controllers
                     uploadResult = cloudinary.Upload(uploadParams);
                 }
 
-            // photoForUploadDto.Url = uploadResult.Uri.ToString();
-            // photoForUploadDto.PublicId = uploadResult.PublicId;
-            
             userFromRepo.AvatarUrl = uploadResult.Uri.ToString();
-                        
+            userFromRepo.AvatarPublicKey = uploadResult.PublicId;
+
             return await usersRepository.SaveAll()
                 ? (IActionResult) NoContent()
                 : BadRequest("Error uploading the avatar.");
