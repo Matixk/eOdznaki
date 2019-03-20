@@ -24,6 +24,7 @@ import {ProfileEditComponent} from './components/profile-edit/profile-edit.compo
 import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
 import {PreventUnsavedChanged} from './_guards/prevent-unsaved-changes.guard';
 import {AuthGuard} from './_guards/auth.guard';
+import {FileUploadModule} from 'ng2-file-upload';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -47,6 +48,7 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    FileUploadModule,
     MDBBootstrapModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     ToastrModule.forRoot({
