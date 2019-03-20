@@ -12,8 +12,8 @@ namespace eOdznaki.Models
         public string Country { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
-
         public string AvatarUrl { get; set; }
+        public string AvatarPublicKey { get; set; }
 
         public IEnumerable<Badge> Badges { get; set; }
         public IEnumerable<UserRole> UserRoles { get; set; }
