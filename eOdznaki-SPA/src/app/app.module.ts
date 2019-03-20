@@ -29,6 +29,7 @@ import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
 import {PreventUnsavedChanged} from './_guards/prevent-unsaved-changes.guard';
 import {AuthGuard} from './_guards/auth.guard';
 import {FileUploadModule} from 'ng2-file-upload';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -45,7 +46,8 @@ export function tokenGetter() {
     ForumComponent,
     PostComponent,
     SearchComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    PaginationComponent,
   ],
   imports: [
     HttpClientModule,

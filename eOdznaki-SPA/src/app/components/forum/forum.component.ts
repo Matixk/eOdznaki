@@ -18,6 +18,7 @@ import {FormValidatorOptions} from '../../utils/formValidatorOptions';
 })
 export class ForumComponent implements OnInit {
 
+  loading = false;
   threads: Thread[];
   pagination: Pagination;
 
@@ -42,12 +43,23 @@ export class ForumComponent implements OnInit {
     });
   }
 
-  pageChanged(event: any): void {
-    this.pagination.currentPage = event.page;
+  goToPage(n: number): void {
+    this.pagination.currentPage = n;
+    this.loadThreads();
+  }
+
+  nextPage(): void {
+    this.pagination.currentPage++;
+    this.loadThreads();
+  }
+
+  prevPage(): void {
+    this.pagination.currentPage--;
     this.loadThreads();
   }
 
   loadThreads() {
+    this.loading = true;
     this.threadService.getThreads(this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe((res: PaginatedResult<Thread[]>) => {
         this.threads = res.result;
@@ -56,6 +68,7 @@ export class ForumComponent implements OnInit {
       }, error => {
         this.toastr.error(error);
       });
+    this.loading = false;
   }
 
   addThread() {

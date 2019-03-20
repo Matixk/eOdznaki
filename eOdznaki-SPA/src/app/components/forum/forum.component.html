@@ -1,40 +1,78 @@
-<div style="display: flow-root">
-  <button type="button" mdbBtn
-          color="default" rounded="true" style="float: left"
-          data-toggle="modal" data-target="#basicExample"
-          (click)="frame.show()" mdbWavesEffect
-          *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
-    <mdb-icon fas icon="plus"></mdb-icon> Nowy temat
-  </button>
+<div class="container">
 
-  <form class="form-inline md-form form-sm" style="float: right" (keyup.enter)="searchForum()">
-    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Szukaj" aria-label="Szukaj"
-           mdbInput [formControl]="searchForm">
-    <i class="fas fa-search" aria-hidden="true" (click)="searchForum()"></i>
-  </form>
+  <div class="row">
+    <div class="col-md-8">
+      <button type="button" mdbBtn
+              color="default" rounded="true" style="float: left"
+              data-toggle="modal" data-target="#basicExample"
+              (click)="frame.show()" mdbWavesEffect
+              *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
+        <mdb-icon fas icon="plus"></mdb-icon>
+        <span>Nowy temat</span>
+      </button>
+    </div>
+
+    <div class="col-md-4">
+      <form class="form-inline md-form form-sm" style="float: right" (keyup.enter)="searchForum()">
+        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Szukaj" aria-label="Szukaj"
+               mdbInput [formControl]="searchForm">
+        <i class="fas fa-search" aria-hidden="true" (click)="searchForum()"></i>
+      </form>
+    </div>
+  </div>
+
+  <div class="row threads">
+    <div class="col">
+      <div class="row card promoting-card my-3"
+           *ngFor="let thread of threads"
+           [routerLink]="['/forum', thread.id]"
+           [id]="'thread-' + thread.id">
+
+        <!-- Card content -->
+        <div class="card-body d-flex flex-row">
+
+          <!-- Avatar -->
+          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+
+          <!-- Content -->
+          <div>
+
+            <!-- Title -->
+            <h4 class="card-title font-weight-bold mb-2">{{ thread.title}}</h4>
+            <!-- Subtitle -->
+            <p class="card-text">{{ thread.authorName }}</p>
+            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created | timeAgo}}</p>
+
+          </div>
+
+        </div>
+
+        <!-- Card content -->
+        <div class="card-body" *ngIf="authService.roleMatch(['Admin', 'Moderator']) || thread.authorId === authService.currentUser.id">
+          <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Usuń wątek"></i>
+          <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edytuj tytuł"></i>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col d-flex justify-content-center pt-3 pagination">
+      <app-pagination
+        [totalItems]="pagination.totalItems"
+        [currentPage]="pagination.currentPage"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [totalPages]="pagination.totalPages"
+        [loading]="loading"
+        (goPrev)="prevPage()"
+        (goNext)="nextPage()"
+        (goPage)="goToPage($event)">
+      </app-pagination>
+    </div>
+
 </div>
-
-<div class="threads">
-  <ul>
-    <li
-      *ngFor="let thread of threads"
-      [routerLink]="['/forum', thread.id]"
-    >
-      AuthorId: {{ thread.authorId }}<br>
-      AuthorName: {{ thread.authorName }}<br>
-      Created: {{ thread.created }}<br>
-      Id: {{ thread.id }}<br>
-      Title: {{ thread.title }}<br>
-    </li>
-  </ul>
-</div>
-
-<nav>
-  currentPage: {{ pagination.currentPage }}<br>
-  itemsPerPage: {{ pagination.itemsPerPage }}<br>
-  totalItems: {{ pagination.totalItems }}<br>
-  totalPages: {{ pagination.totalPages }}<br>
-</nav>
 
 <div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
