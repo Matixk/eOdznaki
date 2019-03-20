@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {UserService} from '../../_services/user.service';
 import {AuthService} from '../../_services/auth.service';
+import {FileUploader} from 'ng2-file-upload';
 
 @Component({
   selector: 'app-profile-edit',
@@ -13,6 +14,8 @@ import {AuthService} from '../../_services/auth.service';
 })
 export class ProfileEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
+  uploader: FileUploader;
+  hasBaseDropZoneOver = false;
   user: User;
 
   @HostListener('window:beforeunload', ['$event'])
