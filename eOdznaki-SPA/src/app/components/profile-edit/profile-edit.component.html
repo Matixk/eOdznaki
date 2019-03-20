@@ -8,7 +8,7 @@
 
             <div class="avatar mx-auto mt-2">
               <div class="view overlay mt-4" (click)="basicModal.show()">
-                <img src="{{user.avatarUrl || '../../../assets/user.png'}}" width="175"
+                <img src="{{avatarUrl || '../../../assets/user.png'}}" width="175"
                      class="img-fluid rounded-circle hoverable">
                 <div class="mask flex-center waves-effect waves-light rounded-circle rgba-black-strong">
                   <p class="white-text">Change Avatar</p>
@@ -16,25 +16,75 @@
               </div>
             </div>
 
-            <!--<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">-->
-            <!--<div class="modal-dialog" role="document">-->
-            <!--<div class="modal-content">-->
-            <!--<div class="modal-header">-->
-            <!--<button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">-->
-            <!--<span aria-hidden="true">×</span>-->
-            <!--</button>-->
-            <!--<h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>-->
-            <!--</div>-->
-            <!--<div class="modal-body">-->
-            <!--...-->
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-            <!--<button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Close</button>-->
-            <!--<button type="button" mdbBtn color="primary" class="relative waves-light" mdbWavesEffect>Save changes</button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
+            <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+                 aria-labelledby="myBasicModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="background-image: url(../../../assets/background-gradient.jpg);">
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title w-100" id="myModalLabel">Change Avatar</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+
+                      <div class="col mb-2 mx-2">
+
+                        <table class="table">
+                          <thead>
+                          <tr>
+                            <th width="50%">Name</th>
+                            <th>Size</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let item of uploader.queue">
+                            <td><strong>{{ item?.file?.name }}</strong></td>
+                            <td *ngIf="uploader.options.isHTML5"
+                                nowrap>{{ item?.file?.size / 1024 / 1024 | number:'.2' }} MB
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+
+                        <div>
+                          <div>
+                            Upload progress:
+                            <div class="progress mb-4 mt-2">
+                              <div class="progress-bar" role="progressbar"
+                                   [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                            </div>
+                          </div>
+                          <div class="btn-group w-100">
+                            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                                    [disabled]="!uploader.getNotUploadedItems().length">
+                              <span class="fa fa-upload"></span> Upload
+                            </button>
+                            <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+                                    [disabled]="!uploader.isUploading">
+                              <span class="fa fa-ban"></span> Cancel
+                            </button>
+                            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+                                    [disabled]="!uploader.queue.length">
+                              <span class="fa fa-trash"></span> Remove
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="file" ng2FileSelect [uploader]="uploader"/>
+                    <button type="button" mdbBtn class="waves-light info-color" aria-label="Close"
+                            (click)="basicModal.hide()" mdbWavesEffect>Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <mdb-card-body>
               <mdb-card-title
