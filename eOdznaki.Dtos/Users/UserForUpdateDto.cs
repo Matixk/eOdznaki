@@ -10,8 +10,14 @@ namespace eOdznaki.Dtos.Users
         public string City { get; set; }
         public string Street { get; set; }
 
+        [RegularExpression(
+            @"^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$",
+            ErrorMessage = "Invalid Phone number.")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         [RegularExpression(@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$", ErrorMessage =
-            "The Email field is not a valid e-mail address.")]
+            "Invalid E-mail.")]
         public string Email { get; set; }
     }
 }

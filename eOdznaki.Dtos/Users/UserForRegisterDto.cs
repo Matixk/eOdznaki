@@ -18,7 +18,7 @@ namespace eOdznaki.Dtos.Users
 
         [Required]
         [RegularExpression(@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$", ErrorMessage =
-            "The Email field is invalid.")]
+            "Invalid E-mail.")]
         public string Email { get; set; }
         public DateTime Created { get; set; }
     }

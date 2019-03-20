@@ -18,12 +18,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    document.body.classList.add('background-img');
+    //  document.body.classList.add('background-img');
   }
 
-  ngOnDestroy() {
-    document.body.classList.remove('background-img');
-  }
+  // ngOnDestroy() {
+  //   document.body.classList.remove('background-img');
+  // }
 
   registerToggle(registerMode: boolean) {
     this.registerMode = registerMode;

@@ -6,11 +6,27 @@ import {PostComponent} from './components/post/post.component';
 import {ThreadPostResolver} from './resolvers/threadPostResolver';
 import {SearchComponent} from './components/search/search.component';
 import {SearchResolver} from './resolvers/searchResolver';
+import {ProfileEditComponent} from './components/profile-edit/profile-edit.component';
+import {PreventUnsavedChanged} from './_guards/prevent-unsaved-changes.guard';
+import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
+import {AuthGuard} from './_guards/auth.guard';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'forum', component: ForumComponent, resolve: { threads: ThreadsResolver }},
   { path: 'forum/:id', component: PostComponent, resolve: { posts: ThreadPostResolver }},
   { path: 'search/:regex', component: SearchComponent, resolve: { threads: SearchResolver }},
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'profile/edit', component: ProfileEditComponent,
+        resolve: {user: ProfileEditResolver}, canDeactivate: [PreventUnsavedChanged],
+      },
+    ]
+  },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

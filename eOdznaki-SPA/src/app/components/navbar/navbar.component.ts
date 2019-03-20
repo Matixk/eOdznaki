@@ -9,8 +9,10 @@ import {Router} from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  avatarUrl: string;
 
   constructor(public authService: AuthService, private toastr: ToastrService, private router: Router) {
+    this.authService.currentAvatarUrl.subscribe(avatarUrl => this.avatarUrl = avatarUrl);
   }
 
   ngOnInit() {
