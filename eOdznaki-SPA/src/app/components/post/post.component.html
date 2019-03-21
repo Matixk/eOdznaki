@@ -3,10 +3,19 @@
   <div class="row">
     <div class="col">
       <div class="thread" *ngIf="thread">
-        <div class="row card promoting-card mt-3">
+        <div class="row card promoting-card mt-4">
           <div class="card card-image"
                style="background-image: url(../../../assets/background-gradient.jpg);">
-          <h4 class="card-title mb-2 d-flex justify-content-center threadTitle"><strong>{{ thread.title }}</strong></h4>
+            <div class="col toolbar">
+              <div class="row">
+                <div class="col-1 mt-3">
+                  <i class="fas fa-reply backArrow" [routerLink]="['/forum']"></i>
+                </div>
+                <h4 class="card-title d-flex justify-content-center threadTitle col-11 pt-3 pr-5">
+                  <strong>{{ thread.title }}</strong>
+                </h4>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -28,8 +37,7 @@
           <!-- Content -->
           <div>
 
-            <!-- Title -->
-            <h4 class="card-title font-weight-bold mb-2">{{ post.content }}</h4>
+            <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
             <!-- Subtitle -->
             <p class="card-text">{{ post.authorName }}</p>
             <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created | timeAgo }}</p>
@@ -50,7 +58,7 @@
 
   <div class="row">
 
-    <div class="col d-flex justify-content-center pt-3 pagination">
+    <div class="col d-flex justify-content-center pagination">
       <app-pagination
         [totalItems]="pagination.totalItems"
         [currentPage]="pagination.currentPage"
