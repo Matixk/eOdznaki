@@ -1,6 +1,6 @@
-<ul class="pagination pg-blue" *ngIf="totalItems > 0">
+<ul class="pagination pg-blue p-0" *ngIf="totalItems > 0">
 
-  <li class="page-item">
+  <li class="page-item first">
     <button aria-label="First"
             (click)="onPage(1)" [disabled]="firstPage() || loading"
             [className]="getLinkClass(firstPage())">
@@ -34,7 +34,7 @@
     </button>
   </li>
 
-  <li class="page-item">
+  <li class="page-item last">
     <button aria-label="Last"
             (click)="onPage(totalPages)" [disabled]="lastPage() || loading"
             [className]="getLinkClass(lastPage())">
