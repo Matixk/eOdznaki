@@ -4,7 +4,10 @@
     <div class="col">
       <div class="thread" *ngIf="thread">
         <div class="row card promoting-card mt-3">
-          <h1 class="card-title font-weight-bold mb-2 d-flex justify-content-center">{{ thread.title }}</h1>
+          <div class="card card-image"
+               style="background-image: url(../../../assets/background-gradient.jpg);">
+          <h4 class="card-title mb-2 d-flex justify-content-center threadTitle"><strong>{{ thread.title }}</strong></h4>
+          </div>
         </div>
       </div>
     </div>

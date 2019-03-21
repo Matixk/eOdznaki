@@ -1,6 +1,14 @@
 .container {
-  height: calc(100vh - 55.99px);
   max-width: 800px;
+}
+
+.col-container {
+  display: table;
+  width: 100%;
+}
+
+.col {
+  display: table-cell;
 }
 
 .card {
@@ -13,4 +21,18 @@
 
 .pagination {
   background-color: white;
+}
+
+.magnifier {
+  font-size: 25px;
+}
+
+::placeholder {
+  color: ghostwhite;
+  font-size: 0.8em;
+}
+
+.search {
+  color: white;
+  font-size: 1.2em;
 }
