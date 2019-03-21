@@ -29,8 +29,8 @@
         </agm-direction>
         <agm-marker
           *ngFor='let marker of markers'
-          [latitude]='marker.coords.lat()'
-          [longitude]='marker.coords.lng()'
+          [latitude]='marker.lat'
+          [longitude]='marker.lng'
           [opacity]='1'
           [markerDraggable]='false'
           (markerClick)='selectMarker($event)'

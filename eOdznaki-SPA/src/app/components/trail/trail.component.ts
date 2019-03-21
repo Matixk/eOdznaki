@@ -14,6 +14,7 @@ export class TrailComponent implements OnInit {
   default = {lat: 49.257794, lng: 19.919636};
   zoom = 10;
   public searchControl: FormControl;
+  elevator;
   origin;
   destination;
   waypoints: any = [];
@@ -66,6 +67,7 @@ export class TrailComponent implements OnInit {
           this.addMarkerOnMap(newDestination);
         });
       });
+      this.elevator = new google.maps.ElevationService;
     });
   }
 
@@ -83,7 +85,7 @@ export class TrailComponent implements OnInit {
   }
 
   addMarkerOnMap(location: google.maps.LatLng) {
-    this.markers.push({coords: location});
+    this.markers.push({lat: location.lat(), lng: location.lng()});
   }
 
   selectMarker(event) {
@@ -112,5 +114,9 @@ export class TrailComponent implements OnInit {
       this.directions.push({origin: route.start_address, destination: route.end_address});
     });
     console.log(this.directions);
+    console.log(this.elevator.getElevationAlongPath({
+      'path': this.markers,
+      'samples': 2
+    }, console.log));
   }
 }
