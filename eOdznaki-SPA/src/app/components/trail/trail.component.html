@@ -4,14 +4,14 @@
       <div id="directionsPanel" class="form-group">
         <label for="originInput">Punkt startowy</label>
         <input #originInput class="form-control" type="text" placeholder="Wpisz lokalizację"
-               autocomplete="off" [formControl]="searchControl" [(ngModel)]="origin">
+               autocomplete="off" [formControl]="searchControl">
 
         <label for="destinationInput">Punkt docelowy</label>
         <input #destinationInput class="form-control" type="text" placeholder="Wprowadź lokalizację"
-               autocomplete="off" [formControl]="searchControl" [(ngModel)]="destination">
+               autocomplete="off" [formControl]="searchControl">
       </div>
-      <div id="directionSteps">
-        <p></p>
+      <div id="directionSteps" *ngFor="let trail of directions">
+        <p  type="text">Ścieżka od: {{trail.origin}} | do: {{trail.destination}}</p>
       </div>
     </div>
     <div id="map" class="col-sm-9">
@@ -23,15 +23,16 @@
                        [destination]="destination"
                        [waypoints]="waypoints"
                        [renderOptions]="renderOptions"
-                       (onChange)="change($event)"
-                       [travelMode]="travelMode">
+                       [travelMode]="travelMode"
+                       [optimizeWaypoints]="false"
+                       (onResponse)="onResponse($event)">
         </agm-direction>
         <agm-marker
           *ngFor='let marker of markers'
-          [latitude]='marker.lat'
-          [longitude]='marker.lng'
+          [latitude]='marker.coords.lat()'
+          [longitude]='marker.coords.lng()'
           [opacity]='1'
-          [markerDraggable]='true'
+          [markerDraggable]='false'
           (markerClick)='selectMarker($event)'
         >
         </agm-marker>

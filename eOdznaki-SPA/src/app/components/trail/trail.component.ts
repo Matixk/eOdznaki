@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
-import {MapsAPILoader, LatLng} from '@agm/core';
+import {MapsAPILoader} from '@agm/core';
 import {FormControl} from '@angular/forms';
+import {} from '@types/googlemaps';
 
 declare var google;
 
@@ -19,6 +20,7 @@ export class TrailComponent implements OnInit {
   selectedMarker;
   markers = [];
   travelMode = 'WALKING';
+  directions = [];
 
   @ViewChild('originInput')
   public originElementRef: ElementRef;
@@ -27,12 +29,9 @@ export class TrailComponent implements OnInit {
   public destinationElementRef: ElementRef;
 
   public renderOptions = {
-    draggable: true,
+    draggable: false,
+    suppressMarkers: true,
   };
-
-  public change(event: any) {
-    this.waypoints = event.request.waypoints;
-  }
 
   constructor(private mapsAPILoader: MapsAPILoader,
               private ngZone: NgZone) { }
@@ -49,10 +48,12 @@ export class TrailComponent implements OnInit {
             return;
           }
 
-          this.addOrigin(new google.maps.LatLng(originPlace.geometry.location.lat(), originPlace.geometry.location.lng()));
-          this.addMarker(originPlace.geometry.location.lat(), originPlace.geometry.location.lng());
-          this.default.lat = originPlace.geometry.location.lat();
-          this.default.lng = originPlace.geometry.location.lng();
+          console.log(originPlace.geometry.viewport.getCenter());
+          const newOrigin = originPlace.geometry.viewport.getCenter();
+          this.addOrigin(newOrigin);
+          this.addMarkerOnMap(newOrigin);
+          this.default.lat = newOrigin.lat();
+          this.default.lng = newOrigin.lng();
           this.zoom = 12;
         });
       });
@@ -65,31 +66,29 @@ export class TrailComponent implements OnInit {
             return;
           }
 
-          this.addDestination(new google.maps.LatLng(destinationPlace.geometry.location.lat(), destinationPlace.geometry.location.lng()));
+          const newDestination = new google.maps.LatLng(destinationPlace.geometry.location.lat(), destinationPlace.geometry.location.lng());
+          this.addDestination(newDestination);
+          this.addMarkerOnMap(newDestination);
         });
       });
     });
   }
 
   addMarker(lat: number, lng: number) {
-    const latitude = lat;
-    const longitude = lng;
-    const newLatLng = new google.maps.LatLng(latitude, longitude);
+    const location = new google.maps.LatLng(lat, lng);
     if (this.origin == null) {
-      this.addOrigin(newLatLng);
-      console.log(this.origin);
+      this.addOrigin(location);
     } else if (this.destination == null) {
-      this.addDestination(newLatLng);
-      console.log(this.destination);
+      this.addDestination(location);
     } else {
-      const oldLat = this.destination.lat;
-      const oldLng = this.destination.lng;
-      const newLocation = new google.maps.LatLng(oldLat, oldLng);
-      this.addWaypoint(newLocation);
-      this.addDestination(newLatLng);
-      this.markers.push({ lat: latitude, lng: longitude, alpha: 1 });
-      console.log(this.waypoints);
+      this.addWaypoint(this.destination);
+      this.addDestination(location);
     }
+    this.addMarkerOnMap(location);
+  }
+
+  addMarkerOnMap(location: google.maps.LatLng) {
+    this.markers.push({coords: location});
   }
 
   selectMarker(event) {
@@ -99,16 +98,24 @@ export class TrailComponent implements OnInit {
     };
   }
 
-  addOrigin(data: LatLng) {
+  addOrigin(data: google.maps.LatLng) {
     this.origin = data;
   }
 
-  addDestination(data: LatLng) {
+  addDestination(data: google.maps.LatLng) {
     this.destination = data;
   }
 
-  addWaypoint(data: LatLng) {
+  addWaypoint(data: google.maps.LatLng) {
     this.waypoints.push({location: data});
   }
 
+  onResponse(event) {
+    console.log(event);
+    this.directions = [];
+    event.routes[0].legs.forEach(route => {
+      this.directions.push({origin: route.start_address, destination: route.end_address});
+    });
+    console.log(this.directions);
+  }
 }
