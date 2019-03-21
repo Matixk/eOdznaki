@@ -9,7 +9,7 @@ import {PostService} from '../_services/post.service';
 @Injectable()
 export class ThreadPostResolver implements Resolve<Post[]> {
   pageNumber = 1;
-  pageSize = 10;
+  pageSize = 5;
 
   constructor(private postService: PostService,
               private router: Router,
