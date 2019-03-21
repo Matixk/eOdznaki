@@ -43,12 +43,9 @@ export class TrailComponent implements OnInit {
       autocompleteOrigin.addListener('place_changed', () => {
         this.ngZone.run(() => {
           const originPlace: google.maps.places.PlaceResult = autocompleteOrigin.getPlace();
-
           if (originPlace.geometry === undefined || originPlace.geometry === null) {
             return;
           }
-
-          console.log(originPlace.geometry.viewport.getCenter());
           const newOrigin = originPlace.geometry.viewport.getCenter();
           this.addOrigin(newOrigin);
           this.addMarkerOnMap(newOrigin);
@@ -61,11 +58,9 @@ export class TrailComponent implements OnInit {
       autocompleteDestination.addListener('place_changed', () => {
         this.ngZone.run( () => {
           const destinationPlace: google.maps.places.PlaceResult = autocompleteDestination.getPlace();
-
           if (destinationPlace.geometry === undefined || destinationPlace.geometry === null) {
             return;
           }
-
           const newDestination = new google.maps.LatLng(destinationPlace.geometry.location.lat(), destinationPlace.geometry.location.lng());
           this.addDestination(newDestination);
           this.addMarkerOnMap(newDestination);
