@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Pagination} from '../../models/pagination/pagination';
 import {ActivatedRoute} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
@@ -8,7 +8,7 @@ import {PostService} from '../../_services/post.service';
 import {ThreadService} from '../../_services/thread.service';
 import {Thread} from '../../models/forum/thread';
 import {AuthService} from '../../_services/auth.service';
-import {FormControl} from '@angular/forms';
+import {FormControl, NgForm} from '@angular/forms';
 import {FormValidatorOptions} from '../../utils/formValidatorOptions';
 import {PostForCreate} from '../../dtos/postForCreate';
 
@@ -25,6 +25,7 @@ export class PostComponent implements OnInit {
   posts: Post[];
   pagination: Pagination;
   postForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 5, 2000));
+  @ViewChild('newPost') public newPostModal;
 
   constructor(private postService: PostService,
               private threadService: ThreadService,
@@ -57,6 +58,11 @@ export class PostComponent implements OnInit {
   }
 
   loadPosts() {
+    if (this.pagination.currentPage === 1) {
+      this.pagination.itemsPerPage = 5;
+    } else {
+      this.pagination.itemsPerPage = 4;
+    }
     this.postService.getPosts(this.thread.id, this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe((res: PaginatedResult<Post[]>) => {
         this.posts = res.result;
@@ -89,7 +95,9 @@ export class PostComponent implements OnInit {
     if (this.postForm.valid) {
       const post = new PostForCreate(this.thread.id, this.postForm.value);
       this.postService.answer(post).subscribe(next => {
-        this.posts.push(next);
+        this.newPostModal.hide();
+        this.pagination.currentPage = this.pagination.totalPages;
+        this.loadPosts();
         this.toastr.success('Created');
       }, error => {
         console.log(error);
