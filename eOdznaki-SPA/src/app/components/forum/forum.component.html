@@ -3,7 +3,6 @@
   <div class="row card promoting-card mt-4" style="background-image: url(../../../assets/background-gradient.jpg);">
     <div class="col toolbar mt-2">
         <button type="button" class="btn btn-white waves-effect mt-3"
-                style="border-radius: 25px;"
                 data-toggle="modal" data-target="#basicExample"
                 (click)="frame.show()" mdbWavesEffect
                 *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
@@ -79,7 +78,7 @@
     <div class="modal-content">
 
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Nowy temat</h4>
+        <h4 class="modal-title w-100 font-weight-bold">New thread</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -91,7 +90,7 @@
             <input type="text" id="threadForm-title" class="form-control validate"
                    mdbInput
                    formControlName="title">
-            <label data-error="wrong" data-success="right" for="threadForm-title">Temat</label>
+            <label data-error="wrong" data-success="right" for="threadForm-title">Title</label>
           </div>
 
           <div class="md-form">
@@ -100,12 +99,12 @@
                     mdbCharCounter mdbInput
                     formControlName="content">
           </textarea>
-            <label data-error="wrong" data-success="right" for="threadForm-content">Treść</label>
+            <label data-error="wrong" data-success="right" for="threadForm-content">Content</label>
           </div>
         </div>
 
         <div class="modal-footer d-flex justify-content-center">
-          <button mdbBtn color="default" class="waves-light" mdbWavesEffect [disabled]="!threadForm.valid">Dodaj</button>
+          <button mdbBtn color="default" class="waves-light" mdbWavesEffect [disabled]="!threadForm.valid">Add</button>
         </div>
       </form>
     </div>
