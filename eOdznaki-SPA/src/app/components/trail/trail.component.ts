@@ -116,7 +116,7 @@ export class TrailComponent implements OnInit {
     console.log(this.directions);
     console.log(this.elevator.getElevationAlongPath({
       'path': this.markers,
-      'samples': 2
+      'samples': 64
     }, console.log));
   }
 }
