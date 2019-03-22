@@ -8,6 +8,9 @@ import {PostService} from '../../_services/post.service';
 import {ThreadService} from '../../_services/thread.service';
 import {Thread} from '../../models/forum/thread';
 import {AuthService} from '../../_services/auth.service';
+import {FormControl} from '@angular/forms';
+import {FormValidatorOptions} from '../../utils/formValidatorOptions';
+import {PostForCreate} from '../../dtos/postForCreate';
 
 @Component({
   selector: 'app-post',
@@ -20,6 +23,7 @@ export class PostComponent implements OnInit {
   thread: Thread;
   posts: Post[];
   pagination: Pagination;
+  postForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 5, 2000));
 
   constructor(private postService: PostService,
               private threadService: ThreadService,
@@ -63,4 +67,18 @@ export class PostComponent implements OnInit {
     this.loadPosts();
   }
 
+  answer() {
+    if (this.postForm.valid) {
+      const post = new PostForCreate(this.thread.id, this.postForm.value);
+      this.postService.answer(post).subscribe(next => {
+        this.posts.push(next);
+        this.toastr.success('Created');
+      }, error => {
+        console.log(error.stat);
+        this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
+      }, () => {
+        this.loadPosts();
+      });
+    }
+  }
 }

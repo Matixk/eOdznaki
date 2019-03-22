@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 
 import {PaginatedResult} from 'src/app/models/pagination/paginatedResult';
 import {Post} from '../models/forum/post';
+import {PostForCreate} from '../dtos/postForCreate';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +36,8 @@ export class PostService {
         })
       );
   }
+
+  answer(post: PostForCreate): Observable<Post> {
+    return this.http.post<Post>(this.postsUrl, post);
+}
 }
