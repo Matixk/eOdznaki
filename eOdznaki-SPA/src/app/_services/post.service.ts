@@ -40,4 +40,18 @@ export class PostService {
   answer(post: PostForCreate): Observable<Post> {
     return this.http.post<Post>(this.postsUrl, post);
 }
+
+  getOriginalPost(threadId, page?, itemsPerPage?): Observable<Post> {
+    let params = new HttpParams();
+
+    params = params.append('pageNumber', '1');
+    params = params.append('pageSize', '1');
+
+    return this.http.get<Post>(`${this.postsUrl}/${threadId}`, { observe: 'response', params })
+      .pipe(
+        map(response => {
+          return response.body[0];
+        })
+      );
+  }
 }

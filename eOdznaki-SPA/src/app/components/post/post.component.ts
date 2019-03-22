@@ -21,6 +21,7 @@ export class PostComponent implements OnInit {
 
   loading = false;
   thread: Thread;
+  originalPost: Post;
   posts: Post[];
   pagination: Pagination;
   postForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 5, 2000));
@@ -36,19 +37,36 @@ export class PostComponent implements OnInit {
       this.posts = data['posts'].result;
       this.pagination = data['posts'].pagination;
     });
-    this.route.params.subscribe(params =>
-      this.threadService.getThread(params['id'])
-        .subscribe(threadSub => this.thread = threadSub)
-    );
+    this.route.params.subscribe(params => {
+        this.threadService.getThread(params['id'])
+          .subscribe(threadSub => {
+            this.thread = threadSub;
+          }, error => {
+            console.log(error);
+            this.toastr.error('Couldn\'t load thread');
+          });
+
+        this.postService.getOriginalPost(params['id'])
+          .subscribe(res => {
+            this.originalPost = res;
+            },  error => {
+            console.log(error);
+            this.toastr.error('Couldn\'t load original post');
+        });
+    });
   }
 
   loadPosts() {
-    this.postService.getPosts(this.route.params['id'], this.pagination.currentPage, this.pagination.itemsPerPage)
+    this.postService.getPosts(this.thread.id, this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe((res: PaginatedResult<Post[]>) => {
         this.posts = res.result;
+        if (this.pagination.currentPage !== 1) {
+          this.posts.unshift(this.originalPost);
+        }
         this.pagination = res.pagination;
       }, error => {
-        this.toastr.error(error);
+        console.log(error);
+        this.toastr.error('Couldn\'t load posts');
       });
   }
 
@@ -74,10 +92,8 @@ export class PostComponent implements OnInit {
         this.posts.push(next);
         this.toastr.success('Created');
       }, error => {
-        console.log(error.stat);
+        console.log(error);
         this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
-      }, () => {
-        this.loadPosts();
       });
     }
   }
