@@ -8,8 +8,6 @@ namespace eOdznaki.Models.Trails
     {
         public int Id { get; private set; }
 
-        [Required] public string Name { get; private set; }
-
         [Required] public Location StartPoint { get; private set; }
 
         [Required] public Location EndPoint { get; private set; }
