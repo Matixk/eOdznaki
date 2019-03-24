@@ -105,4 +105,8 @@ export class PostComponent implements OnInit {
       });
     }
   }
+
+  clearForm() {
+    this.postForm.setValue();
+  }
 }

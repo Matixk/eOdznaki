@@ -104,7 +104,7 @@
 </div>
 
 <div mdbModal #newPost="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
+     aria-labelledby="myModalLabel" aria-hidden="true" (onHide)="clearForm()">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
