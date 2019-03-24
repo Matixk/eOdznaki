@@ -115,9 +115,13 @@ namespace eOdznaki.Controllers
             userFromRepo.AvatarUrl = uploadResult.Uri.ToString();
             userFromRepo.AvatarPublicKey = uploadResult.PublicId;
 
-            return await usersRepository.SaveAll()
-                ? (IActionResult) NoContent()
-                : BadRequest("Error uploading the avatar.");
+            if (await usersRepository.SaveAll())
+            {
+                var userToReturn = mapper.Map<UserForViewDto>(userFromRepo);
+                return CreatedAtRoute("GetUser", new {id = userFromRepo.Id}, userToReturn);
+            }
+            
+            return BadRequest("Error uploading the avatar.");
         }
 
         [Authorize(Policy = "RequireMemberRole")]
