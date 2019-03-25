@@ -25,6 +25,7 @@ namespace eOdznaki.Repositories
         {
             var forumThreads = context
                 .ForumThreads
+                .Include(t => t.Author)
                 .AsQueryable();
 
             return await PagedList<ForumThread>.CreateAsync(forumThreads, forumThreadsParams.PageNumber,

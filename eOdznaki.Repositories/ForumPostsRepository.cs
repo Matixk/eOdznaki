@@ -26,6 +26,7 @@ namespace eOdznaki.Repositories
             var posts = context
                 .ForumPosts
                 .Where(p => p.ForumThreadId == forumThreadId)
+                .Include(p => p.Author)
                 .AsQueryable();
 
             if (posts == null) throw new ArgumentNullException(nameof(forumThreadId));
