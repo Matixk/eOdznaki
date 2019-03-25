@@ -26,6 +26,9 @@ export class PostComponent implements OnInit {
   pagination: Pagination;
   postForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 5, 2000));
   @ViewChild('newPost') public newPostModal;
+  @ViewChild('deletePost') public deletePostModal;
+  private postToDelete: number;
+  hoveredIndex: number;
 
   constructor(private postService: PostService,
               private threadService: ThreadService,
