@@ -58,7 +58,7 @@ namespace eOdznaki.Controllers
             try
             {
                 var user = await GetUser();
-                var forumPostUpdated = await context.Update(user.Id, forumPostId, forumPost);
+                var forumPostUpdated = await context.Update(user.Id, forumPostId, forumPost, IsSudo());
 
                 return Ok(mapper.Map<ForumPostPreviewDto>(forumPostUpdated));
             }
@@ -107,7 +107,7 @@ namespace eOdznaki.Controllers
             try
             {
                 var user = await GetUser();
-                var forumPostDeleted = await context.Delete(user.Id, forumPostId);
+                var forumPostDeleted = await context.Delete(user.Id, forumPostId, IsSudo());
 
                 return Ok(forumPostDeleted);
             }
@@ -124,6 +124,11 @@ namespace eOdznaki.Controllers
         private async Task<User> GetUser()
         {
             return await userManager.GetUserAsync(HttpContext.User);
+        }
+
+        private bool IsSudo()
+        {
+            return User.IsInRole("Admin") || User.IsInRole("Moderator");
         }
     }
 }
