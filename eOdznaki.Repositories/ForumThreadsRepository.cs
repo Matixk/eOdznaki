@@ -50,12 +50,15 @@ namespace eOdznaki.Repositories
 
             if (user == null) throw new ArgumentNullException(nameof(forumThread.AuthorId));
 
-            var forumThreadToCreate = new ForumThread(forumThread.AuthorId, forumThread.Title);
+            var threadToCreate = new ForumThread(forumThread.AuthorId, forumThread.Title);
 
-            context.ForumThreads.Add(forumThreadToCreate);
+            context.ForumThreads.Add(threadToCreate);
+            var postToCreate = new ForumPost(user.Id, threadToCreate.Id, forumThread.Content);
+
+            context.ForumPosts.Add(postToCreate);
             await context.SaveChangesAsync();
 
-            return forumThreadToCreate;
+            return threadToCreate;
         }
 
         public async Task<ForumThread> Update(int userId, int forumThreadId, ForumThreadForUpdateDto forumThread)

@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using AutoMapper;
+using eOdznaki.Configuration;
 using eOdznaki.Dtos.ForumPosts;
-using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
@@ -26,6 +27,27 @@ namespace eOdznaki.Controllers
             this.context = context;
             this.mapper = mapper;
             this.userManager = userManager;
+        }
+
+        [HttpGet("{forumThreadId}")]
+        public async Task<IActionResult> GetThreadPosts(int forumThreadId, [FromQuery] ForumPostsParams forumPostsParams)
+        {
+            try
+            {
+                var posts = await context.GetForumThreadPosts(forumThreadId, forumPostsParams);
+
+                Response.AddPagination(posts.CurrentPage, posts.PageSize, posts.TotalCount,
+                    posts.TotalPages);
+
+                return Ok(mapper.Map<IEnumerable<ForumPostPreviewDto>>(posts));
+            }
+            catch (ArgumentNullException e)
+            {
+                var paramName = e.ParamName;
+                if (paramName != null) return NotFound(paramName);
+
+                throw;
+            }
         }
 
         [Authorize(Policy = "RequireMemberRole")]
@@ -60,6 +82,10 @@ namespace eOdznaki.Controllers
         {
             try
             {
+                var user = await GetUser();
+
+                forumPost.AuthorId = user.Id;
+
                 var forumPostCreated = await context.Insert(forumPost);
 
                 return Ok(mapper.Map<ForumPostPreviewDto>(forumPostCreated));

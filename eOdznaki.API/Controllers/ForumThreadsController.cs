@@ -4,7 +4,6 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using AutoMapper;
 using eOdznaki.Configuration;
-using eOdznaki.Dtos.ForumPosts;
 using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
@@ -42,13 +41,13 @@ namespace eOdznaki.Controllers
         }
 
         [HttpGet("{forumThreadId}")]
-        public async Task<IActionResult> GetForumThreadPosts(int forumThreadId)
+        public async Task<IActionResult> GetForumThread(int forumThreadId)
         {
             try
             {
                 var forumThread = await context.GetForumThread(forumThreadId);
 
-                return Ok(mapper.Map<IEnumerable<ForumPostPreviewDto>>(forumThread));
+                return Ok(mapper.Map<ForumThreadPreviewDto>(forumThread));
             }
             catch (ArgumentNullException e)
             {
@@ -90,6 +89,8 @@ namespace eOdznaki.Controllers
         {
             try
             {
+                forumThread.AuthorId = (await GetUser()).Id;
+
                 var forumThreadCreated = await context.Insert(forumThread);
 
                 return CreatedAtAction("GetForumThread", new {forumThreadId = forumThreadCreated.Id}, forumThreadCreated);

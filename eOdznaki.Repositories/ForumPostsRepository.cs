@@ -48,8 +48,7 @@ namespace eOdznaki.Repositories
 
             if (forumThread == null) throw new ArgumentNullException(nameof(forumPost.ForumThreadId));
 
-            var forumPostToCreate = new ForumPost(forumPost.AuthorId, forumPost.ForumThreadId, forumPost.Content, user,
-                forumThread);
+            var forumPostToCreate = new ForumPost(forumPost.AuthorId, forumPost.ForumThreadId, forumPost.Content);
 
             context.ForumPosts.Add(forumPostToCreate);
             await context.SaveChangesAsync();

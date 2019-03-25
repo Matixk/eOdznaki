@@ -1,0 +1,30 @@
+.container {
+  max-width: 750px;
+  max-height: 650px!important;
+}
+
+.card {
+  max-height: 150px;
+}
+
+.threads {
+  min-height: 669px;
+}
+
+.magnifier {
+  font-size: 25px;
+}
+
+::placeholder {
+  color: ghostwhite;
+  font-size: 0.8em;
+}
+
+.search {
+  color: white;
+  font-size: 1.2em;
+}
+
+.replyBtn {
+  font-size: 1.4em;
+}

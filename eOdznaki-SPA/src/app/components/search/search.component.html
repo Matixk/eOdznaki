@@ -1,0 +1,45 @@
+<div style="display: flow-root">
+  <form class="form-inline md-form form-sm" style="float: right" (keyup.enter)="searchForum()">
+    <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Szukaj" aria-label="Szukaj"
+           mdbInput [formControl]="searchForm">
+    <i class="fas fa-search" aria-hidden="true" (click)="searchForum()"></i>
+  </form>
+</div>
+
+<h1>Found:</h1>
+<div class="threads" *ngIf="threads">
+  <ul>
+    <li
+      *ngFor="let thread of threads"
+      [routerLink]="['/forum', thread.id]"
+    >
+      <h2>Thread</h2>
+      <div class="thread">
+        AuthorId: {{ thread.authorId }}<br>
+        AuthorName: {{ thread.authorName }}<br>
+        Created: {{ thread.created }}<br>
+        Id: {{ thread.id }}<br>
+        Title: {{ thread.title }}<br>
+      </div>
+
+      <div class="posts" *ngIf="thread.forumPosts">
+        <h3>Posts</h3>
+        <div class="post" *ngFor="let post of thread.forumPosts">
+          Id: {{ post.id }}<br>
+          AuthorId: {{ post.authorId }}<br>
+          AuthorName: {{ post.authorName }}<br>
+          Created: {{ post.created }}<br>
+          Content: {{ post.content }}<br>
+        </div>
+      </div>
+
+    </li>
+  </ul>
+</div>
+
+<nav>
+  currentPage: {{ pagination.currentPage }}<br>
+  itemsPerPage: {{ pagination.itemsPerPage }}<br>
+  totalItems: {{ pagination.totalItems }}<br>
+  totalPages: {{ pagination.totalPages }}<br>
+</nav>
