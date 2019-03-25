@@ -2,6 +2,10 @@ import {Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
 import {MapsAPILoader} from '@agm/core';
 import {FormControl} from '@angular/forms';
 import {} from '@types/googlemaps';
+import {Trail} from '../../dtos/trail';
+import {TrailService} from '../../_services/trail.service';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 declare var google;
 
@@ -35,7 +39,10 @@ export class TrailComponent implements OnInit {
   };
 
   constructor(private mapsAPILoader: MapsAPILoader,
-              private ngZone: NgZone) { }
+              private ngZone: NgZone,
+              private trailService: TrailService,
+              private toastr: ToastrService,
+              private router: Router) { }
 
   ngOnInit() {
     this.searchControl = new FormControl();
@@ -118,5 +125,19 @@ export class TrailComponent implements OnInit {
       'path': this.markers,
       'samples': 64
     }, console.log));
+  }
+
+  saveTrail() {
+    const trail = new Trail(this.origin, this.destination, this.waypoints);
+    this.trailService.addTrail(trail);
+
+    this.trailService.addTrail(trail).subscribe(next => {
+      this.toastr.success('Created');
+    }, error => {
+      console.log(error.stat);
+      this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
+    }, () => {
+      this.router.navigate(['/trails']);
+    });
   }
 }
