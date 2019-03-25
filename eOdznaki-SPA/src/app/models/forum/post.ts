@@ -1,7 +1,5 @@
-export interface Post {
-  id: number;
-  authorId: number;
-  authorName: string;
+import {ForumEntity} from './forumEntity';
+
+export interface Post extends ForumEntity {
   content: string;
-  created: Date;
 }

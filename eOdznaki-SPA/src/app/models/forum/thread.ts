@@ -1,10 +1,7 @@
 import {Post} from './post';
+import {ForumEntity} from './forumEntity';
 
-export interface Thread {
-  id: number;
-  authorId: number;
-  authorName: string;
+export interface Thread extends ForumEntity {
   title: string;
-  created: Date;
   forumPosts: Post[];
 }
