@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {AuthService} from './_services/auth.service';
-import {User} from './models/user';
+import {User} from './models/user/user';
 
 @Component({
   selector: 'app-root',

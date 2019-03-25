@@ -25,6 +25,9 @@ import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
 import {PreventUnsavedChanged} from './_guards/prevent-unsaved-changes.guard';
 import {AuthGuard} from './_guards/auth.guard';
 import {FileUploadModule} from 'ng2-file-upload';
+import {UserRolesComponent} from './components/user-roles/user-roles.component';
+import {UserRolesResolver} from './resolvers/user-roles-resolver';
+import {RolesModalComponent} from './components/roles-modal/roles-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -39,7 +42,9 @@ export function tokenGetter() {
     RegisterComponent,
     LoginComponent,
     ForumComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    UserRolesComponent,
+    RolesModalComponent
   ],
   imports: [
     HttpClientModule,
@@ -68,8 +73,12 @@ export function tokenGetter() {
     ErrorInterceptorProvider,
     ProfileEditResolver,
     ThreadsResolver,
+    UserRolesResolver,
     AuthGuard,
     PreventUnsavedChanged
+  ],
+  entryComponents: [
+    RolesModalComponent
   ],
   bootstrap: [AppComponent]
 })
