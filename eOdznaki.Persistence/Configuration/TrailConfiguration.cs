@@ -1,10 +1,7 @@
-﻿using eOdznaki.Models.Trails;
+﻿using eOdznaki.Models.Locations;
+using eOdznaki.Models.Trails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace eOdznaki.Persistence.Configuration
 {
@@ -12,9 +9,9 @@ namespace eOdznaki.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<Trail> builder)
         {
-            builder.HasOne(t => t.StartPoint).WithOne().OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(t => t.EndPoint).WithOne().OnDelete(DeleteBehavior.Restrict);
-            builder.HasMany(t => t.Checkpoints).WithOne().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(t => t.StartPoint).WithOne().HasForeignKey<Location>(l => l.Id);
+            builder.HasOne(t => t.EndPoint).WithOne().HasForeignKey<Location>(l => l.Id);
+            builder.HasMany(t => t.Checkpoints).WithOne();
         }
     }
 }

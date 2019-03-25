@@ -1,8 +1,5 @@
 ﻿using eOdznaki.Models.Locations;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace eOdznaki.Persistence.Configuration
 {
@@ -10,6 +7,8 @@ namespace eOdznaki.Persistence.Configuration
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Location> builder)
         {
+            builder.HasMany(l => l.BadgesSummit).WithOne().HasForeignKey(l => l.Id);
+            builder.HasMany(l => l.Trails).WithOne();
         }
     }
 }

@@ -8,6 +8,8 @@ namespace eOdznaki.Persistence.Configuration
     {
         public void Configure(EntityTypeBuilder<BadgeSummit> builder)
         {
+            builder.HasMany(b => b.ReachedSummits).WithOne();
+            builder.HasMany(b => b.UnreachedSummits).WithOne();
         }
     }
 }
