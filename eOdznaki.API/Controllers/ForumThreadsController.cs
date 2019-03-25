@@ -4,7 +4,6 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using AutoMapper;
 using eOdznaki.Configuration;
-using eOdznaki.Dtos.ForumPosts;
 using eOdznaki.Dtos.ForumThreads;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
@@ -42,13 +41,13 @@ namespace eOdznaki.Controllers
         }
 
         [HttpGet("{forumThreadId}")]
-        public async Task<IActionResult> GetForumThreadPosts(int forumThreadId)
+        public async Task<IActionResult> GetForumThread(int forumThreadId)
         {
             try
             {
                 var forumThread = await context.GetForumThread(forumThreadId);
 
-                return Ok(mapper.Map<IEnumerable<ForumPostPreviewDto>>(forumThread));
+                return Ok(mapper.Map<ForumThreadPreviewDto>(forumThread));
             }
             catch (ArgumentNullException e)
             {
@@ -67,7 +66,7 @@ namespace eOdznaki.Controllers
             {
                 var user = await GetUser();
 
-                var forumThreadUpdated = await context.Update(user.Id, forumThreadId, forumThread);
+                var forumThreadUpdated = await context.Update(user.Id, forumThreadId, forumThread, IsSudo());
                 return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreadUpdated));
             }
             catch (ArgumentNullException e)
@@ -90,6 +89,8 @@ namespace eOdznaki.Controllers
         {
             try
             {
+                forumThread.AuthorId = (await GetUser()).Id;
+
                 var forumThreadCreated = await context.Insert(forumThread);
 
                 return CreatedAtAction("GetForumThread", new {forumThreadId = forumThreadCreated.Id}, forumThreadCreated);
@@ -111,7 +112,7 @@ namespace eOdznaki.Controllers
             try
             {
                 var user = await GetUser();
-                var forumThreadDeleted = await context.Delete(user.Id, forumThreadId);
+                var forumThreadDeleted = await context.Delete(user.Id, forumThreadId, IsSudo());
 
                 return Ok(mapper.Map<ForumThreadPreviewDto>(forumThreadDeleted));
             }
@@ -128,6 +129,11 @@ namespace eOdznaki.Controllers
         private async Task<User> GetUser()
         {
             return await userManager.GetUserAsync(HttpContext.User);
+        }
+        
+        private bool IsSudo()
+        {
+            return User.IsInRole("Admin") || User.IsInRole("Moderator");
         }
     }
 }

@@ -9,14 +9,12 @@ namespace eOdznaki.Models
         {
         }
 
-        public ForumPost(int authorId, int forumThreadId, string content, User author, ForumThread forumThread)
+        public ForumPost(int authorId, int forumThreadId, string content)
         {
             AuthorId = authorId;
             ForumThreadId = forumThreadId;
             Content = content;
             Created = DateTime.Now;
-            Author = author;
-            ForumThread = forumThread;
         }
 
         public int Id { get; private set; }

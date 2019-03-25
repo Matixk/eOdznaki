@@ -9,7 +9,6 @@ import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 
-
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {HomeComponent} from './components/home/home.component';
@@ -20,6 +19,10 @@ import {LoginComponent} from './components/login/login.component';
 import {ErrorInterceptorProvider} from './_services/error.interceptor';
 import {ForumComponent} from './components/forum/forum.component';
 import {ThreadsResolver} from './resolvers/forumResolver';
+import {PostComponent} from './components/post/post.component';
+import {ThreadPostResolver} from './resolvers/threadPostResolver';
+import {SearchComponent} from './components/search/search.component';
+import {SearchResolver} from './resolvers/searchResolver';
 import {ProfileEditComponent} from './components/profile-edit/profile-edit.component';
 import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
 import {PreventUnsavedChanged} from './_guards/prevent-unsaved-changes.guard';
@@ -28,6 +31,7 @@ import {FileUploadModule} from 'ng2-file-upload';
 import {UserRolesComponent} from './components/user-roles/user-roles.component';
 import {UserRolesResolver} from './resolvers/user-roles-resolver';
 import {RolesModalComponent} from './components/roles-modal/roles-modal.component';
+import {PaginationComponent} from './components/pagination/pagination.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -42,6 +46,10 @@ export function tokenGetter() {
     RegisterComponent,
     LoginComponent,
     ForumComponent,
+    PostComponent,
+    SearchComponent,
+    ProfileEditComponent,
+    PaginationComponent,
     ProfileEditComponent,
     UserRolesComponent,
     RolesModalComponent
@@ -71,6 +79,9 @@ export function tokenGetter() {
   ],
   providers: [
     ErrorInterceptorProvider,
+    ThreadsResolver,
+    ThreadPostResolver,
+    SearchResolver,
     ProfileEditResolver,
     ThreadsResolver,
     UserRolesResolver,

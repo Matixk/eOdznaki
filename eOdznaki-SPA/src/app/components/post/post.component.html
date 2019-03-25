@@ -1,0 +1,137 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+      <div class="thread" *ngIf="thread">
+        <div class="row card promoting-card mt-4">
+          <div class="card card-image"
+               style="background-image: url(../../../assets/background-gradient.jpg);">
+            <div class="col toolbar">
+              <div class="row">
+                <div class="col-1 mt-3">
+                  <i class="fas fa-reply backArrow" [routerLink]="['/forum']"></i>
+                </div>
+
+                <h4 class="card-title d-flex justify-content-center threadTitle col-11 pt-3 pr-5">
+                  <strong>{{ thread.title }}</strong>
+                </h4>
+
+                <div class="col-1 mt-3" *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
+                  <i class="fas fa-comment"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row posts">
+    <div class="col">
+      <div class="row card promoting-card mb-3"
+           *ngFor="let post of posts; let i = index;"
+           [id]="'post-' + post.id"
+           on-mouseover="hoveredIndex = i" on-mouseleave="hoveredIndex = null">
+
+        <!-- Card content -->
+        <div class="card-body d-flex flex-row">
+
+          <!-- Avatar -->
+          <img src="{{ post.authorAvatar || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+
+          <!-- Content -->
+          <div>
+
+            <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
+            <!-- Subtitle -->
+            <p class="card-text">{{ post.authorName }}</p>
+            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created | timeAgo }}</p>
+
+          </div>
+
+        </div>
+
+        <!-- Card content -->
+        <div class="card-body" *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
+          <div class="row buttons">
+            <div class="col" *ngIf="hoveredIndex === i">
+              <i class="fas fa-quote-right text-muted float-right p-1 my-1"
+                 data-toggle="tooltip" data-placement="top" title="Quote post"></i>
+
+              <div *ngIf="authService.roleMatch(['Admin', 'Moderator']) ||
+              (authService.currentUser !== undefined && post.authorId === authService.currentUser.id)">
+                <i class="fas fa-trash text-muted float-right p-1 my-1 mr-3"
+                   data-toggle="tooltip" data-placement="top" title="Delete post"></i>
+                <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3"
+                   data-toggle="tooltip" data-placement="top" title="Edit post"></i>
+              </div>
+            </div>
+          </div>
+          <div class="row"
+               *ngIf="i === 0 &&
+               authService.roleMatch(['Admin', 'Moderator', 'Member'])">
+            <div class="col">
+              <button type="button" class="btn btn-info waves-effect float-right mt-3 mr-0"
+                      data-toggle="modal" data-target="#basicExample"
+                      (click)="newPost.show()" mdbWavesEffect
+                      *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
+                <span>Answer</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col d-flex justify-content-center pagination">
+      <app-pagination
+        [totalItems]="pagination.totalItems"
+        [currentPage]="pagination.currentPage"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [totalPages]="pagination.totalPages"
+        [loading]="loading"
+        (goPrev)="prevPage()"
+        (goNext)="nextPage()"
+        (goPage)="goToPage($event)">
+      </app-pagination>
+    </div>
+
+  </div>
+</div>
+
+<div mdbModal #newPost="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true" (onHide)="clearForm()">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Answer</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newPost.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form (ngSubmit)="answer()">
+        <div class="modal-body mx-3">
+          <div class="md-form">
+          <textarea class="md-textarea form-control validate"
+                    rows="3" id="threadForm-content" type="text" length="2000"
+                    mdbCharCounter mdbInput
+                    [formControl]="postForm">
+          </textarea>
+            <label data-error="wrong" data-success="right" for="threadForm-content">Content</label>
+          </div>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-center">
+          <button mdbBtn color="default" class="waves-light" mdbWavesEffect [disabled]="!postForm.valid">Answer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
