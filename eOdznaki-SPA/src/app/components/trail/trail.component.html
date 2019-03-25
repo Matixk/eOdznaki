@@ -2,16 +2,19 @@
   <div class="row">
     <div id="directions" class="col-sm-3">
       <div id="directionsPanel" class="form-group">
-        <label for="originInput">Punkt startowy</label>
-        <input #originInput class="form-control" type="text" placeholder="Wpisz lokalizację"
+        <label for="originInput">Origin</label>
+        <input #originInput class="form-control" type="text" placeholder="Origin"
                autocomplete="off" [formControl]="searchControl">
 
-        <label for="destinationInput">Punkt docelowy</label>
-        <input #destinationInput class="form-control" type="text" placeholder="Wprowadź lokalizację"
+        <label for="destinationInput">Destination</label>
+        <input #destinationInput class="form-control" type="text" placeholder="Destination"
                autocomplete="off" [formControl]="searchControl">
       </div>
       <div id="directionSteps" *ngFor="let trail of directions">
-        <p  type="text">Ścieżka od: {{trail.origin}} | do: {{trail.destination}}</p>
+        <p  type="text">Origin: {{trail.origin}} | destination: {{trail.destination}}</p>
+      </div>
+      <div>
+        <button (click)="saveTrail()">Save trail</button>
       </div>
     </div>
     <div id="map" class="col-sm-9">
@@ -40,4 +43,3 @@
     </div>
   </div>
 </div>
-<p *ngIf='selectedMarker'>Lat: {{ selectedMarker.lat }} Lng: {{ selectedMarker.lng }}</p>
