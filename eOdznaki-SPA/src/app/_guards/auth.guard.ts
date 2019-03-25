@@ -19,14 +19,14 @@ export class AuthGuard implements CanActivate {
         return true;
       } else {
         this.router.navigate(['/home']);
-        this.toastr.error('Unauthorized');
+        this.toastr.error('Unauthorized.');
       }
     }
     if (this.authService.loggedIn()) {
       return true;
     }
 
-    this.toastr.error('Unauthorized');
+    this.toastr.error('Unauthorized.');
     this.router.navigate(['/home']);
     return false;
 
