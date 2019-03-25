@@ -15,6 +15,12 @@ namespace eOdznaki.Persistence.Configuration
                 .HasForeignKey(t => t.AuthorId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(t => t.ForumPosts)
+                .WithOne(p => p.ForumThread)
+                .HasForeignKey(p => p.ForumThreadId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

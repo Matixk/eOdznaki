@@ -62,32 +62,7 @@ namespace eOdznaki.Repositories
             return threadToCreate;
         }
 
-        public async Task<ForumThread> Update(int userId, int forumThreadId, ForumThreadForUpdateDto forumThread)
-        {
-            var user = await context
-                .Users
-                .FirstOrDefaultAsync(u => u.Id == userId);
-
-            if (user == null) throw new ArgumentNullException(nameof(userId));
-
-            var forumThreadEntity = await context
-                .ForumThreads
-                .FirstOrDefaultAsync(t => t.Id == forumThreadId);
-
-            if (forumThreadEntity == null) throw new ArgumentNullException(nameof(userId));
-
-            // TODO permission for admin/moderator
-            if (user.Id != forumThreadEntity.AuthorId) throw new AuthenticationException();
-
-            forumThreadEntity.Title = forumThread.Title;
-
-            context.Entry(forumThreadEntity).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-
-            return forumThreadEntity;
-        }
-
-        public async Task<ForumThread> Delete(int userId, int forumThreadId)
+        public async Task<ForumThread> Update(int userId, int forumThreadId, ForumThreadForUpdateDto forumThread, bool sudo)
         {
             var user = await context
                 .Users
@@ -101,8 +76,31 @@ namespace eOdznaki.Repositories
 
             if (forumThreadEntity == null) throw new ArgumentNullException(nameof(forumThreadId));
 
-            // TODO permission for admin/moderator
-            if (user.Id != forumThreadEntity.AuthorId) throw new AuthenticationException();
+            if (user.Id != forumThreadEntity.AuthorId && !sudo) throw new AuthenticationException();
+
+            forumThreadEntity.Title = forumThread.Title;
+
+            context.Entry(forumThreadEntity).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+
+            return forumThreadEntity;
+        }
+
+        public async Task<ForumThread> Delete(int userId, int forumThreadId, bool sudo)
+        {
+            var user = await context
+                .Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) throw new ArgumentNullException(nameof(userId));
+
+            var forumThreadEntity = await context
+                .ForumThreads
+                .FirstOrDefaultAsync(t => t.Id == forumThreadId);
+
+            if (forumThreadEntity == null) throw new ArgumentNullException(nameof(forumThreadId));
+
+            if (user.Id != forumThreadEntity.AuthorId && !sudo) throw new AuthenticationException();
 
             context.Remove(forumThreadEntity);
             await context.SaveChangesAsync();
