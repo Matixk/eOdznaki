@@ -10,6 +10,8 @@ import {ProfileEditComponent} from './components/profile-edit/profile-edit.compo
 import {PreventUnsavedChanged} from './_guards/prevent-unsaved-changes.guard';
 import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
 import {AuthGuard} from './_guards/auth.guard';
+import {UserRolesComponent} from './components/user-roles/user-roles.component';
+import {UserRolesResolver} from './resolvers/user-roles-resolver';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,6 +28,11 @@ export const appRoutes: Routes = [
         path: 'profile/edit', component: ProfileEditComponent,
         resolve: {user: ProfileEditResolver}, canDeactivate: [PreventUnsavedChanged],
       },
+      {
+        path: 'manage/roles', component: UserRolesComponent,
+        resolve: { users: UserRolesResolver },
+        data: { roles: ['Admin'] }
+      }
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

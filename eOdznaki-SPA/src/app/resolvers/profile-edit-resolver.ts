@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User} from '../models/user';
+import {User} from '../models/user/user';
 import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {UserService} from '../_services/user.service';
 import {ToastrService} from 'ngx-toastr';
