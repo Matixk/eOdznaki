@@ -76,7 +76,7 @@ namespace eOdznaki.Repositories
 
             if (forumThreadEntity == null) throw new ArgumentNullException(nameof(forumThreadId));
 
-            if (user.Id != forumThreadEntity.AuthorId || !sudo) throw new AuthenticationException();
+            if (user.Id != forumThreadEntity.AuthorId && !sudo) throw new AuthenticationException();
 
             forumThreadEntity.Title = forumThread.Title;
 
@@ -100,7 +100,7 @@ namespace eOdznaki.Repositories
 
             if (forumThreadEntity == null) throw new ArgumentNullException(nameof(forumThreadId));
 
-            if (user.Id != forumThreadEntity.AuthorId || !sudo) throw new AuthenticationException();
+            if (user.Id != forumThreadEntity.AuthorId && !sudo) throw new AuthenticationException();
 
             context.Remove(forumThreadEntity);
             await context.SaveChangesAsync();
