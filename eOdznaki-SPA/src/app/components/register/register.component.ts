@@ -3,7 +3,7 @@ import {AuthService} from '../../_services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {User} from '../../models/user';
+import {User} from '../../models/user/user';
 import {isPlatformBrowser} from '@angular/common';
 
 @Component({

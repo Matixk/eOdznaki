@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {User} from '../../models/user';
+import {User} from '../../models/user/user';
 import {ActivatedRoute} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {UserService} from '../../_services/user.service';
