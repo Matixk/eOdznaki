@@ -108,18 +108,18 @@
 
 <div mdbModal #newPost="mdbModal" class="modal fade top" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true" (onHide)="clearForm()">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered newPostModal" role="document">
     <div class="modal-content">
 
-      <div class="modal-header justify-content-center">
+      <div class="modal-header text-center text-white" style="background-image: url(../../../assets/background-gradient.jpg);">
         <h4 class="modal-title w-100 font-weight-bold">Answer</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newPost.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <form (ngSubmit)="answer()">
-        <div class="modal-body mx-3">
+      <form (ngSubmit)="answer()" class="px-5 pt-0">
+        <div class="modal-body">
           <div class="md-form">
           <textarea class="md-textarea form-control validate"
                     rows="3" id="threadForm-content" type="text" length="2000"
