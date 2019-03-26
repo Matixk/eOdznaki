@@ -24,12 +24,14 @@ namespace eOdznaki.Repositories
 
             var posts = await context
                 .ForumPosts
-                .Include("ForumThread")
+                .Include(e => e.ForumThread)
+                .Include(e => e.Author)
                 .Where(f => f.Content.ToLower().Contains(regex))
                 .ToListAsync();
 
             var threads = await context
                 .ForumThreads
+                .Include(e => e.Author)
                 .Where(f => f.Title.ToLower().Contains(regex))
                 .ToListAsync();
 
