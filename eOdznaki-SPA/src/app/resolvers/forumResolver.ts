@@ -11,7 +11,7 @@ import {ThreadService} from '../_services/thread.service';
 @Injectable()
 export class ThreadsResolver implements Resolve<Thread[]> {
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 4;
 
   constructor(
     private threadService: ThreadService,
