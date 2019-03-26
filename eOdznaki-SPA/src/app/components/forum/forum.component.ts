@@ -83,7 +83,8 @@ export class ForumComponent implements OnInit {
 
       this.threadService.addThread(threadForCreate).subscribe(next => {
         threadId = next.id;
-        this.toastr.success('Created');
+        this.toastr.toastrConfig.preventDuplicates = true;
+        this.toastr.success('Created thread successfully.');
       }, error => {
         console.log(error.stat);
         this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
@@ -105,7 +106,7 @@ export class ForumComponent implements OnInit {
     this.threadService.delete(this.threadToDelete).subscribe(() => {
       this.deleteThreadModal.hide();
       this.loadThreads();
-      this.toastr.success('Deleted');
+      this.toastr.success('Deleted thread successfully');
     }, error => {
       console.log(error);
       this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');

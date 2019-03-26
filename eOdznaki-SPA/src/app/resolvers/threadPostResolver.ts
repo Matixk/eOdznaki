@@ -19,7 +19,7 @@ export class ThreadPostResolver implements Resolve<Post[]> {
     return this.postService.getPosts(route.params['id'], this.pageNumber, this.pageSize).pipe(
       catchError(error => {
         this.toastr.toastrConfig.preventDuplicates = true;
-        this.toastr.error('Could not retrieve User data.');
+        this.toastr.error('Could not retrieve Thread data.');
         this.router.navigate(['/forum']);
         return of(null);
       })

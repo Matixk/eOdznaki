@@ -22,6 +22,7 @@ export class ThreadsResolver implements Resolve<Thread[]> {
   resolve(route: ActivatedRouteSnapshot): Observable<Thread[]> {
     return this.threadService.getThreads(this.pageNumber, this.pageSize).pipe(
       catchError(error => {
+        this.toastr.toastrConfig.preventDuplicates = true;
         this.toastr.error('Could not retrieve Threads data.');
         this.router.navigate(['/home']);
         return of(null);
