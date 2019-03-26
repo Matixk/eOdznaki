@@ -128,4 +128,9 @@ export class PostComponent implements OnInit {
       this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
     });
   }
+
+  quote(content: string, authorName: string) {
+    this.postForm.setValue(`\`\`\`\n${content}\n\`\`\` ~ ${authorName}\n`);
+    this.newPostModal.show();
+  }
 }

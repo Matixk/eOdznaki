@@ -57,7 +57,8 @@
           <div class="row buttons">
             <div class="col" *ngIf="hoveredIndex === i">
               <i class="fas fa-quote-right text-muted float-right p-1 my-1"
-                 data-toggle="tooltip" data-placement="top" title="Quote post"></i>
+                 data-toggle="tooltip" data-placement="top" title="Quote post"
+                 (click)="quote(post.content, post.authorName)"></i>
 
               <div *ngIf="authService.roleMatch(['Admin', 'Moderator']) ||
               (authService.currentUser !== undefined && post.authorId === authService.currentUser.id)">
