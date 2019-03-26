@@ -13,7 +13,8 @@ namespace eOdznaki.Configuration
             var token = configuration.GetSection("Secrets:FacebookAppId").Value;
             var fbId = configuration.GetSection("Secrets:FacebookAppId").Value;
             var fbSecret = configuration.GetSection("Secrets:FacebookAppKey").Value;
-
+            var gId = configuration.GetSection("Secrets:GoogleAppId").Value;
+            var gSecret = configuration.GetSection("Secrets:GoogleAppKey").Value;
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -31,8 +32,12 @@ namespace eOdznaki.Configuration
                 {
                     options.AppId = fbId;
                     options.AppSecret = fbSecret;
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = gId;
+                    options.ClientSecret = gSecret;
                 });
-
         }
     }
 }
