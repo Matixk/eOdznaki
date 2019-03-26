@@ -13,7 +13,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TrailService {
-  baseUrl = environment.apiUrl + 'trail/';
+  baseUrl = environment.apiUrl + 'Trails/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
