@@ -38,14 +38,14 @@
         <div class="card-body d-flex flex-row">
 
           <!-- Avatar -->
-          <img src="{{ post.authorAvatar || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+          <img src="{{ post.author.avatarUrl || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
 
           <!-- Content -->
           <div>
 
             <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
             <!-- Subtitle -->
-            <p class="card-text">{{ post.authorName }}</p>
+            <p class="card-text">{{ post.author.userName }}</p>
             <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created.toString() | timeAgo }}</p>
 
           </div>
@@ -58,10 +58,10 @@
             <div class="col" *ngIf="hoveredIndex === i">
               <i class="fas fa-quote-right text-muted float-right p-1 my-1"
                  data-toggle="tooltip" data-placement="top" title="Quote post"
-                 (click)="quote(post.content, post.authorName)"></i>
+                 (click)="quote(post.content, post.author.userName)"></i>
 
               <div *ngIf="authService.roleMatch(['Admin', 'Moderator']) ||
-              (authService.currentUser !== undefined && post.authorId === authService.currentUser.id)">
+              (authService.currentUser !== undefined && post.author.id === authService.currentUser.id)">
                 <i class="fas fa-trash text-muted float-right p-1 my-1 mr-3"
                    data-toggle="tooltip" data-placement="top" title="Delete post"
                    (click)="showDeleteWarning(post.id)"></i>
