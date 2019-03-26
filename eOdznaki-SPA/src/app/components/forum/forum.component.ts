@@ -31,6 +31,7 @@ export class ForumComponent implements OnInit {
 
   @ViewChild('deleteModal') public deleteThreadModal;
   private threadToDelete: number;
+  hoveredIndex: number;
 
   constructor(private threadService: ThreadService,
               private searchService: SearchService,
