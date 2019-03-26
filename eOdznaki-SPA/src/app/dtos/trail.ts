@@ -1,7 +1,9 @@
+import {MyLocation} from './myLocation';
+
 export class Trail {
   constructor(
-    public startPoint: Location,
-    public endPoint: Location,
-    public checkpoints: Location[]
+    public startPoint: {latitude: number, longitude: number},
+    public endPoint: MyLocation,
+    public checkpoints: MyLocation[]
   ) {}
 }
