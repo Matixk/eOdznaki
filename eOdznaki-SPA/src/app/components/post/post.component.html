@@ -46,7 +46,7 @@
             <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
             <!-- Subtitle -->
             <p class="card-text">{{ post.authorName }}</p>
-            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created | timeAgo }}</p>
+            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created.toString() | timeAgo }}</p>
 
           </div>
 
