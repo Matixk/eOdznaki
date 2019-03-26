@@ -46,8 +46,8 @@
         </div>
 
         <!-- Card content -->
-        <div class="card-body" *ngIf="hoveredIndex === i && authService.roleMatch(['Admin', 'Moderator']) ||
-        (authService.currentUser !== undefined && thread.author.id === authService.currentUser.id)">
+        <div class="card-body" *ngIf="hoveredIndex === i && (authService.roleMatch(['Admin', 'Moderator']) ||
+        (authService.currentUser !== undefined && thread.author.id === authService.currentUser.id))">
           <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Delete thread"
              (click)="showDeleteModal(thread.id)"></i>
           <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edit thread"></i>
