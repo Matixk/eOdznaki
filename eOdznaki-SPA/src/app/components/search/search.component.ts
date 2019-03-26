@@ -8,6 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {PaginatedResult} from '../../models/pagination/paginatedResult';
 import {FormControl} from '@angular/forms';
 import {FormValidatorOptions} from '../../utils/formValidatorOptions';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +26,8 @@ export class SearchComponent implements OnInit {
               private searchService: SearchService,
               private route: ActivatedRoute,
               private router: Router,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              public authService: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
