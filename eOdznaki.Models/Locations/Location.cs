@@ -7,6 +7,15 @@ namespace eOdznaki.Models.Locations
 {
     public class Location : GeoCoordinate
     {
+        public Location()
+        {}
+
+        public Location(double longitude, double latitude)
+        {
+            Longitude = longitude;
+            Latitude = latitude;
+        }
+
         public int Id { get; private set; }
 
         public string Name { get; private set; }
