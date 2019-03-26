@@ -40,32 +40,36 @@ export class SearchComponent implements OnInit {
   }
 
   searchForum() {
-    if (this.searchForm.valid) {
-      const regex = this.searchForm.value;
-      this.searchForm.setValue(regex);
+    let regex;
+    this.route.params.subscribe(params => regex = params['regex']);
 
+    if (this.searchForm.valid) {
+      regex = this.searchForm.value;
+      this.searchForm.setValue(regex);
+    }
+    if (regex) {
       this.searchService.search(regex, this.pagination.currentPage, this.pagination.itemsPerPage)
         .subscribe((res: PaginatedResult<Thread[]>) => {
           this.threads = res.result;
           this.pagination = res.pagination;
-          this.toastr.info(`Found in ${this.pagination.totalItems} threads.`);
-          }, error => {
+          this.toastr.info(`Found "${regex}" in ${this.pagination.totalItems} threads.`);
+        }, error => {
           this.toastr.error(error);
         });
     }
   }
 
-  prevPage()  {
+  prevPage() {
     this.pagination.currentPage--;
     this.searchForum();
   }
 
-  nextPage()  {
+  nextPage() {
     this.pagination.currentPage++;
     this.searchForum();
   }
 
-  goToPage(n: number)  {
+  goToPage(n: number) {
     this.pagination.currentPage = n;
     this.searchForum();
   }

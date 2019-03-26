@@ -101,7 +101,7 @@ export class PostComponent implements OnInit {
         this.newPostModal.hide();
         this.pagination.currentPage = this.pagination.totalPages;
         this.loadPosts();
-        this.toastr.success('Created');
+        this.toastr.success('Created post successfully.');
       }, error => {
         console.log(error);
         this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
@@ -122,7 +122,7 @@ export class PostComponent implements OnInit {
     this.postService.delete(this.postToDelete).subscribe(() => {
       this.deletePostModal.hide();
       this.loadPosts();
-      this.toastr.success('Deleted');
+      this.toastr.success('Deleted post successfully.');
     }, error => {
       console.log(error);
       this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');

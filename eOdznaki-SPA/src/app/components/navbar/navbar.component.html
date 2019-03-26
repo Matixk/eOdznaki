@@ -5,17 +5,14 @@
   <links>
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active" [routerLink]="['/home']">
-        <a class="nav-link waves-light" mdbWavesEffect>Home<span class="sr-only">(current)</span></a>
+      <li class="nav-item" routerLinkActive="nav-item active">
+        <a class="nav-link waves-light" [routerLink]="['/home']" mdbWavesEffect>Home<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link waves-light" mdbWavesEffect>Leaderboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/forum']">Forum</a>
+      <li class="nav-item" routerLinkActive="nav-item active">
+        <a class="nav-link waves-light" [routerLink]="['/forum']" mdbWavesEffect >Forum</a>
       </li>
       <li *ngIf="authService.roleMatch(['Admin', 'Moderator'])" class="nav-item dropdown" dropdown>
-        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light">
           Manage<span class="caret"></span></a>
         <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
           <a class="dropdown-item waves-light" [routerLink]="['/manage/roles']" mdbWavesEffect>User Roles</a>
@@ -31,7 +28,7 @@
       </li>
 
       <li class="nav-item dropdown" dropdown>
-        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light">
           Welcome {{ authService.decodedToken?.unique_name | titlecase }}<span class="caret"></span></a>
         <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
           <a class="dropdown-item waves-light" [routerLink]="['/profile/edit']" mdbWavesEffect>Edit Profile</a>

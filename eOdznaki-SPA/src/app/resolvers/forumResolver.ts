@@ -11,7 +11,7 @@ import {ThreadService} from '../_services/thread.service';
 @Injectable()
 export class ThreadsResolver implements Resolve<Thread[]> {
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 4;
 
   constructor(
     private threadService: ThreadService,
@@ -22,6 +22,7 @@ export class ThreadsResolver implements Resolve<Thread[]> {
   resolve(route: ActivatedRouteSnapshot): Observable<Thread[]> {
     return this.threadService.getThreads(this.pageNumber, this.pageSize).pipe(
       catchError(error => {
+        this.toastr.toastrConfig.preventDuplicates = true;
         this.toastr.error('Could not retrieve Threads data.');
         this.router.navigate(['/home']);
         return of(null);

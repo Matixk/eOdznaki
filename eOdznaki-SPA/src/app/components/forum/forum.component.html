@@ -22,14 +22,15 @@
   <div class="row threads">
     <div class="col">
       <div class="row card promoting-card my-4"
-           *ngFor="let thread of threads"
-           [id]="'thread-' + thread.id">
+           *ngFor="let thread of threads; let i = index;"
+           [id]="'thread-' + thread.id"
+           on-mouseover="hoveredIndex = i" on-mouseleave="hoveredIndex = null">
 
         <!-- Card content -->
         <div class="card-body d-flex flex-row pb-1" [routerLink]="['/forum', thread.id]">
 
           <!-- Avatar -->
-          <img src="{{ thread.authorAvatar || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+          <img src="{{ thread.author.avatarUrl || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
 
           <!-- Content -->
           <div>
@@ -37,16 +38,16 @@
             <!-- Title -->
             <h4 class="card-title font-weight-bold mb-2">{{ thread.title}}</h4>
             <!-- Subtitle -->
-            <p class="card-text">{{ thread.authorName }}</p>
-            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created | timeAgo}}</p>
+            <p class="card-text">{{ thread.author.userName }}</p>
+            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created.toString() | timeAgo }}</p>
 
           </div>
 
         </div>
 
         <!-- Card content -->
-        <div class="card-body" *ngIf="authService.roleMatch(['Admin', 'Moderator']) ||
-        (authService.currentUser !== undefined && thread.authorId === authService.currentUser.id)">
+        <div class="card-body" *ngIf="hoveredIndex === i && (authService.roleMatch(['Admin', 'Moderator']) ||
+        (authService.currentUser !== undefined && thread.author.id === authService.currentUser.id))">
           <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Delete thread"
              (click)="showDeleteModal(thread.id)"></i>
           <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edit thread"></i>
@@ -74,19 +75,19 @@
 
 <div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered newThreadModal" role="document">
     <div class="modal-content">
 
-      <div class="modal-header text-center">
+      <div class="modal-header text-center text-white" style="background-image: url(../../../assets/background-gradient.jpg);">
         <h4 class="modal-title w-100 font-weight-bold">New thread</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <form [formGroup]="threadForm" (ngSubmit)="addThread()">
-        <div class="modal-body mx-3">
-          <div class="md-form mb-5">
+      <form [formGroup]="threadForm" (ngSubmit)="addThread()" class="px-5 pt-0">
+        <div class="modal-body">
+          <div class="md-form">
             <input type="text" id="threadForm-title" class="form-control validate"
                    mdbInput
                    formControlName="title">
@@ -104,7 +105,8 @@
         </div>
 
         <div class="modal-footer d-flex justify-content-center">
-          <button mdbBtn color="default" class="waves-light" mdbWavesEffect [disabled]="!threadForm.valid">Add</button>
+          <button mdbBtn color="info" outline="true" rounded="true" block="true" class="waves-effect"
+                  mdbWavesEffect [disabled]="!threadForm.valid">Add</button>
         </div>
       </form>
     </div>

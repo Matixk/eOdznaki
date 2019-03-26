@@ -1,7 +1,7 @@
+import {Author} from '../user/author';
+
 export interface ForumEntity {
   id: number;
-  authorId: number;
-  authorName: string;
-  authorAvatar: string;
+  author: Author;
   created: Date;
 }

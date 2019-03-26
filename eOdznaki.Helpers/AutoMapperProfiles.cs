@@ -15,26 +15,7 @@ namespace eOdznaki.Helpers
             CreateMap<UserForUpdateDto, User>();
             CreateMap<User, UserForViewDto>();
             CreateMap<User, UserForPreviewDto>();
-            CreateMap<ForumThread, ForumThreadPreviewDto>()
-                .ForMember(e => e.AuthorName,
-                    dto => dto.MapFrom(e => e.Author.UserName))
-                .ReverseMap();
-
-            CreateMap<ForumThread, ForumThreadPreviewDto>()
-                .ForMember(e => e.AuthorAvatar,
-                    dto => dto.MapFrom(e => e.Author.AvatarUrl))
-                .ReverseMap();
-
-            CreateMap<ForumPost, ForumPostPreviewDto>()
-                .ForMember(e => e.AuthorName,
-                    dto => dto.MapFrom(e => e.Author.UserName))
-                .ReverseMap();
-
-            CreateMap<ForumPost, ForumPostPreviewDto>()
-                .ForMember(e => e.AuthorAvatar,
-                    dto => dto.MapFrom(e => e.Author.AvatarUrl))
-                .ReverseMap();
-
+            
             CreateMap<Announcement, AnnouncementPreviewDto>()
                 .ForMember(e => e.AuthorName,
                     dto => dto.MapFrom(e => e.Author.UserName))
