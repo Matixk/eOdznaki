@@ -19,6 +19,8 @@ export class SearchComponent implements OnInit {
 
   threads: Thread[];
   pagination: Pagination;
+  prevRegex: string;
+  loading = false;
 
   searchForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 2, 25));
 
@@ -40,6 +42,7 @@ export class SearchComponent implements OnInit {
   searchForum() {
     if (this.searchForm.valid) {
       const regex = this.searchForm.value;
+      this.searchForm.setValue(regex);
 
       this.searchService.search(regex, this.pagination.currentPage, this.pagination.itemsPerPage)
         .subscribe((res: PaginatedResult<Thread[]>) => {
@@ -50,6 +53,21 @@ export class SearchComponent implements OnInit {
           this.toastr.error(error);
         });
     }
+  }
+
+  prevPage()  {
+    this.pagination.currentPage--;
+    this.searchForum();
+  }
+
+  nextPage()  {
+    this.pagination.currentPage++;
+    this.searchForum();
+  }
+
+  goToPage(n: number)  {
+    this.pagination.currentPage = n;
+    this.searchForum();
   }
 
 }
