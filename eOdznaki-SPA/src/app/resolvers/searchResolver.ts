@@ -11,7 +11,7 @@ import {SearchService} from '../_services/search.service';
 @Injectable()
 export class SearchResolver implements Resolve<Thread[]> {
   pageNumber = 1;
-  pageSize = 5;
+  pageSize = 1;
 
   constructor(
     private searchService: SearchService,

@@ -20,7 +20,7 @@
 
            <div class="col">
              <!-- Card content -->
-              <div class="card-body d-flex flex-row pb-1">
+              <div class="card-body d-flex flex-row justify-content-center pb-1">
 
                 <!-- Avatar -->
                 <img src="{{ thread.authorAvatar || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
@@ -39,31 +39,33 @@
               </div>
           </div>
 
-          <div class="row posts" *ngIf="thread.forumPosts">
+        <div class="col">
+          <div class="row posts ml-5" *ngIf="thread.forumPosts">
             <div class="col">
               <div class="row card promoting-card mb-3"
-                  *ngFor="let post of thread.forumPosts; let i = index;"
-                  [id]="'post-' + post.id">
-        
+                   *ngFor="let post of thread.forumPosts;"
+                   [id]="'post-' + post.id">
+
                 <!-- Card content -->
                 <div class="card-body d-flex flex-row">
-        
-                <!-- Avatar -->
-                <img src="{{ post.authorAvatar || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
-        
-                <!-- Content -->
-                <div>
-        
-                  <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
-                  <!-- Subtitle -->
-                  <p class="card-text">{{ post.authorName }}</p>
-                  <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created | timeAgo }}</p>
-        
+
+                  <!-- Avatar -->
+                  <img src="{{ post.authorAvatar || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+
+                  <!-- Content -->
+                  <div>
+
+                    <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
+                    <!-- Subtitle -->
+                    <p class="card-text">{{ post.authorName }}</p>
+                    <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created | timeAgo }}</p>
+
+                  </div>
                 </div>
               </div>
             </div>
-            </div>
           </div>
+        </div>
     </div>
    </div>
  </div>
