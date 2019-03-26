@@ -32,7 +32,7 @@
                   <h4 class="card-title font-weight-bold mb-2">{{ thread.title}}</h4>
                   <!-- Subtitle -->
                   <p class="card-text">{{ thread.authorName }}</p>
-                  <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created | timeAgo}}</p>
+                  <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created.toString() | timeAgo}}</p>
 
                 </div>
 
