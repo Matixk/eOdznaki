@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using eOdznaki.Configuration;
+using eOdznaki.Dtos;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
-using eOdznaki.Models.Trails;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace eOdznaki.Controllers
@@ -58,13 +56,13 @@ namespace eOdznaki.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostTrail(Trail trail)
+        public async Task<IActionResult> PostTrail(TrailDto trail)
         {
             try
             {
                 var newTrail = await repository.Add(trail);
 
-                return CreatedAtRoute("GetTrail", new { id = newTrail.Id }, newTrail);
+                return Ok();
             }
             catch (ArgumentNullException e)
             {
