@@ -6,6 +6,7 @@ import {Trail} from '../../dtos/trail';
 import {TrailService} from '../../_services/trail.service';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
+import {MyLocation} from '../../dtos/myLocation';
 
 declare var google;
 
@@ -128,13 +129,14 @@ export class TrailComponent implements OnInit {
   }
 
   saveTrail() {
-    const trail = new Trail(this.origin, this.destination, this.waypoints);
-    this.trailService.addTrail(trail);
+    const trail = new Trail({longitude: this.origin.lng(), latitude: this.origin.lat()},
+      new MyLocation(this.destination.lng(), this.destination.lat), this.waypoints);
 
-    this.trailService.addTrail(trail).subscribe(next => {
+    this.trailService.addTrail(trail).subscribe(() => {
       this.toastr.success('Created');
     }, error => {
       console.log(error.stat);
+      console.log(error);
       this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
     }, () => {
       this.router.navigate(['/trails']);
