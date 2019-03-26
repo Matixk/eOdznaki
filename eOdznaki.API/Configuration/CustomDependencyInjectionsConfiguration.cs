@@ -19,6 +19,7 @@ namespace eOdznaki.Configuration
             services.AddScoped<IAnnouncementsRepository, AnnouncementsRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<ITrailRepository, TrailRepository>();
         }
     }
 }
