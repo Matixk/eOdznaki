@@ -62,7 +62,8 @@
               <div *ngIf="authService.roleMatch(['Admin', 'Moderator']) ||
               (authService.currentUser !== undefined && post.authorId === authService.currentUser.id)">
                 <i class="fas fa-trash text-muted float-right p-1 my-1 mr-3"
-                   data-toggle="tooltip" data-placement="top" title="Delete post"></i>
+                   data-toggle="tooltip" data-placement="top" title="Delete post"
+                   (click)="showDeleteWarning(post.id)"></i>
                 <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3"
                    data-toggle="tooltip" data-placement="top" title="Edit post"></i>
               </div>
@@ -104,12 +105,12 @@
   </div>
 </div>
 
-<div mdbModal #newPost="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog"
+<div mdbModal #newPost="mdbModal" class="modal fade top" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true" (onHide)="clearForm()">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
 
-      <div class="modal-header text-center">
+      <div class="modal-header justify-content-center">
         <h4 class="modal-title w-100 font-weight-bold">Answer</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newPost.hide()">
           <span aria-hidden="true">&times;</span>
@@ -132,6 +133,71 @@
           <button mdbBtn color="default" class="waves-light" mdbWavesEffect [disabled]="!postForm.valid">Answer</button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+<div mdbModal #deletePost="mdbModal" class="modal fade right" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-danger modal-side modal-top-right" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="heading">Delete post</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deletePost.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col">
+            <p class="text-center">This action cannot be undone. This will permanently delete this post.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect (click)="deletePost.hide()"
+           data-dismiss="modal">No, thanks</a>
+        <button mdbBtn color="danger" class="waves-effect" mdbWavesEffect (click)="delete()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mdbModal #deletePost="mdbModal" class="modal fade right" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-danger modal-side modal-top-right" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="heading">Delete post</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deletePost.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col">
+            <p class="text-center">This action cannot be undone. This will permanently delete this post.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect (click)="deletePost.hide()"
+           data-dismiss="modal">No, thanks</a>
+        <button mdbBtn color="danger" class="waves-effect" mdbWavesEffect>
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </div>

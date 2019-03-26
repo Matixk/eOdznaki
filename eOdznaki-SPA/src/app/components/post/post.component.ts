@@ -112,4 +112,20 @@ export class PostComponent implements OnInit {
   clearForm() {
     this.postForm.setValue('');
   }
+
+  showDeleteWarning(id: number) {
+    this.postToDelete = id;
+    this.deletePostModal.show();
+  }
+
+  delete() {
+    this.postService.delete(this.postToDelete).subscribe(() => {
+      this.deletePostModal.hide();
+      this.loadPosts();
+      this.toastr.success('Deleted');
+    }, error => {
+      console.log(error);
+      this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
+    });
+  }
 }
