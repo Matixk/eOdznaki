@@ -23,11 +23,10 @@
     <div class="col">
       <div class="row card promoting-card my-4"
            *ngFor="let thread of threads"
-           [routerLink]="['/forum', thread.id]"
            [id]="'thread-' + thread.id">
 
         <!-- Card content -->
-        <div class="card-body d-flex flex-row pb-1">
+        <div class="card-body d-flex flex-row pb-1" [routerLink]="['/forum', thread.id]">
 
           <!-- Avatar -->
           <img src="{{ thread.authorAvatar || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
@@ -48,7 +47,8 @@
         <!-- Card content -->
         <div class="card-body" *ngIf="authService.roleMatch(['Admin', 'Moderator']) ||
         (authService.currentUser !== undefined && thread.authorId === authService.currentUser.id)">
-          <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Delete thread"></i>
+          <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Delete thread"
+             (click)="showDeleteModal(thread.id)"></i>
           <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edit thread"></i>
         </div>
 
@@ -94,7 +94,7 @@
           </div>
 
           <div class="md-form">
-          <textarea class="md-textarea form-control validate"
+            <textarea class="md-textarea form-control validate"
                     rows="3" id="threadForm-content" type="text" length="2000"
                     mdbCharCounter mdbInput
                     formControlName="content">
@@ -107,6 +107,39 @@
           <button mdbBtn color="default" class="waves-light" mdbWavesEffect [disabled]="!threadForm.valid">Add</button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<div mdbModal #deleteModal="mdbModal" class="modal fade right" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-danger modal-side modal-top-right" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="heading">Delete thread</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deleteModal.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col">
+            <p class="text-center">This action cannot be undone. This will permanently delete this thread.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="info" class="waves-effect" mdbWavesEffect (click)="deleteModal.hide()"
+           data-dismiss="modal">No, thanks</a>
+        <button mdbBtn color="danger" class="waves-effect" mdbWavesEffect (click)="deleteThread()">
+          Delete
+        </button>
+      </div>
     </div>
   </div>
 </div>

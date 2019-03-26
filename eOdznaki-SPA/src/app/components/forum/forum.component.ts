@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Thread} from '../../models/forum/thread';
 import {Pagination} from '../../models/pagination/pagination';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -28,6 +28,9 @@ export class ForumComponent implements OnInit {
   });
 
   searchForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 2, 25));
+
+  @ViewChild('deleteModal') public deleteThreadModal;
+  private threadToDelete: number;
 
   constructor(private threadService: ThreadService,
               private searchService: SearchService,
@@ -95,6 +98,22 @@ export class ForumComponent implements OnInit {
     if (searchForm.valid) {
       this.router.navigate(['/search', searchForm.value]);
     }
+  }
+
+  deleteThread() {
+    this.threadService.delete(this.threadToDelete).subscribe(() => {
+      this.deleteThreadModal.hide();
+      this.loadThreads();
+      this.toastr.success('Deleted');
+    }, error => {
+      console.log(error);
+      this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
+    });
+  }
+
+  showDeleteModal(id: number) {
+    this.threadToDelete = id;
+    this.deleteThreadModal.show();
   }
 
 }

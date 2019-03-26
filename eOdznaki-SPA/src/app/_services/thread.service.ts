@@ -62,4 +62,7 @@ export class ThreadService {
     return this.http.post<Thread>(this.threadsUrl, thread);
   }
 
-}
+  delete(id: number) {
+    return this.http.delete<Thread>(`${this.threadsUrl}/${id}`);
+  }
+} 
