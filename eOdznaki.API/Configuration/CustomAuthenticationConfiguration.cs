@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -7,8 +8,13 @@ namespace eOdznaki.Configuration
 {
     public static class CustomAuthenticationConfiguration
     {
-        public static void AddCustomAuthentication(this IServiceCollection services, string token)
+        public static void AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
+            var token = configuration.GetSection("Secrets:FacebookAppId").Value;
+            var fbId = configuration.GetSection("Secrets:FacebookAppId").Value;
+            var fbSecret = configuration.GetSection("Secrets:FacebookAppKey").Value;
+
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -20,7 +26,13 @@ namespace eOdznaki.Configuration
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+                })
+                .AddFacebook(options =>
+                {
+                    options.AppId = fbId;
+                    options.AppSecret = fbSecret;
                 });
+
         }
     }
 }
