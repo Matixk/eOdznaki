@@ -29,7 +29,6 @@ namespace eOdznaki
             services.AddCustomAuthentication(Configuration.GetSection("AppSettings:Token").Value);
             services.AddCustomAuthorization();
             services.AddCustomMvc();
-            services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
             services.AddCors();
             services.AddDependencyInjections();
             services.AddAutoMapper();

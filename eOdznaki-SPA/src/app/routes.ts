@@ -1,5 +1,7 @@
 import {Routes} from '@angular/router';
 import {HomeComponent} from './components/home/home.component';
+import {TrailComponent} from './components/trail/trail.component';
+
 import {ForumComponent} from './components/forum/forum.component';
 import {ThreadsResolver} from './resolvers/forumResolver';
 import {PostComponent} from './components/post/post.component';
@@ -19,6 +21,7 @@ export const appRoutes: Routes = [
   { path: 'forum', component: ForumComponent, resolve: { threads: ThreadsResolver }},
   { path: 'forum/:id', component: PostComponent, resolve: { posts: ThreadPostResolver }},
   { path: 'search/:regex', component: SearchComponent, resolve: { threads: SearchResolver }},
+  { path: 'trail', component: TrailComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',

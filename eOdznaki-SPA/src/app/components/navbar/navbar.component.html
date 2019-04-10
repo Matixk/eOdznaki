@@ -11,6 +11,11 @@
       <li class="nav-item" routerLinkActive="nav-item active">
         <a class="nav-link waves-light" [routerLink]="['/forum']" mdbWavesEffect >Forum</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/trail']">Trail</a>
+      </li>
+      <li *ngIf="authService.roleMatch(['Admin', 'Moderator'])" class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect>Manage</a>
       <li *ngIf="authService.roleMatch(['Admin', 'Moderator'])" class="nav-item dropdown" dropdown>
         <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light">
           Manage<span class="caret"></span></a>

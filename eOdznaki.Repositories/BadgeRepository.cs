@@ -5,6 +5,7 @@ using eOdznaki.Helpers;
 using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models.Badges;
+using eOdznaki.Models.Locations;
 using eOdznaki.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -85,11 +86,6 @@ namespace eOdznaki.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
-        public Task<Badge> UpdateBadgeData(Badge updatedBadge)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Badge> UpdateBadgeLevel(int badgeId, int newBadgeLevel, BadgeTypeEnum type)
         {
             if (type == BadgeTypeEnum.BadgeDrop)
@@ -112,6 +108,45 @@ namespace eOdznaki.Repositories
         {
             var badge = await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
             badge.BadgeStatus = newBadgeStatus;
+            await SaveAll();
+            return badge;
+        }
+
+        public async Task<Badge> ResetBadgeReachedHeigh(int badgeId)
+        {
+            var badge = (BadgeDrops) await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+            badge.ReachedHeight = 0;
+            await SaveAll();
+            return badge;
+        }
+
+        public BadgeRequirements GetBadgeRequirements(int badgeId, int badgeLevel)
+        {
+            var requirements = context.Requirements.FirstOrDefault(r => r.BadgeId == badgeId && r.BadgeLevel == badgeLevel);
+            return requirements;
+        }
+
+        public async Task<Badge> UpdateBadgeDropsReachedHeight (int badgeId, int heightToAdd)
+        {
+            var badge = (BadgeDrops) await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+            badge.ReachedHeight += heightToAdd;
+            await SaveAll();
+            return badge;
+        }
+
+        public async Task<Badge> UpdateBadgeTrailsGOTPoints (int badgeId, int newGOTPoints)
+        {
+            var badge = (BadgeTrails)await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+            badge.PointsAquired += newGOTPoints;
+            await SaveAll();
+            return badge;
+        }
+
+        public async Task<Badge> UpdateBadgeSummitReachedSummits (int badgeId, Location summit)
+        {
+            var badge = (BadgeSummit) await context.Badges.FirstOrDefaultAsync(b => b.Id == badgeId);
+            badge.UnreachedSummits.ToList().Remove(summit);
+            badge.ReachedSummits.ToList().Add(summit);
             await SaveAll();
             return badge;
         }
