@@ -1,24 +1,20 @@
-<div class="container">
+<div class="container pt-4">
 
   <div class="row">
     <div class="col">
-      <div class="thread" *ngIf="thread">
+      <div class="thread">
         <div class="row card promoting-card mt-4">
-          <div class="card card-image"
+          <div class="card card-image thread-card"
                style="background-image: url(../../../assets/background-gradient.jpg);">
             <div class="col toolbar">
               <div class="row">
                 <div class="col-1 mt-3">
-                  <i class="fas fa-reply backArrow" [routerLink]="['/forum']"></i>
+                  <i [routerLink]="['/forum']" class="fas fa-reply backArrow btn-hover"></i>
                 </div>
 
                 <h4 class="card-title d-flex justify-content-center threadTitle col-11 pt-3 pr-5">
-                  <strong>{{ thread.title }}</strong>
+                  <strong>{{ thread?.title }}</strong>
                 </h4>
-
-                <div class="col-1 mt-3" *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
-                  <i class="fas fa-comment"></i>
-                </div>
               </div>
             </div>
           </div>
@@ -29,8 +25,9 @@
 
   <div class="row posts">
     <div class="col">
-      <div class="row card promoting-card mb-3"
+      <div [ngClass]="{'first-post': i == 0}"
            *ngFor="let post of posts; let i = index;"
+           class="row card promoting-card mb-4"
            [id]="'post-' + post.id"
            on-mouseover="hoveredIndex = i" on-mouseleave="hoveredIndex = null">
 
@@ -43,7 +40,7 @@
           <!-- Content -->
           <div>
 
-            <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
+            <p class="card-title font-weight-normal mb-2 post-content">{{ post.content }}</p>
             <!-- Subtitle -->
             <p class="card-text">{{ post.author.userName }}</p>
             <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created.toString() | timeAgo }}</p>
@@ -55,17 +52,17 @@
         <!-- Card content -->
         <div class="card-body" *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
           <div class="row buttons">
-            <div class="col" *ngIf="hoveredIndex === i">
-              <i class="fas fa-quote-right text-muted float-right p-1 my-1"
+            <div *ngIf="hoveredIndex === i && i !== 0" class="col">
+              <i class="fas fa-quote-right text-muted float-right p-1 my-1 btn-hover"
                  data-toggle="tooltip" data-placement="top" title="Quote post"
                  (click)="quote(post.content, post.author.userName)"></i>
 
               <div *ngIf="authService.roleMatch(['Admin', 'Moderator']) ||
               (authService.currentUser !== undefined && post.author.id === authService.currentUser.id)">
-                <i class="fas fa-trash text-muted float-right p-1 my-1 mr-3"
+                <i class="fas fa-trash text-muted float-right p-1 my-1 mr-3 btn-hover"
                    data-toggle="tooltip" data-placement="top" title="Delete post"
                    (click)="showDeleteWarning(post.id)"></i>
-                <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3"
+                <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3 btn-hover"
                    data-toggle="tooltip" data-placement="top" title="Edit post"></i>
               </div>
             </div>
@@ -78,7 +75,7 @@
                       data-toggle="modal" data-target="#basicExample"
                       (click)="newPost.show()" mdbWavesEffect
                       *ngIf="authService.roleMatch(['Admin', 'Moderator', 'Member'])">
-                <span>Answer</span>
+                <span>Add Answer</span>
               </button>
             </div>
           </div>
@@ -90,7 +87,7 @@
 
   <div class="row">
 
-    <div class="col d-flex justify-content-center pagination">
+    <div *ngIf="pagination.totalItems > pagination.itemsPerPage" class="col d-flex justify-content-center pagination">
       <app-pagination
         [totalItems]="pagination.totalItems"
         [currentPage]="pagination.currentPage"
@@ -112,14 +109,14 @@
     <div class="modal-content">
 
       <div class="modal-header text-center text-white" style="background-image: url(../../../assets/background-gradient.jpg);">
-        <h4 class="modal-title w-100 font-weight-bold">Answer</h4>
+        <h4 class="modal-title">Add Answer</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="newPost.hide()">
-          <span aria-hidden="true">&times;</span>
+          <span class="text-white" aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <form (ngSubmit)="answer()" class="px-5 pt-0">
-        <div class="modal-body">
+      <form (ngSubmit)="answer()" class="pt-0">
+        <div class="modal-body px-4">
           <div class="md-form">
           <textarea class="md-textarea form-control validate"
                     rows="3" id="threadForm-content" type="text" length="2000"
@@ -130,9 +127,13 @@
           </div>
         </div>
 
-        <div class="modal-footer d-flex justify-content-center">
-          <button mdbBtn color="info" outline="true" rounded="true" block="true" class="waves-effect"
-                  mdbWavesEffect [disabled]="!postForm.valid">Answer</button>
+        <div class="modal-footer">
+          <button type="button" mdbBtn class="waves-light info-color" aria-label="Close"
+                  (click)="newPost.hide()" mdbWavesEffect>Close
+          </button>
+          <button type="submit" mdbBtn class="waves-light info-color" aria-label="Close"
+                  mdbWavesEffect [disabled]="!postForm.valid">Add
+          </button>
         </div>
       </form>
     </div>
@@ -143,7 +144,7 @@
   <div class="modal-dialog modal-notify modal-danger modal-side modal-top-right" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <p class="heading">Delete post</p>
+        <p class="heading">Delete Post</p>
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deletePost.hide()">
           <span aria-hidden="true" class="white-text">&times;</span>

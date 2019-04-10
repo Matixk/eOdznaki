@@ -4,7 +4,7 @@
 }
 
 .card {
-  max-height: 125px;
+  max-height: 130px;
 }
 
 .posts {
@@ -35,4 +35,28 @@
 
 .newPostModal {
   max-width: 420px;
+}
+
+.btn-hover {
+  transition: 0.2s;
+}
+
+.btn-hover:hover {
+  transition: 0.2s;
+  opacity: 0.5;
+}
+
+.thread-card {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.first-post {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.post-content {
+  width: 450px;
+  word-break: break-all;
 }

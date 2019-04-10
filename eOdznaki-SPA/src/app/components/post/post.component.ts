@@ -8,7 +8,7 @@ import {PostService} from '../../_services/post.service';
 import {ThreadService} from '../../_services/thread.service';
 import {Thread} from '../../models/forum/thread';
 import {AuthService} from '../../_services/auth.service';
-import {FormControl, NgForm} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import {FormValidatorOptions} from '../../utils/formValidatorOptions';
 import {PostForCreate} from '../../dtos/postForCreate';
 
@@ -34,7 +34,8 @@ export class PostComponent implements OnInit {
               private threadService: ThreadService,
               private route: ActivatedRoute,
               private toastr: ToastrService,
-              public authService: AuthService) { }
+              public authService: AuthService) {
+  }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -42,20 +43,20 @@ export class PostComponent implements OnInit {
       this.pagination = data['posts'].pagination;
     });
     this.route.params.subscribe(params => {
-        this.threadService.getThread(params['id'])
-          .subscribe(threadSub => {
-            this.thread = threadSub;
-          }, error => {
-            console.log(error);
-            this.toastr.error('Couldn\'t load thread');
-          });
+      this.threadService.getThread(params['id'])
+        .subscribe(threadSub => {
+          this.thread = threadSub;
+        }, error => {
+          console.log(error);
+          this.toastr.error('Couldn\'t load thread');
+        });
 
-        this.postService.getOriginalPost(params['id'])
-          .subscribe(res => {
-            this.originalPost = res;
-            },  error => {
-            console.log(error);
-            this.toastr.error('Couldn\'t load original post');
+      this.postService.getOriginalPost(params['id'])
+        .subscribe(res => {
+          this.originalPost = res;
+        }, error => {
+          console.log(error);
+          this.toastr.error('Couldn\'t load original post');
         });
     });
   }
@@ -101,7 +102,7 @@ export class PostComponent implements OnInit {
         this.newPostModal.hide();
         this.pagination.currentPage = this.pagination.totalPages;
         this.loadPosts();
-        this.toastr.success('Created post successfully.');
+        this.toastr.success('Post created successfully.');
       }, error => {
         console.log(error);
         this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
@@ -122,15 +123,15 @@ export class PostComponent implements OnInit {
     this.postService.delete(this.postToDelete).subscribe(() => {
       this.deletePostModal.hide();
       this.loadPosts();
-      this.toastr.success('Deleted post successfully.');
+      this.toastr.success('Post deleted successfully.');
     }, error => {
       console.log(error);
-      this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
+      this.toastr.error(error);
     });
   }
 
   quote(content: string, authorName: string) {
-    this.postForm.setValue(`\`\`\`\n${content}\n\`\`\` ~ ${authorName}\n`);
-    this.newPostModal.show();
+    // this.postForm.setValue(`\`\`\`\n${content}\n\`\`\` ~ ${authorName}\n`);
+    // this.newPostModal.show();
   }
 }

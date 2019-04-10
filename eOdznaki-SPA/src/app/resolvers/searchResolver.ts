@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Resolve, ActivatedRouteSnapshot} from '@angular/router';
-import {Router} from '@angular/router';
+import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -11,7 +10,7 @@ import {SearchService} from '../_services/search.service';
 @Injectable()
 export class SearchResolver implements Resolve<Thread[]> {
   pageNumber = 1;
-  pageSize = 1;
+  pageSize = 4;
 
   constructor(
     private searchService: SearchService,
