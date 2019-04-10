@@ -20,7 +20,6 @@ import {LoginComponent} from './components/login/login.component';
 import {ErrorInterceptorProvider} from './_services/error.interceptor';
 import { TrailComponent } from './components/trail/trail.component';
 import {AgmDirectionModule} from 'agm-direction';
-import {ShContextMenuModule} from 'ng2-right-click-menu'
 import {ForumComponent} from './components/forum/forum.component';
 import {ThreadsResolver} from './resolvers/forumResolver';
 import {PostComponent} from './components/post/post.component';
@@ -81,7 +80,6 @@ export function tokenGetter() {
         blacklistedRoutes: ['localhost:5000/api/auth']
       }
     }),
-    ShContextMenuModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCLfc_k5Cy5vdAxQjpdVSWV0XvmY0ImPUA',
       libraries: ['places']
