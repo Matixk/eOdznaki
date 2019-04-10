@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Thread} from '../../models/forum/thread';
 import {Pagination} from '../../models/pagination/pagination';
 import {ThreadService} from '../../_services/thread.service';
@@ -8,7 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {PaginatedResult} from '../../models/pagination/paginatedResult';
 import {FormControl} from '@angular/forms';
 import {FormValidatorOptions} from '../../utils/formValidatorOptions';
-import { AuthService } from 'src/app/_services/auth.service';
+import {AuthService} from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-search',
@@ -29,11 +29,11 @@ export class SearchComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private toastr: ToastrService,
-              public authService: AuthService) { }
+              public authService: AuthService) {
+  }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      console.log(data);
       this.threads = data['threads'].result;
       this.pagination = data['threads'].pagination;
     });
@@ -47,6 +47,7 @@ export class SearchComponent implements OnInit {
       regex = this.searchForm.value;
       this.searchForm.setValue(regex);
     }
+
     if (regex) {
       this.searchService.search(regex, this.pagination.currentPage, this.pagination.itemsPerPage)
         .subscribe((res: PaginatedResult<Thread[]>) => {

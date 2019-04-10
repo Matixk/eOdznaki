@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pt-4">
 
   <div class="row card promoting-card mt-4" style="background-image: url(../../../assets/background-gradient.jpg);">
     <div class="col toolbar mt-2">
@@ -14,7 +14,7 @@
           <input class="search ng-dirty ng-invalid ng-touched"
                  type="text" placeholder="Search" aria-label="Search"
                  mdbInput [formControl]="searchForm">
-          <i class="fas fa-search white-text magnifier" aria-hidden="true" (click)="searchForum()"></i>
+          <i (click)="searchForum()" aria-hidden="true" class="fas fa-search white-text magnifier btn-hover"></i>
         </form>
     </div>
   </div>
@@ -27,7 +27,7 @@
            on-mouseover="hoveredIndex = i" on-mouseleave="hoveredIndex = null">
 
         <!-- Card content -->
-        <div class="card-body d-flex flex-row pb-1" [routerLink]="['/forum', thread.id]">
+        <div class="card-body d-flex flex-row pb-1">
 
           <!-- Avatar -->
           <img src="{{ thread.author.avatarUrl || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
@@ -36,7 +36,8 @@
           <div>
 
             <!-- Title -->
-            <h4 class="card-title font-weight-bold mb-2">{{ thread.title}}</h4>
+            <h4 [routerLink]="['/forum', thread.id]"
+                class="card-title font-weight-bold mb-2 thread-title-hover">{{ thread.title }}</h4>
             <!-- Subtitle -->
             <p class="card-text">{{ thread.author.userName }}</p>
             <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created.toString() | timeAgo }}</p>
@@ -48,9 +49,11 @@
         <!-- Card content -->
         <div class="card-body" *ngIf="hoveredIndex === i && (authService.roleMatch(['Admin', 'Moderator']) ||
         (authService.currentUser !== undefined && thread.author.id === authService.currentUser.id))">
-          <i class="fas fa-trash text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Delete thread"
+          <i class="fas fa-trash text-muted float-right p-1 my-1 btn-hover" data-placement="top" data-toggle="tooltip"
+             title="Delete thread"
              (click)="showDeleteModal(thread.id)"></i>
-          <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="Edit thread"></i>
+          <i class="fas fa-edit text-muted float-right p-1 my-1 mr-3 btn-hover" data-placement="top"
+             data-toggle="tooltip" title="Edit thread"></i>
         </div>
 
       </div>
@@ -58,7 +61,7 @@
   </div>
 
   <div class="row">
-    <div class="col d-flex justify-content-center pagination">
+    <div *ngIf="pagination.totalItems > pagination.itemsPerPage" class="col d-flex justify-content-center pagination">
       <app-pagination
         [totalItems]="pagination.totalItems"
         [currentPage]="pagination.currentPage"
@@ -79,14 +82,14 @@
     <div class="modal-content">
 
       <div class="modal-header text-center text-white" style="background-image: url(../../../assets/background-gradient.jpg);">
-        <h4 class="modal-title w-100 font-weight-bold">New thread</h4>
+        <h4 class="modal-title">Add New Thread</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
-          <span aria-hidden="true">&times;</span>
+          <span class="white-text" aria-hidden="true">&times;</span>
         </button>
       </div>
 
-      <form [formGroup]="threadForm" (ngSubmit)="addThread()" class="px-5 pt-0">
-        <div class="modal-body">
+      <form [formGroup]="threadForm" (ngSubmit)="addThread()" class="pt-0">
+        <div class="modal-body px-4">
           <div class="md-form">
             <input type="text" id="threadForm-title" class="form-control validate"
                    mdbInput
@@ -104,10 +107,15 @@
           </div>
         </div>
 
-        <div class="modal-footer d-flex justify-content-center">
-          <button mdbBtn color="info" outline="true" rounded="true" block="true" class="waves-effect"
-                  mdbWavesEffect [disabled]="!threadForm.valid">Add</button>
+        <div class="modal-footer">
+          <button type="button" mdbBtn class="waves-light info-color" aria-label="Close"
+                  (click)="frame.hide()" mdbWavesEffect>Close
+          </button>
+          <button type="submit" mdbBtn class="waves-light info-color" aria-label="Close"
+                  mdbWavesEffect [disabled]="!threadForm.valid">Add
+          </button>
         </div>
+
       </form>
     </div>
   </div>
@@ -118,7 +126,7 @@
   <div class="modal-dialog modal-notify modal-danger modal-side modal-top-right" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <p class="heading">Delete thread</p>
+        <p class="heading">Delete Thread</p>
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="deleteModal.hide()">
           <span aria-hidden="true" class="white-text">&times;</span>

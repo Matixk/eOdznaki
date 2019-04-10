@@ -24,3 +24,17 @@
   color: white;
   font-size: 1.2em;
 }
+
+.btn-hover {
+  transition: 0.2s;
+}
+
+.btn-hover:hover {
+  transition: 0.2s;
+  opacity: 0.5;
+}
+
+.card-result:hover {
+  cursor: pointer;
+}
+

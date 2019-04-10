@@ -27,7 +27,7 @@ export class ForumComponent implements OnInit {
     content: new FormControl('', FormValidatorOptions.setStringOptions(true, 5, 2000))
   });
 
-  searchForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 2, 25));
+  searchForm = new FormControl('', FormValidatorOptions.setStringOptions(true, 0, 25));
 
   @ViewChild('deleteModal') public deleteThreadModal;
   private threadToDelete: number;
@@ -38,7 +38,8 @@ export class ForumComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private toastr: ToastrService,
-              public authService: AuthService) { }
+              public authService: AuthService) {
+  }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -84,7 +85,7 @@ export class ForumComponent implements OnInit {
       this.threadService.addThread(threadForCreate).subscribe(next => {
         threadId = next.id;
         this.toastr.toastrConfig.preventDuplicates = true;
-        this.toastr.success('Created thread successfully.');
+        this.toastr.success('Thread created successfully.');
       }, error => {
         console.log(error.stat);
         this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
@@ -95,21 +96,46 @@ export class ForumComponent implements OnInit {
   }
 
   searchForum() {
-    const searchForm = this.searchForm;
+    // const searchForm = this.searchForm;
+    //
+    // if (searchForm.valid) {
+    //   this.router.navigate(['/search', searchForm.value]);
+    // }
+    let regex;
+    this.route.params.subscribe(params => regex = params['regex']);
 
-    if (searchForm.valid) {
-      this.router.navigate(['/search', searchForm.value]);
+    if (this.searchForm.valid) {
+      regex = this.searchForm.value;
+      this.searchForm.setValue(regex);
+    }
+
+    if (regex && regex.trim().length > 0) {
+      this.searchService.search(regex, this.pagination.currentPage, this.pagination.itemsPerPage)
+        .subscribe((res: PaginatedResult<Thread[]>) => {
+          this.threads = res.result;
+          this.pagination = res.pagination;
+          this.toastr.info((this.pagination.totalItems === 0)
+            ? 'Could not find any results.'
+            : `Found "${regex}" in ${this.pagination.totalItems} threads.`);
+        }, error => {
+          this.toastr.error(error);
+        });
+    } else {
+      this.loadThreads();
     }
   }
 
   deleteThread() {
     this.threadService.delete(this.threadToDelete).subscribe(() => {
       this.deleteThreadModal.hide();
+      if (this.threads.length === 1) {
+        this.goToPage(this.pagination.currentPage - 1);
+      }
       this.loadThreads();
-      this.toastr.success('Deleted thread successfully');
+      this.toastr.success('Thread deleted successfully.');
     }, error => {
       console.log(error);
-      this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
+      this.toastr.error(error);
     });
   }
 

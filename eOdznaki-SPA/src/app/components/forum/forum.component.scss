@@ -32,3 +32,16 @@
 .newThreadModal {
   max-width: 420px;
 }
+
+.btn-hover {
+  transition: 0.2s;
+}
+
+.btn-hover:hover {
+  transition: 0.2s;
+  opacity: 0.5;
+}
+
+.thread-title-hover {
+  cursor: pointer;
+}
