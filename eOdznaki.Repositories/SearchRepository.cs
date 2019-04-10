@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using eOdznaki.Helpers;
+using eOdznaki.Helpers.Params;
 using eOdznaki.Interfaces;
 using eOdznaki.Models;
 using eOdznaki.Persistence;
@@ -17,32 +18,38 @@ namespace eOdznaki.Repositories
             this.context = context;
         }
 
-        public async Task<Dictionary<ForumThread, IEnumerable<ForumPost>>> SearchForum(string regex)
+        public async Task<PagedList<ForumThread>> SearchForum(SearchParams searchParams)
         {
-            regex = regex.ToLower();
+            var regex = searchParams.Regex.ToLower();
 
             var posts = await context
                 .ForumPosts
-                .Include("ForumThread")
+                .Include(e => e.ForumThread)
+                .Include(e => e.Author)
                 .Where(f => f.Content.ToLower().Contains(regex))
                 .ToListAsync();
 
             var threads = await context
                 .ForumThreads
+                .Include(e => e.Author)
                 .Where(f => f.Title.ToLower().Contains(regex))
-                .ToDictionaryAsync(f => f, f => f.ForumPosts);
+                .ToListAsync();
 
             posts.ForEach(post =>
             {
                 var postThread = post.ForumThread;
 
-                if (threads.ContainsKey(postThread))
-                    threads[postThread].ToList().Add(post);
+                if (threads.Contains(postThread))
+                    threads.Find(thread => postThread == thread).ForumPosts.Append(post);
                 else
-                    threads.Add(postThread, new List<ForumPost> {post});
+                {
+                    postThread.ForumPosts.Append(post);
+                    threads.Add(postThread);
+                }
             });
 
-            return threads;
+            return PagedList<ForumThread>.CreateAsync(threads, searchParams.PageNumber,
+                searchParams.PageSize);
         }
     }
 }

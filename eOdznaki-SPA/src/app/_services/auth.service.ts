@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {User} from '../models/user';
+import {User} from '../models/user/user';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
+  avatarUrl = new BehaviorSubject<string>('../../assets/user.png');
+  currentAvatarUrl = this.avatarUrl.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -26,6 +29,7 @@ export class AuthService {
           localStorage.setItem('user', JSON.stringify(user.user));
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser = user.user;
+          this.setAvatar(this.currentUser.avatarUrl);
         }
       })
     );
@@ -52,5 +56,9 @@ export class AuthService {
       });
     }
     return isMatch;
+  }
+
+  setAvatar(avatarUrl: string) {
+    this.avatarUrl.next(avatarUrl);
   }
 }

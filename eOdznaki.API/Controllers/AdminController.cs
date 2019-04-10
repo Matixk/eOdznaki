@@ -22,7 +22,7 @@ namespace eOdznaki.Controllers
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("users")]
-        public async Task<IActionResult> GetUsersWithRoles(UserRolesParams userRolesParams)
+        public async Task<IActionResult> GetUsersWithRoles([FromQuery] UserRolesParams userRolesParams)
         {
             var usersWithRoles = await adminRepository.GetUsersWithRoles(userRolesParams);
 

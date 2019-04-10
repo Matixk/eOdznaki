@@ -1,0 +1,87 @@
+<div class="container">
+
+  <div class="row card promoting-card mt-4" style="background-image: url(../../../assets/background-gradient.jpg);">
+    <div class="col toolbar mt-2">
+        <form class="form-inline md-form form-sm" style="float: right" (keyup.enter)="searchForum()">
+          <input class="search ng-dirty ng-invalid ng-touched"
+                 type="text" placeholder="Search" aria-label="Search"
+                 mdbInput [formControl]="searchForm">
+          <i class="fas fa-search white-text magnifier" aria-hidden="true" (click)="searchForum()"></i>
+        </form>
+    </div>
+  </div>
+
+  <div class="row threads">
+    <div class="col">
+      <div class="row card promoting-card my-4"
+           *ngFor="let thread of threads"
+           [routerLink]="['/forum', thread.id]"
+           [id]="'thread-' + thread.id">
+
+           <div class="col">
+             <!-- Card content -->
+              <div class="card-body d-flex flex-row justify-content-center pb-1">
+
+                <!-- Avatar -->
+                <img src="{{ thread.author.avatarUrl || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+
+                <!-- Content -->
+                <div>
+
+                  <!-- Title -->
+                  <h4 class="card-title font-weight-bold mb-2">{{ thread.title}}</h4>
+                  <!-- Subtitle -->
+                  <p class="card-text">{{ thread.author.userName }}</p>
+                  <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created.toString() | timeAgo}}</p>
+
+                </div>
+
+              </div>
+          </div>
+
+        <div class="col">
+          <div class="row posts ml-5" *ngIf="thread.forumPosts">
+            <div class="col">
+              <div class="row card promoting-card mb-3"
+                   *ngFor="let post of thread.forumPosts;"
+                   [id]="'post-' + post.id">
+
+                <!-- Card content -->
+                <div class="card-body d-flex flex-row">
+
+                  <!-- Avatar -->
+                  <img src="{{ post.author.avatarUrl || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+
+                  <!-- Content -->
+                  <div>
+
+                    <p class="card-title font-weight-normal mb-2">{{ post.content }}</p>
+                    <!-- Subtitle -->
+                    <p class="card-text">{{ post.author.userName }}</p>
+                    <p class="card-text"><i class="far fa-clock pr-2"></i>{{ post.created.toString() | timeAgo }}</p>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+   </div>
+ </div>
+
+  <div class="row">
+    <div class="col d-flex justify-content-center pagination">
+      <app-pagination
+        [totalItems]="pagination.totalItems"
+        [currentPage]="pagination.currentPage"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [totalPages]="pagination.totalPages"
+        [loading]="loading"
+        (goPrev)="prevPage()"
+        (goNext)="nextPage()"
+        (goPage)="goToPage($event)">
+      </app-pagination>
+    </div>
+  </div>
+</div>

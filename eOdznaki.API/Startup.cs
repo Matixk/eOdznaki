@@ -36,6 +36,7 @@ namespace eOdznaki
             {
                 c.SwaggerDoc("eOdznaki", new Info {Title = "eOdznakiPrototype", Version = "v1"});
             });
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)

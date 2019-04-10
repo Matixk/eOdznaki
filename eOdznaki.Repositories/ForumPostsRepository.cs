@@ -21,6 +21,20 @@ namespace eOdznaki.Repositories
             this.context = context;
         }
 
+        public async Task<PagedList<ForumPost>> GetForumThreadPosts(int forumThreadId, ForumPostsParams forumPostsParams)
+        {
+            var posts = context
+                .ForumPosts
+                .Where(p => p.ForumThreadId == forumThreadId)
+                .Include(p => p.Author)
+                .AsQueryable();
+
+            if (posts == null) throw new ArgumentNullException(nameof(forumThreadId));
+
+            return await PagedList<ForumPost>.CreateAsync(posts, forumPostsParams.PageNumber,
+                forumPostsParams.PageSize);
+        }
+
         public async Task<ForumPost> Insert(ForumPostForCreateDto forumPost)
         {
             var user = await context
@@ -35,8 +49,7 @@ namespace eOdznaki.Repositories
 
             if (forumThread == null) throw new ArgumentNullException(nameof(forumPost.ForumThreadId));
 
-            var forumPostToCreate = new ForumPost(forumPost.AuthorId, forumPost.ForumThreadId, forumPost.Content, user,
-                forumThread);
+            var forumPostToCreate = new ForumPost(forumPost.AuthorId, forumPost.ForumThreadId, forumPost.Content);
 
             context.ForumPosts.Add(forumPostToCreate);
             await context.SaveChangesAsync();
@@ -44,7 +57,7 @@ namespace eOdznaki.Repositories
             return forumPostToCreate;
         }
 
-        public async Task<ForumPost> Update(int userId, int forumPostId, ForumPostForUpdateDto forumPost)
+        public async Task<ForumPost> Update(int userId, int forumPostId, ForumPostForUpdateDto forumPost, bool sudo)
         {
             var user = await context
                 .Users
@@ -56,10 +69,9 @@ namespace eOdznaki.Repositories
                 .ForumPosts
                 .FirstOrDefaultAsync(f => f.Id == forumPostId);
 
-            if (forumPostEntity == null) throw new ArgumentNullException(nameof(userId));
+			if (forumPostEntity == null) throw new ArgumentNullException(nameof(forumPostId));
 
-            // TODO permission for admin/moderator
-            if (user.Id != forumPostEntity.AuthorId) throw new AuthenticationException();
+            if (userId != forumPostEntity.AuthorId && !sudo) throw new AuthenticationException();
 
             forumPostEntity.Content = forumPost.Content;
 
@@ -69,7 +81,7 @@ namespace eOdznaki.Repositories
             return forumPostEntity;
         }
 
-        public async Task<ForumPost> Delete(int userId, int forumPostId)
+        public async Task<ForumPost> Delete(int userId, int forumPostId, bool sudo)
         {
             var user = await context
                 .Users
@@ -83,8 +95,7 @@ namespace eOdznaki.Repositories
 
             if (forumPostEntity == null) throw new ArgumentNullException(nameof(forumPostId));
 
-            // TODO permission for admin/moderator
-            if (user.Id != forumPostEntity.AuthorId) throw new AuthenticationException();
+            if (userId != forumPostEntity.AuthorId && !sudo) throw new AuthenticationException();
 
             context.Remove(forumPostEntity);
             await context.SaveChangesAsync();

@@ -1,0 +1,32 @@
+<div class="modal-content">
+  <div class="modal-header white-text" style="background-image: url(../../../assets/background-gradient.jpg);">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title w-100" id="myModalLabel">Edit {{user.userName}}'s Roles</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+
+      <div class="col mb-2 mx-2">
+        <form #rolesForm="ngForm" id="rolesForm">
+          <div class="form-check" *ngFor="let role of roles">
+            <input type="checkbox" class="form-check-input" value="{{role.name}}" [checked]="role.checked"
+                   (change)="role.checked = !role.checked"
+                   [disabled]="role.name === 'Admin' && user.userName === 'admin'">
+            <label>{{role.name}}</label>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" mdbBtn class="waves-light info-color" aria-label="Close"
+            (click)="modalRef.hide()" mdbWavesEffect>Close
+    </button>
+    <button type="button" mdbBtn class="waves-light info-color" aria-label="Close"
+            (click)="updateRoles()" mdbWavesEffect>Save
+    </button>
+  </div>
+</div>

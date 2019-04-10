@@ -125,6 +125,9 @@ namespace eOdznaki.Persistence.Migrations
                     b.Property<string>("BadgeStatus")
                         .IsRequired();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("ImageUrl")
                         .IsRequired();
 
@@ -138,21 +141,29 @@ namespace eOdznaki.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Badges");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Badge");
                 });
 
             modelBuilder.Entity("eOdznaki.Models.ForumPost", b =>
                 {
-                    b.Property<int>("AuthorId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ForumThreadId");
+                    b.Property<int>("AuthorId");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(2000);
 
-                    b.Property<int>("Id");
+                    b.Property<DateTime>("Created");
 
-                    b.HasKey("AuthorId", "ForumThreadId");
+                    b.Property<int>("ForumThreadId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("ForumThreadId");
 
@@ -161,23 +172,38 @@ namespace eOdznaki.Persistence.Migrations
 
             modelBuilder.Entity("eOdznaki.Models.ForumThread", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId1");
+                    b.Property<int>("AuthorId");
 
-                    b.Property<int>("Id");
+                    b.Property<DateTime>("Created");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("AuthorId1");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("ForumThreads");
+                });
+
+            modelBuilder.Entity("eOdznaki.Models.Locations.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BadgeSummitId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BadgeSummitId");
+
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("eOdznaki.Models.Role", b =>
@@ -205,6 +231,21 @@ namespace eOdznaki.Persistence.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("eOdznaki.Models.Trails.Trail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BadgeTrailsId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BadgeTrailsId");
+
+                    b.ToTable("Trail");
+                });
+
             modelBuilder.Entity("eOdznaki.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -212,6 +253,8 @@ namespace eOdznaki.Persistence.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("AvatarPublicKey");
 
                     b.Property<string>("AvatarUrl");
 
@@ -222,14 +265,14 @@ namespace eOdznaki.Persistence.Migrations
 
                     b.Property<string>("Country");
 
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
 
                     b.Property<string>("LastName");
 
@@ -282,6 +325,41 @@ namespace eOdznaki.Persistence.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("eOdznaki.Models.Badges.BadgeDrops", b =>
+                {
+                    b.HasBaseType("eOdznaki.Models.Badges.Badge");
+
+                    b.Property<int>("BadgeLevel");
+
+                    b.Property<int>("MaxLevel");
+
+                    b.Property<int>("ReachedHeight");
+
+                    b.HasDiscriminator().HasValue("BadgeDrops");
+                });
+
+            modelBuilder.Entity("eOdznaki.Models.Badges.BadgeSummit", b =>
+                {
+                    b.HasBaseType("eOdznaki.Models.Badges.Badge");
+
+                    b.HasDiscriminator().HasValue("BadgeSummit");
+                });
+
+            modelBuilder.Entity("eOdznaki.Models.Badges.BadgeTrails", b =>
+                {
+                    b.HasBaseType("eOdznaki.Models.Badges.Badge");
+
+                    b.Property<int>("BadgeLevel")
+                        .HasColumnName("BadgeTrails_BadgeLevel");
+
+                    b.Property<int>("MaxLevel")
+                        .HasColumnName("BadgeTrails_MaxLevel");
+
+                    b.Property<int>("PointsAquired");
+
+                    b.HasDiscriminator().HasValue("BadgeTrails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -341,15 +419,29 @@ namespace eOdznaki.Persistence.Migrations
                     b.HasOne("eOdznaki.Models.ForumThread", "ForumThread")
                         .WithMany("ForumPosts")
                         .HasForeignKey("ForumThreadId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("eOdznaki.Models.ForumThread", b =>
                 {
                     b.HasOne("eOdznaki.Models.User", "Author")
                         .WithMany("UserForumThreads")
-                        .HasForeignKey("AuthorId1")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("eOdznaki.Models.Locations.Location", b =>
+                {
+                    b.HasOne("eOdznaki.Models.Badges.BadgeSummit")
+                        .WithMany("SummitLocations")
+                        .HasForeignKey("BadgeSummitId");
+                });
+
+            modelBuilder.Entity("eOdznaki.Models.Trails.Trail", b =>
+                {
+                    b.HasOne("eOdznaki.Models.Badges.BadgeTrails")
+                        .WithMany("Trails")
+                        .HasForeignKey("BadgeTrailsId");
                 });
 
             modelBuilder.Entity("eOdznaki.Models.UserRole", b =>

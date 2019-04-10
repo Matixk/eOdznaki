@@ -1,0 +1,26 @@
+.container {
+  max-width: 750px;
+  max-height: 650px!important;
+}
+
+.threads {
+  min-height: 669px;
+}
+
+.posts {
+  max-width: 600px;
+}
+
+.magnifier {
+  font-size: 25px;
+}
+
+::placeholder {
+  color: ghostwhite;
+  font-size: 0.8em;
+}
+
+.search {
+  color: white;
+  font-size: 1.2em;
+}

@@ -3,7 +3,7 @@ import {AuthService} from '../../_services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {User} from '../../models/user';
+import {User} from '../../models/user/user';
 import {isPlatformBrowser} from '@angular/common';
 
 @Component({
@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
         this.toastr.success('Profile registered successfully');
       }, error => {
         console.log(error.error);
-        this.toastr.error(error === 'Failed : DuplicateUserName' ? 'This Username is already taken' : error);
+        this.toastr.error(error === 'Failed : DuplicateUserName' ? 'This Username is already taken.' : error);
       }, () => {
         this.authService.login(this.user).subscribe(() => {
           this.router.navigate(['/']);
