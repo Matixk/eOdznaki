@@ -8,7 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {MyLocation} from '../../dtos/myLocation';
 
-declare var google;
+declare const google: any;
 
 @Component({
   selector: 'app-trail',
@@ -22,6 +22,9 @@ export class TrailComponent implements OnInit {
   elevator;
   origin;
   destination;
+  originName;
+  destinationName;
+  chartData;
   waypoints: any = [];
   selectedMarker;
   markers = [];
@@ -31,8 +34,8 @@ export class TrailComponent implements OnInit {
   @ViewChild('originInput')
   public originElementRef: ElementRef;
 
-  @ViewChild('destinationInput')
-  public destinationElementRef: ElementRef;
+  @ViewChild('chart')
+  chart;
 
   public renderOptions = {
     draggable: false,
@@ -56,26 +59,13 @@ export class TrailComponent implements OnInit {
             return;
           }
           const newOrigin = originPlace.geometry.viewport.getCenter();
-          this.addOrigin(newOrigin);
-          this.addMarkerOnMap(newOrigin);
+          this.addMarker(newOrigin.lat(), newOrigin.lng());
           this.default.lat = newOrigin.lat();
           this.default.lng = newOrigin.lng();
-          this.zoom = 12;
-        });
-      });
-      const autocompleteDestination = new google.maps.places.Autocomplete(this.destinationElementRef.nativeElement);
-      autocompleteDestination.addListener('place_changed', () => {
-        this.ngZone.run( () => {
-          const destinationPlace: google.maps.places.PlaceResult = autocompleteDestination.getPlace();
-          if (destinationPlace.geometry === undefined || destinationPlace.geometry === null) {
-            return;
-          }
-          const newDestination = new google.maps.LatLng(destinationPlace.geometry.location.lat(), destinationPlace.geometry.location.lng());
-          this.addDestination(newDestination);
-          this.addMarkerOnMap(newDestination);
         });
       });
       this.elevator = new google.maps.ElevationService;
+      google.charts.load('current', {packages: ['corechart']});
     });
   }
 
@@ -122,10 +112,12 @@ export class TrailComponent implements OnInit {
       this.directions.push({origin: route.start_address, destination: route.end_address});
     });
     console.log(this.directions);
-    console.log(this.elevator.getElevationAlongPath({
+    this.originName = this.directions[0]['origin'];
+    this.destinationName = this.directions[this.directions.length - 1]['destination'];
+    this.elevator.getElevationAlongPath({
       'path': this.markers,
       'samples': 64
-    }, console.log));
+    }, this.plotElevation);
   }
 
   saveTrail() {
@@ -140,6 +132,29 @@ export class TrailComponent implements OnInit {
       this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
     }, () => {
       this.router.navigate(['/trails']);
+    });
+  }
+
+  plotElevation(elevations, status) {
+    const chartDiv = document.getElementById('elevation_chart');
+    if (status !== 'OK') {
+      chartDiv.innerHTML = 'Cannot show elevation: request failed because ' +
+        status;
+      return;
+    }
+    this.chart = new google.visualization.LineChart(chartDiv);
+
+    this.chartData = new google.visualization.DataTable();
+    this.chartData.addColumn('string', 'Sample');
+    this.chartData.addColumn('number', 'Elevation');
+    for (let i = 0; i < elevations.length; i++) {
+      this.chartData.addRow(['', elevations[i].elevation]);
+    }
+
+    this.chart.draw(this.chartData, {
+      height: 150,
+      legend: 'none',
+      titleY: 'Elevation (m)'
     });
   }
 }
