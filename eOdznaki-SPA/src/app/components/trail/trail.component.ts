@@ -124,15 +124,7 @@ export class TrailComponent implements OnInit {
     const trail = new Trail({longitude: this.origin.lng(), latitude: this.origin.lat()},
       new MyLocation(this.destination.lng(), this.destination.lat), this.waypoints);
 
-    this.trailService.addTrail(trail).subscribe(() => {
-      this.toastr.success('Created');
-    }, error => {
-      console.log(error.stat);
-      console.log(error);
-      this.toastr.error(error === 'NotFound' ? 'Invalid user.' : 'Failed to create.');
-    }, () => {
-      this.router.navigate(['/trails']);
-    });
+    this.toastr.success('Created');
   }
 
   plotElevation(elevations, status) {
