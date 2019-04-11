@@ -35,6 +35,7 @@ import {UserRolesComponent} from './components/user-roles/user-roles.component';
 import {UserRolesResolver} from './resolvers/user-roles-resolver';
 import {RolesModalComponent} from './components/roles-modal/roles-modal.component';
 import {PaginationComponent} from './components/pagination/pagination.component';
+import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -56,7 +57,8 @@ export function tokenGetter() {
     PaginationComponent,
     ProfileEditComponent,
     UserRolesComponent,
-    RolesModalComponent
+    RolesModalComponent,
+    LeaderboardComponent
   ],
   imports: [
     HttpClientModule,
