@@ -1,17 +1,21 @@
-<table mdbTable class="container mt-5">
-  <thead class="text-white" style="background-image: url(../../../assets/background-gradient.jpg);">
-  <tr>
-    <th *ngFor="let header of headers" scope="col"><h5><b>{{header}}</b></h5></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr mdbTableCol *ngFor="let user of users; let i = index">
-    <th scope="row">{{i}}</th>
-    <td>{{user.avatarUrl}}</td>
-    <td>{{user.userName}}</td>
-    <td>{{user.country}}</td>
-    <td>{{user.points}}</td>
-  </tr>
-  </tbody>
-</table>
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="table-responsive mt-5 col-6">
+      <table class="table text-center ">
+        <thead class="text-white" style="background-image: url(../../../assets/background-gradient.jpg);">
+        <tr>
+          <th *ngFor="let header of headers" scope="col"><h5><b>{{header}}</b></h5></th>
+        </tr>
+        </thead>
+        <tbody class="bg-white">
+        <tr mdbTableCol *ngFor="let user of users; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td><img src="{{ user.avatar }}" /> {{ user.username }}</td>
+          <td>{{ user.points }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
