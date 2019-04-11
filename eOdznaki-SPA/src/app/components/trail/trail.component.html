@@ -1,6 +1,6 @@
-<div class="container dashboard">
+<div id="trail-map" class="container card dashboard">
   <div class="row">
-    <div id="directions" class="col-sm-3">
+    <div id="directions" class="col-sm-4">
       <div id="directionsPanel" class="md-form">
         <input mdbInput #originInput class="form-control" type="text" placeholder="Input"
                autocomplete="off" [formControl]="searchControl">
@@ -10,15 +10,15 @@
         <br>
         <p  type="text">Destination: {{destinationName}}</p>
       </div>
+      <div id="elevation_chart">
+      </div>
       <div>
         <button mdbBtn color="info" outline="true" rounded="true" block="true"
                 class="my-4 waves-effect z-depth-0"
                 mdbWavesEffect (click)="saveTrail()">Save trail</button>
       </div>
-      <div id="elevation_chart">
-      </div>
     </div>
-    <div id="map" class="col-sm-9">
+    <div id="map" class="col-sm-8">
       <agm-map [latitude]="default.lat" [longitude]="default.lng"
                [zoom]="zoom"
                (mapClick)="addMarker($event.coords.lat, $event.coords.lng)">

@@ -116,7 +116,7 @@ export class TrailComponent implements OnInit {
     this.destinationName = this.directions[this.directions.length - 1]['destination'];
     this.elevator.getElevationAlongPath({
       'path': this.markers,
-      'samples': 64
+      'samples': 256
     }, this.plotElevation);
   }
 
@@ -152,7 +152,8 @@ export class TrailComponent implements OnInit {
     }
 
     this.chart.draw(this.chartData, {
-      height: 150,
+      height: 200,
+      width: 400,
       legend: 'none',
       titleY: 'Elevation (m)'
     });
