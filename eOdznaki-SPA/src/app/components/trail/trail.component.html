@@ -1,46 +1,48 @@
-<div id="trail-map" class="container card dashboard">
-  <div class="row">
-    <div id="directions" class="col-sm-4">
-      <div id="directionsPanel" class="md-form">
-        <input mdbInput #originInput class="form-control" type="text" placeholder="Input"
-               autocomplete="off" [formControl]="searchControl">
+<div class="container pt-4 mt-4">
+  <div id="trail-map" class="card dashboard">
+    <div class="row">
+      <div id="directions" class="col-sm-4 pr-2">
+        <div id="directionsPanel" class="md-form px-4">
+          <input mdbInput #originInput class="form-control" type="text" placeholder="Search Location"
+                 autocomplete="off" [formControl]="searchControl">
+        </div>
+        <div id="directionSteps" class="px-4" *ngIf="origin && destination">
+          <p type="text"><strong>Origin:</strong> {{originName}} </p>
+          <br>
+          <p type="text"><strong>Destination:</strong> {{destinationName}}</p>
+        </div>
+        <div id="elevation_chart" class="pr-4">
+        </div>
+        <div class="px-4">
+          <button mdbBtn color="info" outline="true" rounded="true" block="true"
+                  class="waves-effect z-depth-0"
+                  mdbWavesEffect (click)="saveTrail()" [disabled]="!destinationName">Save trail
+          </button>
+        </div>
       </div>
-      <div id="directionSteps" *ngIf="origin && destination">
-        <p  type="text">Origin: {{originName}}</p>
-        <br>
-        <p  type="text">Destination: {{destinationName}}</p>
+      <div id="map" class="col-sm-8 pl-0">
+        <agm-map [latitude]="default.lat" [longitude]="default.lng"
+                 [zoom]="zoom"
+                 (mapClick)="addMarker($event.coords.lat, $event.coords.lng)">
+          <agm-direction *ngIf="origin && destination"
+                         [origin]="origin"
+                         [destination]="destination"
+                         [waypoints]="waypoints"
+                         [renderOptions]="renderOptions"
+                         [travelMode]="travelMode"
+                         [optimizeWaypoints]="false"
+                         (onResponse)="onResponse($event)">
+          </agm-direction>
+          <agm-marker
+            *ngFor='let marker of markers'
+            [latitude]='marker.lat'
+            [longitude]='marker.lng'
+            [opacity]='1'
+            [markerDraggable]='false'
+            (markerClick)='selectMarker($event)'>
+          </agm-marker>
+        </agm-map>
       </div>
-      <div id="elevation_chart">
-      </div>
-      <div>
-        <button mdbBtn color="info" outline="true" rounded="true" block="true"
-                class="my-4 waves-effect z-depth-0"
-                mdbWavesEffect (click)="saveTrail()">Save trail</button>
-      </div>
-    </div>
-    <div id="map" class="col-sm-8">
-      <agm-map [latitude]="default.lat" [longitude]="default.lng"
-               [zoom]="zoom"
-               (mapClick)="addMarker($event.coords.lat, $event.coords.lng)">
-        <agm-direction *ngIf="origin && destination"
-                       [origin]="origin"
-                       [destination]="destination"
-                       [waypoints]="waypoints"
-                       [renderOptions]="renderOptions"
-                       [travelMode]="travelMode"
-                       [optimizeWaypoints]="false"
-                       (onResponse)="onResponse($event)">
-        </agm-direction>
-        <agm-marker
-          *ngFor='let marker of markers'
-          [latitude]='marker.lat'
-          [longitude]='marker.lng'
-          [opacity]='1'
-          [markerDraggable]='false'
-          (markerClick)='selectMarker($event)'
-        >
-        </agm-marker>
-      </agm-map>
     </div>
   </div>
 </div>

@@ -30,17 +30,17 @@
         <div class="card-body d-flex flex-row pb-1">
 
           <!-- Avatar -->
-          <img src="{{ thread.author.avatarUrl || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
+          <img src="{{ thread.author?.avatarUrl || '../../../assets/user.png' }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
 
           <!-- Content -->
           <div>
 
             <!-- Title -->
             <h4 [routerLink]="['/forum', thread.id]"
-                class="card-title font-weight-bold mb-2 thread-title-hover">{{ thread.title }}</h4>
+                class="card-title mb-2 thread-title-hover">{{ thread.title }}</h4>
             <!-- Subtitle -->
-            <p class="card-text">{{ thread.author.userName }}</p>
-            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created.toString() | timeAgo }}</p>
+            <p class="card-text">{{ thread.author?.userName }}</p>
+            <p class="card-text"><i class="far fa-clock pr-2"></i>{{ thread.created?.toString() | timeAgo }}</p>
 
           </div>
 

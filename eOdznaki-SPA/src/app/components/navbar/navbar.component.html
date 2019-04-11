@@ -12,9 +12,6 @@
         <a class="nav-link waves-light" [routerLink]="['/forum']" mdbWavesEffect >Forum</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link waves-light" mdbWavesEffect [routerLink]="['/trail']">Trail</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link waves-light" [routerLink]="['/leaderboard']" mdbWavesEffect >Leaderboard</a>
       </li>
       <li *ngIf="authService.roleMatch(['Admin', 'Moderator'])" class="nav-item dropdown" dropdown>
@@ -38,6 +35,7 @@
           Welcome {{ authService.decodedToken?.unique_name | titlecase }}<span class="caret"></span></a>
         <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
           <a class="dropdown-item waves-light" [routerLink]="['/profile/edit']" mdbWavesEffect>Edit Profile</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect [routerLink]="['/trail']">Add Trail</a>
           <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Logout</a>
         </div>
       </li>

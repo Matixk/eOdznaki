@@ -9,45 +9,37 @@ import {User} from '../../models/user/user';
 export class LeaderboardComponent implements OnInit {
 
   users = [{
-    'avatar': 'https://robohash.org/eumdignissimosmagnam.png?size=40x40&set=set1',
-    'username': 'rodowd0',
+    'avatar': 'http://res.cloudinary.com/dpvvbbotx/image/upload/v1554983005/amka9kygdfbsanpwciwh.jpg',
+    'username': 'Henry',
     'points': 99
   }, {
-    'avatar': 'https://robohash.org/ablaudantiumratione.jpg?size=40x40&set=set1',
-    'username': 'swinspire1',
+    'avatar': 'http://res.cloudinary.com/dpvvbbotx/image/upload/v1554983550/dphehxxccbwgr2lzr0qr.jpg',
+    'username': 'John',
     'points': 81
   }, {
-    'avatar': 'https://robohash.org/voluptasnemodolore.bmp?size=40x40&set=set1',
-    'username': 'wrickerd2',
+    'avatar': 'http://res.cloudinary.com/dpvvbbotx/image/upload/v1554982358/hb7zivwg2jfp6liuk7ks.jpg',
+    'username': 'Alice',
     'points': 67
   }, {
-    'avatar': 'https://robohash.org/minimaaliquidtenetur.png?size=40x40&set=set1',
-    'username': 'gdowney3',
+    'avatar': 'http://res.cloudinary.com/dpvvbbotx/image/upload/v1554983206/nltttk7x0hqbvdx0jq0y.jpg',
+    'username': 'Jeannie',
     'points': 54
   }, {
-    'avatar': 'https://robohash.org/omnisfugalaborum.png?size=40x40&set=set1',
-    'username': 'esegrott4',
+    'avatar': 'https://randomuser.me/api/portraits/women/43.jpg',
+    'username': 'Anna',
     'points': 50
   }, {
-    'avatar': 'https://robohash.org/quiiuresed.jpg?size=40x40&set=set1',
-    'username': 'fvogel5',
+    'avatar': 'http://res.cloudinary.com/dpvvbbotx/image/upload/v1554983816/rrh3or3abnshcjfbcqvg.jpg',
+    'username': 'Rick',
     'points': 44
   }, {
-    'avatar': 'https://robohash.org/officiissedcumque.bmp?size=40x40&set=set1',
-    'username': 'fsimonaitis6',
+    'avatar': 'https://randomuser.me/api/portraits/men/22.jpg',
+    'username': 'Thomas',
     'points': 36
   }, {
-    'avatar': 'https://robohash.org/laborequidicta.png?size=40x40&set=set1',
-    'username': 'kboat7',
+    'avatar': 'http://res.cloudinary.com/dpvvbbotx/image/upload/v1554983445/gacswndmwn1tutfnqhti.jpg',
+    'username': 'Vanessa',
     'points': 20
-  }, {
-    'avatar': 'https://robohash.org/idnumquampossimus.jpg?size=40x40&set=set1',
-    'username': 'gallchin8',
-    'points': 16
-  }, {
-    'avatar': 'https://robohash.org/minusexcepturitotam.jpg?size=40x40&set=set1',
-    'username': 'sarntzen9',
-    'points': 14
   }];
   headers: string[];
 
