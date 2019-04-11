@@ -14,6 +14,7 @@ import {ProfileEditResolver} from './resolvers/profile-edit-resolver';
 import {AuthGuard} from './_guards/auth.guard';
 import {UserRolesComponent} from './components/user-roles/user-roles.component';
 import {UserRolesResolver} from './resolvers/user-roles-resolver';
+import {LeaderboardComponent} from './components/leaderboard/leaderboard.component';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,7 @@ export const appRoutes: Routes = [
   { path: 'forum/:id', component: PostComponent, resolve: { posts: ThreadPostResolver }},
   { path: 'search/:regex', component: SearchComponent, resolve: { threads: SearchResolver }},
   { path: 'trail', component: TrailComponent },
+  { path: 'leaderboard', component: LeaderboardComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',
