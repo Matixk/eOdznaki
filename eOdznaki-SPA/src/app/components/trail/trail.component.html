@@ -2,19 +2,20 @@
   <div class="row">
     <div id="directions" class="col-sm-3">
       <div id="directionsPanel" class="md-form">
-        <input mdbInput #originInput class="form-control" type="text" placeholder="Origin"
-               autocomplete="off" [formControl]="searchControl">
-
-        <input mdbInput #destinationInput class="form-control" type="text" placeholder="Destination"
+        <input mdbInput #originInput class="form-control" type="text" placeholder="Input"
                autocomplete="off" [formControl]="searchControl">
       </div>
-      <div id="directionSteps" *ngFor="let trail of directions">
-        <p  type="text">Origin: {{trail.origin}} | destination: {{trail.destination}}</p>
+      <div id="directionSteps" *ngIf="origin && destination">
+        <p  type="text">Origin: {{originName}}</p>
+        <br>
+        <p  type="text">Destination: {{destinationName}}</p>
       </div>
       <div>
         <button mdbBtn color="info" outline="true" rounded="true" block="true"
                 class="my-4 waves-effect z-depth-0"
                 mdbWavesEffect (click)="saveTrail()">Save trail</button>
+      </div>
+      <div id="elevation_chart">
       </div>
     </div>
     <div id="map" class="col-sm-9">
