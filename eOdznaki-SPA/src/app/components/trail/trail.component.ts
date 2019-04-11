@@ -124,7 +124,7 @@ export class TrailComponent implements OnInit {
     const trail = new Trail({longitude: this.origin.lng(), latitude: this.origin.lat()},
       new MyLocation(this.destination.lng(), this.destination.lat), this.waypoints);
 
-    this.toastr.success('Created');
+    this.toastr.success('Trail saved successfully.');
   }
 
   plotElevation(elevations, status) {
@@ -145,7 +145,7 @@ export class TrailComponent implements OnInit {
 
     this.chart.draw(this.chartData, {
       height: 200,
-      width: 400,
+      width: 394,
       legend: 'none',
       titleY: 'Elevation (m)'
     });
