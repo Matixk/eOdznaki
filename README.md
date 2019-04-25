@@ -1,4 +1,4 @@
-# DatingApp
+# eOdznaki
 
 ### About project
 
